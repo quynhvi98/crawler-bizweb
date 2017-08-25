@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--- Customer -->
+    <bean id="customer" class="com.higgsup.bizwebcrawler.object.objectcustomer.ObjectCustomers"/>
+    <bean id="customerAddress" class="com.higgsup.bizwebcrawler.object.objectcustomer.ObjectCustomerAddress" />
+
+    <!---Product -->
+    <bean id="categoryProduct" class="com.higgsup.bizwebcrawler.object.objectproduct.CategoryProduct"></bean>
+    <bean id="producer" class="com.higgsup.bizwebcrawler.object.objectproduct.Producer"></bean>
+    <bean id="product" class="com.higgsup.bizwebcrawler.object.objectproduct.Product"></bean>
+    <bean id="productCategory" class="com.higgsup.bizwebcrawler.object.objectproduct.ProductCategory"/>
+    <bean id="productGroup" class="com.higgsup.bizwebcrawler.object.objectproduct.ProductGroup"/>
+    <!--- -->
+    <!---Order-->
+    <bean id="orderObject" class="com.higgsup.bizwebcrawler.object.objectorder.ObjectOrder"></bean>
+    <bean id="orderProductObject" class="com.higgsup.bizwebcrawler.object.objectorder.ObjectOrderAddress"></bean>
+    <bean id="orderAddressObject" class="com.higgsup.bizwebcrawler.object.objectorder.ObjectOrderProduct"></bean>
+    <!--- -->
+    <!--- -->
+
+</beans>
