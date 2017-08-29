@@ -10,24 +10,16 @@ import javax.persistence.*;
 public class ProductGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int productGroup_iD;
+    @Column(name = "productGroup_iD")
+    private int productGroupID;
     private String name;
 
-    public ProductGroup(int productGroup_iD, String name) {
-        this.productGroup_iD = productGroup_iD;
-        this.name = name;
+    public int getProductGroupID() {
+        return productGroupID;
     }
 
-    public ProductGroup() {
-    }
-
-    public int getProductGroup_iD() {
-
-        return productGroup_iD;
-    }
-
-    public void setProductGroup_iD(int productGroup_iD) {
-        this.productGroup_iD = productGroup_iD;
+    public void setProductGroupID(int productGroupID) {
+        this.productGroupID = productGroupID;
     }
 
     public String getName() {
@@ -35,6 +27,11 @@ public class ProductGroup {
     }
 
     public void setName(String name) {
+        this.name = name;
+    }
+
+    public ProductGroup(String name) {
+
         this.name = name;
     }
 }

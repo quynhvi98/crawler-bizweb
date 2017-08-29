@@ -4,6 +4,7 @@ package com.higgsup.bizwebcrawler.object.objectorder;/*
 
 import org.springframework.data.annotation.Id;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.text.SimpleDateFormat;
@@ -11,24 +12,42 @@ import java.text.SimpleDateFormat;
 @Entity
 @Table(name = "Order_")
 public class ObjectOrder {
-    SimpleDateFormat FormatTimeTheoSQL = new SimpleDateFormat("yyyy-MM-dd");
     @Id
-    private String order_ID;
+    @Column(name = "order_ID")
+    private String orderID;
     private String date;
-    private String status_Paymen;
-    private String status_Delivery;
-    private Double total_Bill;
-    private Double total_Weight;
-    private Double fee_Delivery;
-    private String customer_ID;
-    private int payment_ID;
+    @Column(name = "status_Paymen")
+    private String statusPaymen;
+    @Column(name = "status_Delivery")
+    private String statusDelivery;
+    @Column(name = "total_Bill")
+    private Double totalBill;
+    @Column(name = "total_Weight")
+    private Double totalWeight;
+    @Column(name = "fee_Delivery")
+    private Double feeDelivery;
+    @Column(name = "customer_ID")
+    private String customerID;
+    @Column(name = "payment_ID")
+    private int paymentID;
 
-    public String getOrder_ID() {
-        return order_ID;
+    public ObjectOrder(String orderID, String date, String statusPaymen, String statusDelivery, Double totalBill, Double totalWeight, Double feeDelivery, String customerID, int paymentID) {
+        this.orderID = orderID;
+        this.date = date;
+        this.statusPaymen = statusPaymen;
+        this.statusDelivery = statusDelivery;
+        this.totalBill = totalBill;
+        this.totalWeight = totalWeight;
+        this.feeDelivery = feeDelivery;
+        this.customerID = customerID;
+        this.paymentID = paymentID;
+    }
+    public String getOrderID() {
+        return orderID;
     }
 
-    public void setOrder_ID(String order_ID) {
-        this.order_ID = order_ID;
+    public void setOrderID(String orderID) {
+        this.orderID = orderID;
     }
 
     public String getDate() {
@@ -39,74 +58,60 @@ public class ObjectOrder {
         this.date = date;
     }
 
-    public String getStatus_Paymen() {
-        return status_Paymen;
+    public String getStatusPaymen() {
+        return statusPaymen;
     }
 
-    public void setStatus_Paymen(String status_Paymen) {
-        this.status_Paymen = status_Paymen;
+    public void setStatusPaymen(String statusPaymen) {
+        this.statusPaymen = statusPaymen;
     }
 
-    public String getStatus_Delivery() {
-        return status_Delivery;
+    public String getStatusDelivery() {
+        return statusDelivery;
     }
 
-    public void setStatus_Delivery(String status_Delivery) {
-        this.status_Delivery = status_Delivery;
+    public void setStatusDelivery(String statusDelivery) {
+        this.statusDelivery = statusDelivery;
     }
 
-    public Double getTotal_Bill() {
-        return total_Bill;
+    public Double getTotalBill() {
+        return totalBill;
     }
 
-    public void setTotal_Bill(Double total_Bill) {
-        this.total_Bill = total_Bill;
+    public void setTotalBill(Double totalBill) {
+        this.totalBill = totalBill;
     }
 
-    public Double getTotal_Weight() {
-        return total_Weight;
+    public Double getTotalWeight() {
+        return totalWeight;
     }
 
-    public void setTotal_Weight(Double total_Weight) {
-        this.total_Weight = total_Weight;
+    public void setTotalWeight(Double totalWeight) {
+        this.totalWeight = totalWeight;
     }
 
-    public Double getFee_Delivery() {
-        return fee_Delivery;
+    public Double getFeeDelivery() {
+        return feeDelivery;
     }
 
-    public void setFee_Delivery(Double fee_Delivery) {
-        this.fee_Delivery = fee_Delivery;
+    public void setFeeDelivery(Double feeDelivery) {
+        this.feeDelivery = feeDelivery;
     }
 
-    public String getCustomer_ID() {
-        return customer_ID;
+    public String getCustomerID() {
+        return customerID;
     }
 
-    public void setCustomer_ID(String customer_ID) {
-        this.customer_ID = customer_ID;
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
     }
 
-    public int getPayment_ID() {
-        return payment_ID;
+    public int getPaymentID() {
+        return paymentID;
     }
 
-    public void setPayment_ID(int payment_ID) {
-        this.payment_ID = payment_ID;
-    }
-
-
-    public ObjectOrder(String order_ID, String date, String status_Paymen, String status_Delivery, Double total_Bill, Double total_Weight, Double fee_Delivery, String customer_ID, int payment_ID) {
-        this.order_ID = order_ID;
-        this.date = date;
-        this.status_Paymen = status_Paymen;
-        this.status_Delivery = status_Delivery;
-        this.total_Bill = total_Bill;
-        this.total_Weight = total_Weight;
-        this.fee_Delivery = fee_Delivery;
-        this.customer_ID = customer_ID;
-        this.payment_ID = payment_ID;
-
+    public void setPaymentID(int paymentID) {
+        this.paymentID = paymentID;
     }
 
     public ObjectOrder() {

@@ -10,38 +10,40 @@ import javax.persistence.*;
 public class CategoryProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int category_ID;
-    private String productCate_ID;
-    private  String product_ID;
+    @Column(name = "category_ID")
+    private int categoryID;
+    @Column(name = "productCate_ID")
+    private String productCateID;
+    @Column(name = "product_ID")
+    private  String productID;
 
-    public int getCategory_ID() {
-        return category_ID;
+    public CategoryProduct(String productCateID, String productID) {
+        this.productCateID = productCateID;
+        this.productID = productID;
     }
 
-    public void setCategory_ID(int category_ID) {
-        this.category_ID = category_ID;
+    public int getCategoryID() {
+        return categoryID;
     }
 
-    public String getProductCate_ID() {
-        return productCate_ID;
+    public void setCategoryID(int categoryID) {
+        this.categoryID = categoryID;
     }
 
-    public void setProductCate_ID(String productCate_ID) {
-        this.productCate_ID = productCate_ID;
+    public String getProductCateID() {
+        return productCateID;
     }
 
-    public String getProduct_ID() {
-        return product_ID;
+    public void setProductCateID(String productCateID) {
+        this.productCateID = productCateID;
     }
 
-    public void setProduct_ID(String product_ID) {
-        this.product_ID = product_ID;
+    public String getProductID() {
+        return productID;
     }
 
-    public CategoryProduct(String productCate_ID, String product_ID) {
-
-        this.productCate_ID = productCate_ID;
-        this.product_ID = product_ID;
+    public void setProductID(String productID) {
+        this.productID = productID;
     }
 
     public CategoryProduct() {

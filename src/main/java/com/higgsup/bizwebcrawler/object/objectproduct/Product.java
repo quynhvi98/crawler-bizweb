@@ -1,5 +1,6 @@
 package com.higgsup.bizwebcrawler.object.objectproduct;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -11,40 +12,29 @@ import javax.persistence.Table;
 @Table(name = "Product")
 public class Product {
     @Id
-    private String product_ID;
+    @Column(name = "product_ID")
+    private String productID;
     private String name;
     private float price;
     private int stork;
-    private float weight_;
+    @Column(name = "weight_")
+    private float weight;
     private String content;
-    private String IMG;
-    private String description_;
-    private int productGroup_iD;
-    private int producer_ID;
+    @Column(name = "IMG")
+    private String img;
+    @Column(name = "description_")
+    private String description;
+    @Column(name = "productGroup_iD")
+    private int productGroupID;
+    @Column(name = "producer_ID")
+    private int producerID;
 
-    public Product(String product_ID, String name, float price, int stork, float weight_, String content, String IMG, String description_, int productGroup_iD, int producer_ID) {
-        this.product_ID = product_ID;
-        this.name = name;
-        this.price = price;
-        this.stork = stork;
-        this.weight_ = weight_;
-        this.content = content;
-        this.IMG = IMG;
-        this.description_ = description_;
-        this.productGroup_iD = productGroup_iD;
-        this.producer_ID = producer_ID;
+    public String getProductID() {
+        return productID;
     }
 
-    public Product() {
-    }
-
-    public String getProduct_ID() {
-
-        return product_ID;
-    }
-
-    public void setProduct_ID(String product_ID) {
-        this.product_ID = product_ID;
+    public void setProductID(String productID) {
+        this.productID = productID;
     }
 
     public String getName() {
@@ -71,12 +61,12 @@ public class Product {
         this.stork = stork;
     }
 
-    public float getWeight_() {
-        return weight_;
+    public float getWeight() {
+        return weight;
     }
 
-    public void setWeight_(float weight_) {
-        this.weight_ = weight_;
+    public void setWeight(float weight) {
+        this.weight = weight;
     }
 
     public String getContent() {
@@ -87,35 +77,52 @@ public class Product {
         this.content = content;
     }
 
-    public String getIMG() {
-        return IMG;
+    public String getImg() {
+        return img;
     }
 
-    public void setIMG(String IMG) {
-        this.IMG = IMG;
+    public void setImg(String img) {
+        this.img = img;
     }
 
-    public String getDescription_() {
-        return description_;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescription_(String description_) {
-        this.description_ = description_;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public int getProductGroup_iD() {
-        return productGroup_iD;
+    public int getProductGroupID() {
+        return productGroupID;
     }
 
-    public void setProductGroup_iD(int productGroup_iD) {
-        this.productGroup_iD = productGroup_iD;
+    public void setProductGroupID(int productGroupID) {
+        this.productGroupID = productGroupID;
     }
 
-    public int getProducer_ID() {
-        return producer_ID;
+    public int getProducerID() {
+        return producerID;
     }
 
-    public void setProducer_ID(int producer_ID) {
-        this.producer_ID = producer_ID;
+    public void setProducerID(int producerID) {
+        this.producerID = producerID;
     }
+
+    public Product(String productID, String name, float price, int stork, float weight, String content, String img, String description, int productGroupID, int producerID) {
+        this.productID = productID;
+        this.name = name;
+        this.price = price;
+        this.stork = stork;
+        this.weight = weight;
+        this.content = content;
+        this.img = img;
+        this.description = description;
+        this.productGroupID = productGroupID;
+        this.producerID = producerID;
+    }
+
+    public Product() {
+    }
+
 }

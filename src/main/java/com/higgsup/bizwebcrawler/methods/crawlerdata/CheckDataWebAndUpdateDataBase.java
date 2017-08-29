@@ -101,13 +101,14 @@ public class CheckDataWebAndUpdateDataBase {
                                 fullDataFromTags[7] = "0";
                             }
                         }
-                        if (!dataProducerFromProductID.get(0).getName().equals(fullDataFromTags[1]) && String.valueOf(dataProducerFromProductID.get(0).getPrice()).equals(String.valueOf(Double.parseDouble(fullDataFromTags[7]))) && String.valueOf(dataProducerFromProductID.get(0).getStork()).equals(fullDataFromTags[3]) && dataProducerFromProductID.get(0).getContent().equals(fullDataFromTags[6]) && dataProducerFromProductID.get(0).getIMG().equals(fullDataFromTags[2]) && String.valueOf(dataProducerFromProductID.get(0).getProductGroup_iD()).equals(String.valueOf(queryDataBase.getIDProductGroup(fullDataFromTags[4]))) && String.valueOf(dataProducerFromProductID.get(0).getProducer_ID()).equals(String.valueOf(queryDataBase.getIDProducer(fullDataFromTags[5])))) {
+                        if (!dataProducerFromProductID.get(0).getName().equals(fullDataFromTags[1]) && String.valueOf(dataProducerFromProductID.get(0).getPrice()).equals(String.valueOf(Double.parseDouble(fullDataFromTags[7]))) && String.valueOf(dataProducerFromProductID.get(0).getStork()).equals(fullDataFromTags[3]) && dataProducerFromProductID.get(0).getContent().equals(fullDataFromTags[6]) && dataProducerFromProductID.get(0).getImg().equals(fullDataFromTags[2]) && String.valueOf(dataProducerFromProductID.get(0).getProductGroupID()).equals(String.valueOf(queryDataBase.getIDProductGroup(fullDataFromTags[4]))) && String.valueOf(dataProducerFromProductID.get(0).getProducerID()).equals(String.valueOf(queryDataBase.getIDProducer(fullDataFromTags[5])))) {
                             queryDataBase.updateProduct(fullDataFromTags[0], fullDataFromTags[1], Double.parseDouble(fullDataFromTags[7]), Integer.parseInt(fullDataFromTags[3]), 0, fullDataFromTags[6], fullDataFromTags[2], "", queryDataBase.getIDProductGroup(fullDataFromTags[4]), queryDataBase.getIDProducer(fullDataFromTags[5]));
                         }
                         ArrayList<String> listProductCateID = null;
                         listProductCateID = queryDataBase.getListProductCateIdFormProductIdInCategoryProduct(fullDataFromTags[0]);
                         Set set = getDataCategoryProduct.entrySet();
                         Iterator i = set.iterator();
+
                         while (i.hasNext()) {
                             Map.Entry mapEntry = (Map.Entry) i.next();
                             queryDataBase.setDataProductCategory((String) mapEntry.getKey(), (String) mapEntry.getValue());

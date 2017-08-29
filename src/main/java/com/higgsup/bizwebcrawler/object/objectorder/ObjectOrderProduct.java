@@ -1,8 +1,6 @@
 package com.higgsup.bizwebcrawler.object.objectorder;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /*
     By chicanem 11/08/2017
@@ -11,30 +9,27 @@ import javax.persistence.Table;
 @Table(name = "Order_Product")
 public class ObjectOrderProduct {
     @Id
-    private int order_product_ID;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "order_product_ID")
+    private int orderProductID;
     private Double quantity;
-    private String product_ID;
-    private String order_ID;
+    @Column(name = "product_ID")
+    private String productID;
+    @Column(name = "order_ID")
+    private String orderID;
 
-    public ObjectOrderProduct(int order_product_ID, Double quantity, String product_ID, String order_ID) {
-        this.order_product_ID = order_product_ID;
+    public ObjectOrderProduct(Double quantity, String productID, String orderID) {
         this.quantity = quantity;
-        this.product_ID = product_ID;
-        this.order_ID = order_ID;
+        this.productID = productID;
+        this.orderID = orderID;
     }
 
-    public ObjectOrderProduct(Double quantity, String product_ID, String order_ID) {
-        this.quantity = quantity;
-        this.product_ID = product_ID;
-        this.order_ID = order_ID;
+    public int getOrderProductID() {
+        return orderProductID;
     }
 
-    public int getOrder_product_ID() {
-        return order_product_ID;
-    }
-
-    public void setOrder_product_ID(int order_product_ID) {
-        this.order_product_ID = order_product_ID;
+    public void setOrderProductID(int orderProductID) {
+        this.orderProductID = orderProductID;
     }
 
     public Double getQuantity() {
@@ -45,20 +40,20 @@ public class ObjectOrderProduct {
         this.quantity = quantity;
     }
 
-    public String getProduct_ID() {
-        return product_ID;
+    public String getProductID() {
+        return productID;
     }
 
-    public void setProduct_ID(String product_ID) {
-        this.product_ID = product_ID;
+    public void setProductID(String productID) {
+        this.productID = productID;
     }
 
-    public String getOrder_ID() {
-        return order_ID;
+    public String getOrderID() {
+        return orderID;
     }
 
-    public void setOrder_ID(String order_ID) {
-        this.order_ID = order_ID;
+    public void setOrderID(String orderID) {
+        this.orderID = orderID;
     }
 
     public ObjectOrderProduct() {

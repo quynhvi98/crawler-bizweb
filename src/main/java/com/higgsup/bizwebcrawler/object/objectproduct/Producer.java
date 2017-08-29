@@ -10,24 +10,20 @@ import javax.persistence.*;
 public class Producer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int producer_ID;
+    @Column(name = "producer_ID")
+    private int producerID;
     private String name;
 
 
     public Producer() {
     }
 
-    public Producer(int producer_ID, String name) {
-        this.producer_ID = producer_ID;
-        this.name = name;
+    public int getProducerID() {
+        return producerID;
     }
 
-    public int getProducer_ID() {
-        return producer_ID;
-    }
-
-    public void setProducer_ID(int producer_ID) {
-        this.producer_ID = producer_ID;
+    public void setProducerID(int producerID) {
+        this.producerID = producerID;
     }
 
     public String getName() {
@@ -38,4 +34,7 @@ public class Producer {
         this.name = name;
     }
 
+    public Producer(String name) {
+        this.name = name;
+    }
 }

@@ -4,45 +4,38 @@ package com.higgsup.bizwebcrawler.object.objectorder;/*
 
 import org.springframework.data.annotation.Id;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "Order_Address")
 public class ObjectOrderAddress {
     @Id
-    private int Order_Address_ID;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "Order_Address_ID")
+    private int orderAddressID;
     private String email;
-    private String NameCustomer;
-    private String Phone;
-    private String Order_Address;
-    private String ZipCode;
+    @Column(name = "NameCustomer")
+    private String nameCustomer;
+    @Column(name = "Phone")
+    private String phone;
+    @Column(name = "Order_Address")
+    private String orderAddress;
+    @Column(name = "ZipCode")
+    private String zipCode;
     private String nation;
     private String city;
     private String district;
-    private String PaymentAddress;
-    private String order_ID;
+    @Column(name = "PaymentAddress")
+    private String paymentAddress;
+    @Column(name = "order_ID")
+    private String orderID;
 
-    public ObjectOrderAddress(int order_Address_ID, String email, String nameCustomer, String phone, String order_Address, String zipCode, String nation, String city, String district, String paymentAddress, String order_ID) {
-        Order_Address_ID = order_Address_ID;
-        this.email = email;
-        NameCustomer = nameCustomer;
-        Phone = phone;
-        Order_Address = order_Address;
-        ZipCode = zipCode;
-        this.nation = nation;
-        this.city = city;
-        this.district = district;
-        PaymentAddress = paymentAddress;
-        this.order_ID = order_ID;
+    public int getOrderAddressID() {
+        return orderAddressID;
     }
 
-    public int getOrder_Address_ID() {
-        return Order_Address_ID;
-    }
-
-    public void setOrder_Address_ID(int order_Address_ID) {
-        Order_Address_ID = order_Address_ID;
+    public void setOrderAddressID(int orderAddressID) {
+        this.orderAddressID = orderAddressID;
     }
 
     public String getEmail() {
@@ -54,35 +47,35 @@ public class ObjectOrderAddress {
     }
 
     public String getNameCustomer() {
-        return NameCustomer;
+        return nameCustomer;
     }
 
     public void setNameCustomer(String nameCustomer) {
-        NameCustomer = nameCustomer;
+        this.nameCustomer = nameCustomer;
     }
 
     public String getPhone() {
-        return Phone;
+        return phone;
     }
 
     public void setPhone(String phone) {
-        Phone = phone;
+        this.phone = phone;
     }
 
-    public String getOrder_Address() {
-        return Order_Address;
+    public String getOrderAddress() {
+        return orderAddress;
     }
 
-    public void setOrder_Address(String order_Address) {
-        Order_Address = order_Address;
+    public void setOrderAddress(String orderAddress) {
+        this.orderAddress = orderAddress;
     }
 
     public String getZipCode() {
-        return ZipCode;
+        return zipCode;
     }
 
     public void setZipCode(String zipCode) {
-        ZipCode = zipCode;
+        this.zipCode = zipCode;
     }
 
     public String getNation() {
@@ -110,19 +103,34 @@ public class ObjectOrderAddress {
     }
 
     public String getPaymentAddress() {
-        return PaymentAddress;
+        return paymentAddress;
     }
 
     public void setPaymentAddress(String paymentAddress) {
-        PaymentAddress = paymentAddress;
+        this.paymentAddress = paymentAddress;
     }
 
-    public String getOrder_ID() {
-        return order_ID;
+    public String getOrderID() {
+        return orderID;
     }
 
-    public void setOrder_ID(String order_ID) {
-        this.order_ID = order_ID;
+    public void setOrderID(String orderID) {
+        this.orderID = orderID;
+    }
+
+    public ObjectOrderAddress(int orderAddressID, String email, String nameCustomer, String phone, String orderAddress, String zipCode, String nation, String city, String district, String paymentAddress, String orderID) {
+
+        this.orderAddressID = orderAddressID;
+        this.email = email;
+        this.nameCustomer = nameCustomer;
+        this.phone = phone;
+        this.orderAddress = orderAddress;
+        this.zipCode = zipCode;
+        this.nation = nation;
+        this.city = city;
+        this.district = district;
+        this.paymentAddress = paymentAddress;
+        this.orderID = orderID;
     }
 
     public ObjectOrderAddress() {
