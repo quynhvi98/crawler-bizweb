@@ -398,7 +398,7 @@ public class GetDataWebAndSetToDataBase {
                         }
                         //
                         //set database
-                        ObjectOrder objectOrder = new ObjectOrder(fullDataFromTags[0], fullDataFromTags[1], fullDataFromTags[3], fullDataFromTags[4], Double.parseDouble(fullDataFromTags[5]), Double.parseDouble("123"), Double.parseDouble(fullDataFromTags[6]), fullDataFromTags[2], queryDataBase.getIDPayment(namePayOrder));
+                        ObjectOrder objectOrder = new ObjectOrder(fullDataFromTags[0], fullDataFromTags[1], fullDataFromTags[3], fullDataFromTags[4], Double.parseDouble(fullDataFromTags[5]), Double.parseDouble("123"), Double.parseDouble(fullDataFromTags[6]), fullDataFromTags[2], queryDataBase.getIDPaymentFromContent(namePayOrder));
                         queryDataBase.setDataFromOrder(objectOrder);
                         ArrayList<ObjectOrderProduct> objectOrderProducts = new ArrayList<ObjectOrderProduct>();
                         states = ListProductOfOrder.keySet();

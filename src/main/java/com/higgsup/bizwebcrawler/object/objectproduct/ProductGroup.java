@@ -1,10 +1,15 @@
 package com.higgsup.bizwebcrawler.object.objectproduct;
 
+import javax.persistence.*;
+
 /**
  * Created by viquynh
  */
-
+@Entity
+@Table(name = "Product_Group")
 public class ProductGroup {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int productGroup_iD;
     private String name;
 

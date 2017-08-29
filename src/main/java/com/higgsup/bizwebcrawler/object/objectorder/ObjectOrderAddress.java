@@ -2,7 +2,15 @@ package com.higgsup.bizwebcrawler.object.objectorder;/*
     By chicanem 15/08/2017
     */
 
+import org.springframework.data.annotation.Id;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Order_Address")
 public class ObjectOrderAddress {
+    @Id
     private int Order_Address_ID;
     private String email;
     private String NameCustomer;

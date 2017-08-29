@@ -1,13 +1,18 @@
 package com.higgsup.bizwebcrawler.object.objectproduct;
 
+import javax.persistence.*;
+
 /**
  * Created by viquynh
  */
-
+@Entity
+@Table(name = "Producer")
 public class Producer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int producer_ID;
-
     private String name;
+
 
     public Producer() {
     }

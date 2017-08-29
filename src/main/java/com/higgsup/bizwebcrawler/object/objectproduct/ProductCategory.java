@@ -1,9 +1,16 @@
 package com.higgsup.bizwebcrawler.object.objectproduct;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Created by viquynh
  */
+@Entity
+@Table(name = "Product_Category")
 public class ProductCategory {
+    @Id
     private String productCate_ID;
     private String name;
 

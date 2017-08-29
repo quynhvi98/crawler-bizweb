@@ -2,10 +2,27 @@ package com.higgsup.bizwebcrawler.object.objectorder;/*
     By chicanem 11/08/2017
     */
 
+import org.springframework.data.annotation.Id;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.text.SimpleDateFormat;
 
+@Entity
+@Table(name = "Order_")
 public class ObjectOrder {
     SimpleDateFormat FormatTimeTheoSQL = new SimpleDateFormat("yyyy-MM-dd");
+    @Id
+    private String order_ID;
+    private String date;
+    private String status_Paymen;
+    private String status_Delivery;
+    private Double total_Bill;
+    private Double total_Weight;
+    private Double fee_Delivery;
+    private String customer_ID;
+    private int payment_ID;
+
     public String getOrder_ID() {
         return order_ID;
     }
@@ -79,10 +96,9 @@ public class ObjectOrder {
     }
 
 
-
     public ObjectOrder(String order_ID, String date, String status_Paymen, String status_Delivery, Double total_Bill, Double total_Weight, Double fee_Delivery, String customer_ID, int payment_ID) {
         this.order_ID = order_ID;
-        this.date=date;
+        this.date = date;
         this.status_Paymen = status_Paymen;
         this.status_Delivery = status_Delivery;
         this.total_Bill = total_Bill;
@@ -95,16 +111,6 @@ public class ObjectOrder {
 
     public ObjectOrder() {
     }
-
-    private String order_ID;
-    private String date;
-    private String status_Paymen;
-    private String status_Delivery;
-    private Double total_Bill;
-    private Double total_Weight;
-    private Double fee_Delivery;
-    private String customer_ID;
-    private int payment_ID;
 
 
 }

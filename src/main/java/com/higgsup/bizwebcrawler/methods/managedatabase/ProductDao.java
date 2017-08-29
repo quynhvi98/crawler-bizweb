@@ -4,6 +4,7 @@ package com.higgsup.bizwebcrawler.methods.managedatabase;
  * Created by viquynh
  */
 
+import com.higgsup.bizwebcrawler.object.objectproduct.Product;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -12,13 +13,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ProductDao {
     private DataSource dataSource;
     private JdbcTemplate template;
-    private String query = "";
+    private String query;
 
     private PreparedStatement ps;
     private ResultSet rs;
@@ -29,6 +31,7 @@ public class ProductDao {
         this.dataSource = dataSource;
         this.template = new JdbcTemplate(dataSource);
     }
+
     public void setDataProducer(String name) {
         try {
             query = " SELECT producer_ID FROM Producer WHERE name=?";
@@ -130,4 +133,46 @@ public class ProductDao {
         return 0;
 
     }
+
+    public ArrayList<Product> getDataProductFromProductID(String product_ID) {
+
+        try {
+            query = "SELECT * FROM Product WHERE product_ID=?";
+            ps = con.startConnect().prepareCall(query);
+            ps.setString(1, product_ID);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                ArrayList<Product> dataProducerFromProductID = new ArrayList<Product>();
+                dataProducerFromProductID.add(new Product(rs.getString(1), rs.getString(2), rs.getFloat(3), rs.getInt(4), rs.getFloat(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getInt(9), rs.getInt(10)));
+                return dataProducerFromProductID;
+            }
+        } catch (ClassNotFoundException e) {
+            logger.log(Level.SEVERE, e.getMessage());
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.getMessage());
+        }
+        return null;
+    }
+
+    public void updateProduct(String product_ID, String name, Double price, int stork, float weight_, String content, String IMG, String description_, int productGroup_iD, int producer_ID) {
+        try {
+            query = "UPDATE dbo.Product SET name =?,price=?,stork=?,weight_=?,content=?,IMG=?,description_=?,productGroup_iD=?,producer_ID=? WHERE product_ID=?";
+            ps = con.startConnect().prepareCall(query);
+            ps.setString(1, name);
+            ps.setDouble(2, price);
+            ps.setInt(3, stork);
+            ps.setDouble(4, weight_);
+            ps.setString(5, content);
+            ps.setString(6, IMG);
+            ps.setString(7, description_);
+            ps.setInt(8, productGroup_iD);
+            ps.setInt(9, producer_ID);
+            ps.setString(10, product_ID);
+            ps.executeUpdate();
+            System.out.println("update  oki");
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.getMessage());
+        }
+    }
+
 }

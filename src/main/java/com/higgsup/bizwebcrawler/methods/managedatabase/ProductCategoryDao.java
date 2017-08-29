@@ -10,14 +10,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ProductCategoryDao {
     private DataSource dataSource;
     private JdbcTemplate template;
-    private String query = "";
-
+    private String query;
     private PreparedStatement ps;
     private ResultSet rs;
     private ConnectDB con = new ConnectDB();
@@ -27,6 +27,7 @@ public class ProductCategoryDao {
         this.dataSource = dataSource;
         this.template = new JdbcTemplate(dataSource);
     }
+
     public void setDataProductCategory(String productCate_ID, String name) {
         try {
             query = " SELECT productCate_ID FROM Product_Category WHERE productCate_ID=?";
@@ -63,18 +64,52 @@ public class ProductCategoryDao {
         }
         return 0;
     }
+
     public boolean hasCategoryProduct(String productCate_ID, String product_ID) {
         query = "SELECT *FROM dbo.Category_Product WHERE productCate_ID =? AND product_ID =?";
         try {
             String ID = (String) template.queryForObject(
-                    query, new Object[]{productCate_ID,product_ID}, String.class);
+                    query, new Object[]{productCate_ID, product_ID}, String.class);
             return true;
         } catch (EmptyResultDataAccessException e) {
             return false;
         } catch (Exception e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
 
         return true;
+    }
+
+    public void remoDataCategoryProductFromCateIdAndProductId(String productCate_ID, String product_ID) {
+        try {
+            query = "DELETE dbo.Category_Product WHERE productCate_ID=? AND product_ID=?";
+            ps = con.startConnect().prepareCall(query);
+            ps.setString(1, productCate_ID);
+            ps.setString(2, product_ID);
+            ps.executeUpdate();
+        } catch (ClassNotFoundException e) {
+            logger.log(Level.SEVERE, e.getMessage());
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.getMessage());
+        }
+    }
+
+    public ArrayList<String> getListProductCateIdFormProductIdInCategoryProduct(String product_ID) {
+        ArrayList<String> listProductCateID = new ArrayList<String>();
+        try {
+            query = "SELECT productCate_ID FROM dbo.Category_Product WHERE product_ID=?";
+            ps = con.startConnect().prepareCall(query);
+            ps.setString(1, product_ID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                listProductCateID.add(rs.getString(1));
+            }
+            return listProductCateID;
+        } catch (ClassNotFoundException e) {
+            logger.log(Level.SEVERE, e.getMessage());
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.getMessage());
+        }
+        return listProductCateID;
     }
 }

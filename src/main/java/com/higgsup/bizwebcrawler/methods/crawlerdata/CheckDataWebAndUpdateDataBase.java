@@ -124,7 +124,7 @@ public class CheckDataWebAndUpdateDataBase {
                         for (String productCate_ID : listProductCateID
                                 ) {
                             System.out.println("xoa");
-                            queryDataBase.remoDataFromCategoryProductAndProduct(productCate_ID, fullDataFromTags[0]);
+                            queryDataBase.remoDataCategoryProductFromCateIdAndProductId(productCate_ID, fullDataFromTags[0]);
                         }
                         dataProducerFromProductID.clear();
                         TimeUnit.SECONDS.sleep(159);
