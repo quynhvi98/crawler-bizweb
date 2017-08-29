@@ -3,6 +3,7 @@ package com.higgsup.bizwebcrawler.object.objectproduct;
 /**
  * Created by viquynh
  */
+
 public class ProductGroup {
     private int productGroup_iD;
     private String name;

@@ -11,6 +11,10 @@
         <property name="password" value="123456"/>
     </bean>
     <!--- -->
-    <bean id="InterfaceDataProduct" class="com.higgsup.bizwebcrawler.methods.managedatabase.QueryDataProduct" ><property
+    <bean id="productDao" class="com.higgsup.bizwebcrawler.methods.managedatabase.ProductDao" ><property
+            name="dataSource" ref="dataSource"></property> </bean>
+    <bean id="productCategoryDao" class="com.higgsup.bizwebcrawler.methods.managedatabase.ProductCategoryDao" ><property
+            name="dataSource" ref="dataSource"></property> </bean>
+    <bean id="productGroupDao" class="com.higgsup.bizwebcrawler.methods.managedatabase.ProductGroupDao" ><property
             name="dataSource" ref="dataSource"></property> </bean>
 </beans>

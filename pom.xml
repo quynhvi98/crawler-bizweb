@@ -19,6 +19,7 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.5.3</version>
+
         </dependency>
         <dependency>
             <groupId>net.sourceforge.jtds</groupId>
@@ -34,12 +35,12 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>4.3.7.RELEASE</version>
+            <version>4.3.10.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>4.3.7.RELEASE</version>
+            <version>4.3.10.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
@@ -52,5 +53,20 @@
             <artifactId>javax.mail-api</artifactId>
             <version>1.6.0</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api -->
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>1.0.0.Final</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.2.9.Final</version>
+        </dependency>
+
     </dependencies>
 </project>
