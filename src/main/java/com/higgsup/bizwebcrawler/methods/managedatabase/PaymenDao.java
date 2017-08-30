@@ -3,6 +3,7 @@ package com.higgsup.bizwebcrawler.methods.managedatabase;/*
     */
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
@@ -10,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+@Repository
 public class PaymenDao {
     private DataSource dataSource;
     private JdbcTemplate template;

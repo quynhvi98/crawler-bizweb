@@ -18,6 +18,9 @@ public class ProductGroup {
         return productGroupID;
     }
 
+    public ProductGroup() {
+    }
+
     public void setProductGroupID(int productGroupID) {
         this.productGroupID = productGroupID;
     }

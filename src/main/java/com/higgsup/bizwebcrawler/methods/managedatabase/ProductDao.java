@@ -7,6 +7,10 @@ package com.higgsup.bizwebcrawler.methods.managedatabase;
 import com.higgsup.bizwebcrawler.object.objectproduct.Product;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -14,9 +18,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Repository
 public class ProductDao {
     private DataSource dataSource;
     private JdbcTemplate template;
@@ -117,41 +123,30 @@ public class ProductDao {
     }
 
     public int getIDProducer(String name) {
+        Integer ID = null;
+        query = "SELECT producer_ID FROM Producer WHERE name=?";
         try {
-            query = "SELECT producer_ID FROM Producer WHERE name=?";
-            ps = con.startConnect().prepareCall(query);
-            ps.setString(1, name);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-        } catch (ClassNotFoundException e) {
+            ID = (Integer) template.queryForObject(query, new Object[]{name}, Integer.class);
+            System.out.println(ID);
+        } catch (EmptyResultDataAccessException e) {
             logger.log(Level.SEVERE, e.getMessage());
-        } catch (SQLException e) {
+        } catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
-        return 0;
-
+        return ID;
     }
 
-    public ArrayList<Product> getDataProductFromProductID(String product_ID) {
+    public List<Product> getDataProductFromProductID(String product_ID) {
 
-        try {
-            query = "SELECT * FROM Product WHERE product_ID=?";
-            ps = con.startConnect().prepareCall(query);
-            ps.setString(1, product_ID);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                ArrayList<Product> dataProducerFromProductID = new ArrayList<Product>();
-                dataProducerFromProductID.add(new Product(rs.getString(1), rs.getString(2), rs.getFloat(3), rs.getInt(4), rs.getFloat(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getInt(9), rs.getInt(10)));
-                return dataProducerFromProductID;
+        List<Product> products=this.template.query("SELECT * FROM Product",new RowMapper<Product>(){
+
+            public Product mapRow(ResultSet resultSet, int i) throws SQLException {
+                Product product=new Product(resultSet.getString(1), resultSet.getString(2), resultSet.getFloat(3), resultSet.getInt(4), resultSet.getFloat(5), resultSet.getString(6), resultSet.getString(7), resultSet.getString(8), resultSet.getInt(9), resultSet.getInt(10));
+
+                return  product;
             }
-        } catch (ClassNotFoundException e) {
-            logger.log(Level.SEVERE, e.getMessage());
-        } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.getMessage());
-        }
-        return null;
+        });
+        return products;
     }
 
     public void updateProduct(String product_ID, String name, Double price, int stork, float weight_, String content, String IMG, String description_, int productGroup_iD, int producer_ID) {
