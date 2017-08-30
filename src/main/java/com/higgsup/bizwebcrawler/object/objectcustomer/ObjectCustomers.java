@@ -1,11 +1,29 @@
 package com.higgsup.bizwebcrawler.object.objectcustomer;
 
+import org.hibernate.type.FloatType;
+import org.springframework.data.annotation.Id;
+
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 /*
-    By chicanem 09/08/2017
+    By viquynh 09/08/2017
     */
+@Entity
+@Table(name ="Customer")
+
 public class ObjectCustomers {
-    public ObjectCustomers(String customer_ID, String fullName, String email, double totalBill) {
-        this.customer_ID = customer_ID;
+    @Id
+    @Column(name = "customer_ID")
+    private String customerID;
+    private  String fullName;
+    private String email;
+    private Double totalBill;
+
+    public ObjectCustomers(String customerID, String fullName, String email, Double totalBill) {
+        this.customerID = customerID;
         this.fullName = fullName;
         this.email = email;
         this.totalBill = totalBill;
@@ -14,12 +32,12 @@ public class ObjectCustomers {
     public ObjectCustomers() {
     }
 
-    public String getCustomer_ID() {
-        return customer_ID;
+    public String getCustomerID() {
+        return customerID;
     }
 
-    public void setCustomer_ID(String customer_ID) {
-        this.customer_ID = customer_ID;
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
     }
 
     public String getFullName() {
@@ -38,22 +56,18 @@ public class ObjectCustomers {
         this.email = email;
     }
 
-    public double getTotalBill() {
+    public Double getTotalBill() {
         return totalBill;
     }
 
-    public void setTotalBill(double totalBill) {
+    public void setTotalBill(Double totalBill) {
         this.totalBill = totalBill;
     }
 
-    private String customer_ID;
-    private String fullName;
-    private String email;
-    private double totalBill;
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof ObjectCustomers) {
-            if (((ObjectCustomers) obj).customer_ID.equals(this.customer_ID)&&((ObjectCustomers) obj).fullName.equals(this.fullName)&&((ObjectCustomers) obj).email.equals(this.email)&&((ObjectCustomers) obj).totalBill==this.totalBill)
+            if (((ObjectCustomers) obj).customerID.equals(this.customerID)&&((ObjectCustomers) obj).fullName.equals(this.fullName)&&((ObjectCustomers) obj).email.equals(this.email)&&((ObjectCustomers) obj).totalBill==this.totalBill)
                 return true;
         } else {
             return false;

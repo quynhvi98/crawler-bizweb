@@ -254,7 +254,7 @@ public class CheckDataWebAndUpdateDataBase {
                             }
                             //update CustomerAddress
                             ObjectCustomerAddress objectCustomerAddress = new ObjectCustomerAddress(customerAdd_iD, ListCustomerAddress.get(4), ListCustomerAddress.get(0) + "," + ListCustomerAddress.get(1), ListCustomerAddress.get(3), ListCustomerAddress.get(2), ListCustomerAddress.get(5), fullDataFromTags[0], ListCustomerAddress.get(6), ListCustomerAddress.get(7), ListCustomerAddress.get(8));
-                            int CheckIndix = listCustomerDddIdFormCustomerId.indexOf(objectCustomerAddress.getCustomerAdd_iD());
+                            int CheckIndix = listCustomerDddIdFormCustomerId.indexOf(objectCustomerAddress.getCustomerAddID());
                             if (CheckIndix >= 0) {
                                 if (listAddressFormCustomerId.get(CheckIndix).equals(objectCustomerAddress)) {
                                     listCustomerDddIdFormCustomerId.remove(CheckIndix);

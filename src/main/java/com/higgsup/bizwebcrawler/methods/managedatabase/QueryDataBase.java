@@ -393,7 +393,7 @@ public class QueryDataBase {
         }
     }
 
-    ///////////// chưa làm.
+    //oki
 
     public void setDataFromCustomer(String customer_ID, String fullName, String email, String totalBill) {
         try {
@@ -416,12 +416,12 @@ public class QueryDataBase {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }
-
-    public boolean hasCustomerID(String customer_ID) {
+    //oki
+    public boolean hasCustomerID(String customerID) {
         try {
             query = "SELECT customer_ID FROM dbo.Customer WHERE customer_ID=?";
             ps = con.startConnect().prepareCall(query);
-            ps.setString(1, customer_ID);
+            ps.setString(1, customerID);
             rs = ps.executeQuery();
             if (rs.next()) return false;
             return true;
@@ -433,29 +433,28 @@ public class QueryDataBase {
         return false;
     }
     //CustomerAddress
-
+    //oki
     public void setDataCustomerAddress(ObjectCustomerAddress objectCustomerAddress) {
 
-        ObjectCustomerAddress objectCustomerAddres1 = new ObjectCustomerAddress();
-        objectCustomerAddres1 = objectCustomerAddress;
+
         try {
             query = "SELECT *FROM dbo.Customer_Address WHERE customer_ID=?";
             ps = con.startConnect().prepareCall(query);
-            ps.setString(1, objectCustomerAddres1.getCustomerAdd_iD());
+            ps.setString(1, objectCustomerAddress.getCustomerAddID());
             rs = ps.executeQuery();
             if (rs.next() == false) {
                 query = "INSERT dbo.Customer_Address(customerAdd_iD, addressUser ,name ,phone ,company ,zipeCode ,customer_ID ,nation ,city ,district)VALUES  ( ?,? ,?  ,?  , ?  ,?  , ? , ?  , ? , ? )";
                 ps = con.startConnect().prepareCall(query);
-                ps.setString(1, objectCustomerAddres1.getCustomerAdd_iD());
-                ps.setString(2, objectCustomerAddres1.getAddressUser());
-                ps.setString(3, objectCustomerAddres1.getName());
-                ps.setString(4, objectCustomerAddres1.getPhone());
-                ps.setString(5, objectCustomerAddres1.getCompany());
-                ps.setString(6, objectCustomerAddres1.getZipeCode());
-                ps.setString(7, objectCustomerAddres1.getCustomer_ID());
-                ps.setString(8, objectCustomerAddres1.getNation());
-                ps.setString(9, objectCustomerAddres1.getCity());
-                ps.setString(10, objectCustomerAddres1.getDistrict());
+                ps.setString(1, objectCustomerAddress.getCustomerAddID());
+                ps.setString(2, objectCustomerAddress.getAddressUser());
+                ps.setString(3, objectCustomerAddress.getName());
+                ps.setString(4, objectCustomerAddress.getPhone());
+                ps.setString(5, objectCustomerAddress.getCompany());
+                ps.setString(6, objectCustomerAddress.getZipeCode());
+                ps.setString(7, objectCustomerAddress.getCustomerID());
+                ps.setString(8, objectCustomerAddress.getNation());
+                ps.setString(9, objectCustomerAddress.getCity());
+                ps.setString(10, objectCustomerAddress.getDistrict());
                 ps.executeUpdate();
             }
 
@@ -466,7 +465,7 @@ public class QueryDataBase {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }
-
+    //oki
     public ArrayList<String> getListCustomerDddIdFormCustomerId(String customer_ID) {
         ArrayList<String> ListCustomerAddiD = new ArrayList<String>();
 
@@ -487,30 +486,28 @@ public class QueryDataBase {
     }
 
     // update del CustomerAddress
-
+    //oki
     public void updateDataCustomerAddress(ObjectCustomerAddress objectCustomerAddress) {
 
-        ObjectCustomerAddress objectCustomerAddres1 = new ObjectCustomerAddress();
-        objectCustomerAddres1 = objectCustomerAddress;
         try {
             query = "SELECT *FROM dbo.Customer_Address WHERE customerAdd_iD=? AND customer_ID=?";
             ps = con.startConnect().prepareCall(query);
-            ps.setString(1, objectCustomerAddres1.getCustomerAdd_iD());
-            ps.setString(2, objectCustomerAddres1.getCustomer_ID());
+            ps.setString(1, objectCustomerAddress.getCustomerAddID());
+            ps.setString(2, objectCustomerAddress.getCustomerID());
             rs = ps.executeQuery();
             if (rs.next()) {
                 query = "UPDATE dbo.Customer_Address SET addressUser=?,name=?,phone=?,company=?,zipeCode=?,nation=?,city=?,district=? WHERE customerAdd_iD=? AND customer_ID=?";
                 ps = con.startConnect().prepareCall(query);
-                ps.setString(1, objectCustomerAddres1.getAddressUser());
-                ps.setString(2, objectCustomerAddres1.getName());
-                ps.setString(3, objectCustomerAddres1.getPhone());
-                ps.setString(4, objectCustomerAddres1.getCompany());
-                ps.setString(5, objectCustomerAddres1.getZipeCode());
-                ps.setString(6, objectCustomerAddres1.getNation());
-                ps.setString(7, objectCustomerAddres1.getCity());
-                ps.setString(8, objectCustomerAddres1.getDistrict());
-                ps.setString(9, objectCustomerAddres1.getCustomerAdd_iD());
-                ps.setString(10, objectCustomerAddres1.getCustomer_ID());
+                ps.setString(1, objectCustomerAddress.getAddressUser());
+                ps.setString(2, objectCustomerAddress.getName());
+                ps.setString(3, objectCustomerAddress.getPhone());
+                ps.setString(4, objectCustomerAddress.getCompany());
+                ps.setString(5, objectCustomerAddress.getZipeCode());
+                ps.setString(6, objectCustomerAddress.getNation());
+                ps.setString(7, objectCustomerAddress.getCity());
+                ps.setString(8, objectCustomerAddress.getDistrict());
+                ps.setString(9, objectCustomerAddress.getCustomerAddID());
+                ps.setString(10, objectCustomerAddress.getCustomerID());
                 ps.executeUpdate();
             }
 
@@ -521,7 +518,7 @@ public class QueryDataBase {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }
-
+    //oki
     public void deleteDataCustomerAddress(String ID) {
         try {
             query = "DELETE dbo.Customer_Address WHERE customerAdd_iD=?";
@@ -534,7 +531,7 @@ public class QueryDataBase {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }
-
+    //okie
     public ArrayList<ObjectCustomerAddress> getListAddressFormCustomerId(String customer_ID) {
         ArrayList<ObjectCustomerAddress> loi = new ArrayList<ObjectCustomerAddress>();
 
@@ -557,6 +554,7 @@ public class QueryDataBase {
     // end update del CustomerAddress
 
     //update Customer
+    //oki
     public ObjectCustomers getDataCustomersFromCustomerID(String customer_ID) {
 
         try {
@@ -565,7 +563,7 @@ public class QueryDataBase {
             ps.setString(1, customer_ID);
             rs = ps.executeQuery();
             while (rs.next()) {
-                ObjectCustomers objectCustomers = new ObjectCustomers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getFloat(4));
+                ObjectCustomers objectCustomers = new ObjectCustomers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getDouble(4));
                 return objectCustomers;
             }
         } catch (ClassNotFoundException e) {
@@ -576,13 +574,13 @@ public class QueryDataBase {
 
         return null;
     }
-
+    //oki
     public void updateDataCustomersFromObjectCustomer(ObjectCustomers objectCustomers) {
         ObjectCustomers objectCustomers1=objectCustomers;
         try {
             query = "SELECT *FROM dbo.Customer WHERE customer_ID=?";
             ps = con.startConnect().prepareCall(query);
-            ps.setString(1, objectCustomers.getCustomer_ID());
+            ps.setString(1, objectCustomers.getCustomerID());
             rs = ps.executeQuery();
             if (rs.next()) {
                 query = "UPDATE dbo.Customer SET fullName=?,email=?,totalBill=? WHERE customer_ID=?";
@@ -590,7 +588,7 @@ public class QueryDataBase {
                 ps.setString(1,objectCustomers1.getFullName());
                 ps.setString(2,objectCustomers1.getEmail());
                 ps.setDouble(3,objectCustomers1.getTotalBill());
-                ps.setString(4,objectCustomers1.getCustomer_ID());
+                ps.setString(4,objectCustomers1.getCustomerID());
                 ps.executeUpdate();
             }
         } catch (ClassNotFoundException e) {
