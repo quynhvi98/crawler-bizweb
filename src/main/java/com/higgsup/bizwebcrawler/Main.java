@@ -20,9 +20,6 @@ public class Main {
         ProductCategoryDao productCategoryDao = (ProductCategoryDao) context.getBean("productCategoryDao");
         System.out.println(productCategoryDao.getIDProductCategory("Sản phẩm khuyến mãi"));
         productDao.getIDProducer("NemCollege");
-
-
-
     }
 }
 

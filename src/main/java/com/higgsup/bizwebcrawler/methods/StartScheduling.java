@@ -70,7 +70,7 @@ public class StartScheduling {
                         if(!cookie.equalsIgnoreCase("FalseAccount")){
                             cookie = authenticationPostRequest.doRequest();
                         }
-                    System.out.println(checkErrorRequest + " product");
+                    logger.info(checkErrorRequest + " product");
                 } catch (Exception e) {
                     logger.log(Level.SEVERE, e.getMessage());
                 }
@@ -105,7 +105,7 @@ public class StartScheduling {
                         if(!cookie.equalsIgnoreCase("FalseAccount")){
                             cookie = authenticationPostRequest.doRequest();
                         }
-                    System.out.println(checkUpdateRequest + " update");
+                    logger.info(checkUpdateRequest + " update");
                 } catch (Exception e) {
                     logger.log(Level.SEVERE, e.getMessage());
                 }
