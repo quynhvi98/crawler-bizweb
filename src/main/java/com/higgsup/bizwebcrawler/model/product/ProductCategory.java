@@ -1,4 +1,4 @@
-package com.higgsup.bizwebcrawler.model.objectproduct;
+package com.higgsup.bizwebcrawler.model.product;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,15 +9,12 @@ import javax.persistence.Table;
  * Created by viquynh
  */
 @Entity
-@Table(name = "Product_Category")
+@Table(name = "product_category")
 public class ProductCategory {
     @Id
-    @Column(name = "productCate_ID")
+    @Column(name = "product_cate_id")
     private String productCateID;
     private String name;
-
-
-
     public ProductCategory() {
     }
 
@@ -38,7 +35,6 @@ public class ProductCategory {
     }
 
     public ProductCategory(String productCateID, String name) {
-
         this.productCateID = productCateID;
         this.name = name;
     }

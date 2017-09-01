@@ -1,4 +1,4 @@
-package com.higgsup.bizwebcrawler.model.objectproduct;
+package com.higgsup.bizwebcrawler.model.product;
 
 import javax.persistence.*;
 
@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class ProductGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "productGroup_iD")
+    @Column(name = "product_group_id")
     private int productGroupID;
     private String name;
 

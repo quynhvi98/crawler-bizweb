@@ -1,15 +1,16 @@
-package com.higgsup.bizwebcrawler.model.objectorder;/*
+package com.higgsup.bizwebcrawler.model.order;
+/*
     By chicanem 29/08/2017
-    */
+   */
 
 import javax.persistence.*;
 
 @Entity
-@Table(name ="Paymen")
+@Table(name ="paymen")
 public class Paymen {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "payment_ID")
+    @Column(name = "payment_id")
     private int paymentID;
     private String content;
 

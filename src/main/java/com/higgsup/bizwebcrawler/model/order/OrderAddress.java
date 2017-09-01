@@ -1,33 +1,34 @@
-package com.higgsup.bizwebcrawler.model.objectorder;/*
+package com.higgsup.bizwebcrawler.model.order;
+/*
     By chicanem 15/08/2017
-    */
+   */
 
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Order_Address")
-public class ObjectOrderAddress {
+@Table(name = "order_address")
+public class OrderAddress {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "Order_Address_ID")
+    @Column(name = "order_address_id")
     private int orderAddressID;
     private String email;
-    @Column(name = "NameCustomer")
+    @Column(name = "namecustomer")
     private String nameCustomer;
-    @Column(name = "Phone")
+    @Column(name = "phone")
     private String phone;
-    @Column(name = "Order_Address")
+    @Column(name = "order_address")
     private String orderAddress;
-    @Column(name = "ZipCode")
+    @Column(name = "zipcode")
     private String zipCode;
     private String nation;
     private String city;
     private String district;
-    @Column(name = "PaymentAddress")
+    @Column(name = "payment_address")
     private String paymentAddress;
-    @Column(name = "order_ID")
+    @Column(name = "order_id")
     private String orderID;
 
     public int getOrderAddressID() {
@@ -118,7 +119,7 @@ public class ObjectOrderAddress {
         this.orderID = orderID;
     }
 
-    public ObjectOrderAddress(int orderAddressID, String email, String nameCustomer, String phone, String orderAddress, String zipCode, String nation, String city, String district, String paymentAddress, String orderID) {
+    public OrderAddress(int orderAddressID, String email, String nameCustomer, String phone, String orderAddress, String zipCode, String nation, String city, String district, String paymentAddress, String orderID) {
 
         this.orderAddressID = orderAddressID;
         this.email = email;
@@ -133,7 +134,7 @@ public class ObjectOrderAddress {
         this.orderID = orderID;
     }
 
-    public ObjectOrderAddress() {
+    public OrderAddress() {
     }
 
 

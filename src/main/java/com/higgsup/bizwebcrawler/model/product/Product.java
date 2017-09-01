@@ -1,4 +1,4 @@
-package com.higgsup.bizwebcrawler.model.objectproduct;
+package com.higgsup.bizwebcrawler.model.product;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,21 +12,19 @@ import javax.persistence.Table;
 @Table(name = "Product")
 public class Product {
     @Id
-    @Column(name = "product_ID")
+    @Column(name = "product_id")
     private String productID;
     private String name;
     private float price;
     private int stork;
-    @Column(name = "weight_")
     private float weight;
     private String content;
     @Column(name = "IMG")
     private String img;
-    @Column(name = "description_")
     private String description;
-    @Column(name = "productGroup_iD")
+    @Column(name = "product_group_id")
     private int productGroupID;
-    @Column(name = "producer_ID")
+    @Column(name = "producer_id")
     private int producerID;
 
     public String getProductID() {

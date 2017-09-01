@@ -1,4 +1,4 @@
-package com.higgsup.bizwebcrawler.model.objectorder;
+package com.higgsup.bizwebcrawler.model.order;
 
 import javax.persistence.*;
 
@@ -6,19 +6,19 @@ import javax.persistence.*;
     By chicanem 11/08/2017
     */
 @Entity
-@Table(name = "Order_Product")
-public class ObjectOrderProduct {
+@Table(name = "product_order")
+public class OrderProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "order_product_ID")
+    @Column(name = "order_product_id")
     private int orderProductID;
     private Double quantity;
-    @Column(name = "product_ID")
+    @Column(name = "product_id")
     private String productID;
-    @Column(name = "order_ID")
+    @Column(name = "order_id")
     private String orderID;
 
-    public ObjectOrderProduct(Double quantity, String productID, String orderID) {
+    public OrderProduct(Double quantity, String productID, String orderID) {
         this.quantity = quantity;
         this.productID = productID;
         this.orderID = orderID;
@@ -56,6 +56,6 @@ public class ObjectOrderProduct {
         this.orderID = orderID;
     }
 
-    public ObjectOrderProduct() {
+    public OrderProduct() {
     }
 }

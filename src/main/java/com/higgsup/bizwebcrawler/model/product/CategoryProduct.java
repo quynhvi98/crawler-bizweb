@@ -1,20 +1,21 @@
-package com.higgsup.bizwebcrawler.model.objectproduct;
+package com.higgsup.bizwebcrawler.model.product;
 
 import javax.persistence.*;
 
 /**
  * Created by viquynh
  */
+/*liên kết sản phẩm và danh mục hàng mới, hàng hot, hàng sale*/
 @Entity
-@Table(name = "Category_Product")
+@Table(name = "category_product")
 public class CategoryProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "category_ID")
+    @Column(name = "category_id")
     private int categoryID;
-    @Column(name = "productCate_ID")
+    @Column(name = "product_cate_id")
     private String productCateID;
-    @Column(name = "product_ID")
+    @Column(name = "product_id")
     private  String productID;
 
     public CategoryProduct(String productCateID, String productID) {

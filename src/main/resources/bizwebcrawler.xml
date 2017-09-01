@@ -3,20 +3,20 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     <!--- Customer -->
-    <bean id="customer" class="com.higgsup.bizwebcrawler.model.objectcustomer.ObjectCustomers"/>
-    <bean id="customerAddress" class="com.higgsup.bizwebcrawler.model.objectcustomer.ObjectCustomerAddress" />
+    <bean id="customer" class="com.higgsup.bizwebcrawler.model.customer.Customers"/>
+    <bean id="customerAddress" class="com.higgsup.bizwebcrawler.model.customer.CustomerAddress" />
 
     <!---Product -->
-    <bean id="categoryProduct" class="com.higgsup.bizwebcrawler.model.objectproduct.CategoryProduct"></bean>
-    <bean id="producer" class="com.higgsup.bizwebcrawler.model.objectproduct.Producer"></bean>
-    <bean id="product" class="com.higgsup.bizwebcrawler.model.objectproduct.Product"></bean>
-    <bean id="productCategory" class="com.higgsup.bizwebcrawler.model.objectproduct.ProductCategory"/>
-    <bean id="productGroup" class="com.higgsup.bizwebcrawler.model.objectproduct.ProductGroup"/>
+    <bean id="categoryProduct" class="com.higgsup.bizwebcrawler.model.product.CategoryProduct"></bean>
+    <bean id="producer" class="com.higgsup.bizwebcrawler.model.product.Producer"></bean>
+    <bean id="product" class="com.higgsup.bizwebcrawler.model.product.Product"></bean>
+    <bean id="productCategory" class="com.higgsup.bizwebcrawler.model.product.ProductCategory"/>
+    <bean id="productGroup" class="com.higgsup.bizwebcrawler.model.product.ProductGroup"/>
     <!--- -->
     <!---Order-->
-    <bean id="orderObject" class="com.higgsup.bizwebcrawler.model.objectorder.ObjectOrder"></bean>
-    <bean id="orderProductObject" class="com.higgsup.bizwebcrawler.model.objectorder.ObjectOrderAddress"></bean>
-    <bean id="orderAddressObject" class="com.higgsup.bizwebcrawler.model.objectorder.ObjectOrderProduct"></bean>
+    <bean id="orderObject" class="com.higgsup.bizwebcrawler.model.order.Order"></bean>
+    <bean id="orderProductObject" class="com.higgsup.bizwebcrawler.model.order.OrderAddress"></bean>
+    <bean id="orderAddressObject" class="com.higgsup.bizwebcrawler.model.order.OrderProduct"></bean>
     <!--- -->
     <!--- -->
 

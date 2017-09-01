@@ -1,6 +1,6 @@
 package com.higgsup.bizwebcrawler.controller.managedatabase;
 
-import com.higgsup.bizwebcrawler.model.objectcustomer.ObjectCustomers;
+import com.higgsup.bizwebcrawler.model.customer.Customers;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -23,23 +23,25 @@ public class CustomerDao {
     private ResultSet rs;
     private ConnectDB con = new ConnectDB();
     private static final Logger logger = Logger.getLogger(OrderDao.class.getName());
+
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
         this.template = new JdbcTemplate(dataSource);
     }
-    public void setDataFromCustomer(String customer_ID, String fullName, String email, String totalBill) {
+
+    public void setDataFromCustomer(String customer_id, String full_name, String email, String total_bill) {
         try {
-            query = " SELECT customer_ID FROM dbo.Customer WHERE customer_ID =?";
+            query = " SELECT customer_id FROM dbo.customer WHERE customer_id =?";
             ps = con.startConnect().prepareCall(query);
-            ps.setString(1, customer_ID);
+            ps.setString(1, customer_id);
             rs = ps.executeQuery();
             if (!(rs.next())) {
-                query = "INSERT Customer (customer_ID, fullName, email, totalBill) VALUES (?,?,?,?)";
+                query = "INSERT Customer (customer_id, full_name, email, total_bill) VALUES (?,?,?,?)";
                 ps = con.startConnect().prepareCall(query);
-                ps.setString(1, customer_ID);
-                ps.setString(2, fullName);
+                ps.setString(1, customer_id);
+                ps.setString(2, full_name);
                 ps.setString(3, email);
-                ps.setDouble(4, Double.parseDouble(totalBill));
+                ps.setDouble(4, Double.parseDouble(total_bill));
                 ps.executeUpdate();
             }
         } catch (ClassNotFoundException e) {
@@ -51,7 +53,7 @@ public class CustomerDao {
 
     public boolean hasCustomerID(String customerID) {
         try {
-            query = "SELECT customer_ID FROM dbo.Customer WHERE customer_ID=?";
+            query = "SELECT customer_id FROM dbo.customer WHERE customer_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, customerID);
             rs = ps.executeQuery();
@@ -64,15 +66,16 @@ public class CustomerDao {
         }
         return false;
     }
-    public ObjectCustomers getDataCustomersFromCustomerID(String customer_ID) {
+
+    public Customers getDataCustomersFromCustomerID(String customer_id) {
 
         try {
-            query = "SELECT *FROM dbo.Customer WHERE customer_ID=?";
+            query = "SELECT * FROM dbo.customer WHERE customer_id=?";
             ps = con.startConnect().prepareCall(query);
-            ps.setString(1, customer_ID);
+            ps.setString(1, customer_id);
             rs = ps.executeQuery();
             while (rs.next()) {
-                ObjectCustomers objectCustomers = new ObjectCustomers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getDouble(4));
+                Customers objectCustomers = new Customers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getDouble(4));
                 return objectCustomers;
             }
         } catch (ClassNotFoundException e) {
@@ -83,15 +86,16 @@ public class CustomerDao {
 
         return null;
     }
-    public void updateDataCustomersFromObjectCustomer(ObjectCustomers objectCustomers) {
-        ObjectCustomers objectCustomers1=objectCustomers;
+
+    public void updateDataCustomersFromObjectCustomer(Customers objectCustomers) {
+        Customers objectCustomers1=objectCustomers;
         try {
-            query = "SELECT *FROM dbo.Customer WHERE customer_ID=?";
+            query = "SELECT *FROM dbo.customer WHERE customer_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, objectCustomers.getCustomerID());
             rs = ps.executeQuery();
             if (rs.next()) {
-                query = "UPDATE dbo.Customer SET fullName=?,email=?,totalBill=? WHERE customer_ID=?";
+                query = "UPDATE dbo.customer SET full_name=?,email=?,total_bill=? WHERE customer_id=?";
                 ps = con.startConnect().prepareCall(query);
                 ps.setString(1,objectCustomers1.getFullName());
                 ps.setString(2,objectCustomers1.getEmail());

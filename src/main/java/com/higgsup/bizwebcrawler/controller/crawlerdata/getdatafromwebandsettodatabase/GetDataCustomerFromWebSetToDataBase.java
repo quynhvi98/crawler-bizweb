@@ -4,7 +4,7 @@ import com.higgsup.bizwebcrawler.controller.authentication.AuthenticationGetRequ
 import com.higgsup.bizwebcrawler.controller.common.CommonUtil;
 import com.higgsup.bizwebcrawler.controller.crawlerdata.GetDataWebAndSetToDataBase;
 import com.higgsup.bizwebcrawler.controller.managedatabase.QueryDataBase;
-import com.higgsup.bizwebcrawler.model.objectcustomer.ObjectCustomerAddress;
+import com.higgsup.bizwebcrawler.model.customer.CustomerAddress;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -130,7 +130,7 @@ public class GetDataCustomerFromWebSetToDataBase {
 
                             }
 
-                            ObjectCustomerAddress objectCustomerAddress = new ObjectCustomerAddress(customerAdd_iD, ListCustomerAddress.get(4), ListCustomerAddress.get(0) + "," + ListCustomerAddress.get(1), ListCustomerAddress.get(3), ListCustomerAddress.get(2), ListCustomerAddress.get(5), fullDataFromTags[0], ListCustomerAddress.get(6), ListCustomerAddress.get(7), ListCustomerAddress.get(8));
+                            CustomerAddress objectCustomerAddress = new CustomerAddress(customerAdd_iD, ListCustomerAddress.get(4), ListCustomerAddress.get(0) + "," + ListCustomerAddress.get(1), ListCustomerAddress.get(3), ListCustomerAddress.get(2), ListCustomerAddress.get(5), fullDataFromTags[0], ListCustomerAddress.get(6), ListCustomerAddress.get(7), ListCustomerAddress.get(8));
 
                             queryDataBase.setDataCustomerAddress(objectCustomerAddress);
                         }

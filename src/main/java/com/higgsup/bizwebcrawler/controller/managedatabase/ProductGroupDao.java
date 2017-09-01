@@ -25,14 +25,15 @@ public class ProductGroupDao {
         this.dataSource = dataSource;
         this.template = new JdbcTemplate(dataSource);
     }
+
     public void setDataProductGroup(String name) {
         try {
-            query = "SELECT productGroup_iD FROM Product_Group WHERE name=?";
+            query = "SELECT product_group_id FROM Product_Group WHERE name=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, name);
             rs = ps.executeQuery();
             if (!(rs.next())) {
-                query = "INSERT dbo.Product_Group ( name )VALUES ( ?)";
+                query = "INSERT dbo.product_group ( name )VALUES ( ?)";
                 ps = con.startConnect().prepareCall(query);
                 ps.setString(1, name);
                 ps.executeUpdate();
@@ -47,7 +48,7 @@ public class ProductGroupDao {
     public int getIDProductGroup(String name) {
 
         try {
-            query = "SELECT productGroup_iD FROM Product_Group WHERE name=?";
+            query = "SELECT product_group_id FROM product_group WHERE name=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, name);
             rs = ps.executeQuery();

@@ -9,7 +9,7 @@ import com.higgsup.bizwebcrawler.controller.managedatabase.ProductDao;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class Main {
+public class StartSoftWare {
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("pilot-module.xml");
         ProductDao productDao = (ProductDao) context.getBean("productDao");

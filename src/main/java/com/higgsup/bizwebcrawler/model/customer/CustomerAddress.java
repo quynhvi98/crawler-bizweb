@@ -1,31 +1,31 @@
-package com.higgsup.bizwebcrawler.model.objectcustomer;
-
+package com.higgsup.bizwebcrawler.model.customer;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 /*
-    By chicanem 09/08/2017
-    */
+    By viquynh 09/08/2017
+ */
 @Entity
-@Table(name ="Customer")
-public class ObjectCustomerAddress {
+@Table(name ="customer_address")
+public class CustomerAddress {
     @Id
-    @Column(name = "customerAdd_id")
+    @Column(name = "customer_add_id")
     private String customerAddID;
+    @Column(name = "address_user")
     private String addressUser;
     private String name;
     private String phone;
     private String company;
+    @Column(name = "zipe_code")
     private String zipeCode;
     private String nation;
     private String city;
     private String district;
-    @Column (name = "customer_ID")
+    @Column (name = "customer_id")
     private String customerID;
 
-    public ObjectCustomerAddress(String customerAddID, String addressUser, String name, String phone, String company, String zipeCode, String nation, String city, String district, String customerID) {
+    public CustomerAddress(String customerAddID, String addressUser, String name, String phone, String company, String zipeCode, String nation, String city, String district, String customerID) {
         this.customerAddID = customerAddID;
         this.addressUser = addressUser;
         this.name = name;
@@ -38,7 +38,7 @@ public class ObjectCustomerAddress {
         this.customerID = customerID;
     }
 
-    public ObjectCustomerAddress() {
+    public CustomerAddress() {
     }
 
     public String getCustomerAddID() {
@@ -123,8 +123,8 @@ public class ObjectCustomerAddress {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof ObjectCustomerAddress) {
-            if (((ObjectCustomerAddress) obj).customerAddID.equals(this.customerAddID) && ((ObjectCustomerAddress) obj).name.equals(this.name) && ((ObjectCustomerAddress) obj).name.equals(this.name) && ((ObjectCustomerAddress) obj).phone.equals(this.phone) && ((ObjectCustomerAddress) obj).company.equals(this.company) && ((ObjectCustomerAddress) obj).zipeCode.equals(this.zipeCode) && ((ObjectCustomerAddress) obj).customerID.equals(this.customerID) && ((ObjectCustomerAddress) obj).nation.equals(this.nation) && ((ObjectCustomerAddress) obj).city.equals(this.city) && ((ObjectCustomerAddress) obj).district.equals(this.district))
+        if (obj instanceof CustomerAddress) {
+            if (((CustomerAddress) obj).customerAddID.equals(this.customerAddID) && ((CustomerAddress) obj).name.equals(this.name) && ((CustomerAddress) obj).name.equals(this.name) && ((CustomerAddress) obj).phone.equals(this.phone) && ((CustomerAddress) obj).company.equals(this.company) && ((CustomerAddress) obj).zipeCode.equals(this.zipeCode) && ((CustomerAddress) obj).customerID.equals(this.customerID) && ((CustomerAddress) obj).nation.equals(this.nation) && ((CustomerAddress) obj).city.equals(this.city) && ((CustomerAddress) obj).district.equals(this.district))
                 return true;
         } else {
             return false;

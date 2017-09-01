@@ -20,14 +20,20 @@ public class PaymenDao {
     private ResultSet rs;
     private ConnectDB con = new ConnectDB();
     private static final Logger logger = Logger.getLogger(PaymenDao.class.getName());
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+        this.template = new JdbcTemplate(dataSource);
+    }
+
     public void setDataPaymenFromOrder(String content) {
         try {
-            query = " SELECT payment_ID FROM dbo.Paymen WHERE content=?";
+            query = " SELECT payment_id FROM dbo.paymen WHERE content=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, content);
             rs = ps.executeQuery();
             if (!(rs.next())) {
-                query = "INSERT dbo.Paymen( content )VALUES  ( ?)";
+                query = "INSERT dbo.paymen(content )VALUES  ( ?)";
                 ps = con.startConnect().prepareCall(query);
                 ps.setString(1, content);
                 ps.executeUpdate();
@@ -38,9 +44,10 @@ public class PaymenDao {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }
+
     public int getIDPaymentFromContent(String content) {
         try {
-            query = "SELECT payment_ID FROM Paymen WHERE content=?";
+            query = "SELECT payment_id FROM paymen WHERE content=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, content);
             rs = ps.executeQuery();
@@ -54,7 +61,4 @@ public class PaymenDao {
         }
         return 0;
     }
-
-
-
 }

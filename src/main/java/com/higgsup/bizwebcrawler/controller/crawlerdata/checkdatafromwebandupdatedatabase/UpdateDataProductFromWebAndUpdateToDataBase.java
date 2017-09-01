@@ -3,7 +3,7 @@ package com.higgsup.bizwebcrawler.controller.crawlerdata.checkdatafromwebandupda
 import com.higgsup.bizwebcrawler.controller.authentication.AuthenticationGetRequest;
 import com.higgsup.bizwebcrawler.controller.common.CommonUtil;
 import com.higgsup.bizwebcrawler.controller.managedatabase.QueryDataBase;
-import com.higgsup.bizwebcrawler.model.objectproduct.Product;
+import com.higgsup.bizwebcrawler.model.product.Product;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

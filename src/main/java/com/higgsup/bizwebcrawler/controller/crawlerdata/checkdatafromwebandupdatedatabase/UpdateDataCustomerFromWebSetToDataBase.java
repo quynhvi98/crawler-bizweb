@@ -3,8 +3,8 @@ package com.higgsup.bizwebcrawler.controller.crawlerdata.checkdatafromwebandupda
 import com.higgsup.bizwebcrawler.controller.authentication.AuthenticationGetRequest;
 import com.higgsup.bizwebcrawler.controller.common.CommonUtil;
 import com.higgsup.bizwebcrawler.controller.managedatabase.QueryDataBase;
-import com.higgsup.bizwebcrawler.model.objectcustomer.ObjectCustomerAddress;
-import com.higgsup.bizwebcrawler.model.objectcustomer.ObjectCustomers;
+import com.higgsup.bizwebcrawler.model.customer.CustomerAddress;
+import com.higgsup.bizwebcrawler.model.customer.Customers;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -64,7 +64,7 @@ public class UpdateDataCustomerFromWebSetToDataBase {
 
                         logger.info("ID customer:" + fullDataFromTags[0]);
                         ArrayList<String> listCustomerDddIdFormCustomerId = queryDataBase.getListCustomerDddIdFormCustomerId(fullDataFromTags[0]);
-                        ArrayList<ObjectCustomerAddress> listAddressFormCustomerId = queryDataBase.getListAddressFormCustomerId(fullDataFromTags[0]);
+                        ArrayList<CustomerAddress> listAddressFormCustomerId = queryDataBase.getListAddressFormCustomerId(fullDataFromTags[0]);
                         logger.info("Tên khách hàng:" + fullDataFromTags[1]);
                         logger.info("Email:" + fullDataFromTags[3]);
                         logger.info("Đơn hàng gần nhất: " + fullDataFromTags[4]);
@@ -85,8 +85,8 @@ public class UpdateDataCustomerFromWebSetToDataBase {
                         }
                         logger.info("Tổng chi tiêu: " + fullDataFromTags[6]);
                         queryDataBase.setDataFromCustomer(fullDataFromTags[0], fullDataFromTags[1], fullDataFromTags[3], fullDataFromTags[6]);
-                        ObjectCustomers objectCustomers = new ObjectCustomers(fullDataFromTags[0], fullDataFromTags[1], fullDataFromTags[3], Double.parseDouble(fullDataFromTags[6]));
-                        ObjectCustomers dataCustomersFromCustomerID = queryDataBase.getDataCustomersFromCustomerID(fullDataFromTags[0]);
+                        Customers objectCustomers = new Customers(fullDataFromTags[0], fullDataFromTags[1], fullDataFromTags[3], Double.parseDouble(fullDataFromTags[6]));
+                        Customers dataCustomersFromCustomerID = queryDataBase.getDataCustomersFromCustomerID(fullDataFromTags[0]);
                         if (!objectCustomers.equals(dataCustomersFromCustomerID)) {
                             queryDataBase.updateDataCustomersFromObjectCustomer(objectCustomers);
                         }
@@ -132,7 +132,7 @@ public class UpdateDataCustomerFromWebSetToDataBase {
                                 }
                             }
                             //update CustomerAddress
-                            ObjectCustomerAddress objectCustomerAddress = new ObjectCustomerAddress(customerAdd_iD, ListCustomerAddress.get(4), ListCustomerAddress.get(0) + "," + ListCustomerAddress.get(1), ListCustomerAddress.get(3), ListCustomerAddress.get(2), ListCustomerAddress.get(5), fullDataFromTags[0], ListCustomerAddress.get(6), ListCustomerAddress.get(7), ListCustomerAddress.get(8));
+                            CustomerAddress objectCustomerAddress = new CustomerAddress(customerAdd_iD, ListCustomerAddress.get(4), ListCustomerAddress.get(0) + "," + ListCustomerAddress.get(1), ListCustomerAddress.get(3), ListCustomerAddress.get(2), ListCustomerAddress.get(5), fullDataFromTags[0], ListCustomerAddress.get(6), ListCustomerAddress.get(7), ListCustomerAddress.get(8));
                             int CheckIndix = listCustomerDddIdFormCustomerId.indexOf(objectCustomerAddress.getCustomerAddID());
                             if (CheckIndix >= 0) {
                                 if (listAddressFormCustomerId.get(CheckIndix).equals(objectCustomerAddress)) {

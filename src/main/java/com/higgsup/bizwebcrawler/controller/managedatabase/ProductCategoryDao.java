@@ -30,12 +30,12 @@ public class ProductCategoryDao {
 
     public void setDataProductCategory(String productCate_ID, String name) {
         try {
-            query = " SELECT productCate_ID FROM Product_Category WHERE productCate_ID=?";
+            query = " SELECT product_cate_id FROM product_category WHERE product_cate_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setInt(1, Integer.parseInt(productCate_ID));
             rs = ps.executeQuery();
             if (!(rs.next())) {
-                query = "  INSERT dbo.Product_Category ( productCate_ID, name ) VALUES  ( ?,?)";
+                query = "  INSERT dbo.product_category ( product_cate_id, name ) VALUES  ( ?,?)";
                 ps = con.startConnect().prepareCall(query);
                 ps.setInt(1, Integer.parseInt(productCate_ID));
                 ps.setString(2, name);
@@ -50,7 +50,7 @@ public class ProductCategoryDao {
 
     public int getIDProductCategory(String name) {
         try {
-            query = "SELECT productCate_ID FROM Product_Category WHERE name=?";
+            query = "SELECT product_cate_id FROM product_category WHERE name=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, name);
             rs = ps.executeQuery();
@@ -66,7 +66,7 @@ public class ProductCategoryDao {
     }
 
     public boolean hasCategoryProduct(String productCate_ID, String product_ID) {
-        query = "SELECT *FROM dbo.Category_Product WHERE productCate_ID =? AND product_ID =?";
+        query = "SELECT *FROM dbo.pategory_croduct WHERE product_cate_id =? AND product_id =?";
         try {
             String ID = (String) template.queryForObject(
                     query, new Object[]{productCate_ID, product_ID}, String.class);
@@ -82,7 +82,7 @@ public class ProductCategoryDao {
 
     public void remoDataCategoryProductFromCateIdAndProductId(String productCate_ID, String product_ID) {
         try {
-            query = "DELETE dbo.Category_Product WHERE productCate_ID=? AND product_ID=?";
+            query = "DELETE dbo.product_category WHERE product_cate_id=? AND product_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, productCate_ID);
             ps.setString(2, product_ID);
@@ -97,7 +97,7 @@ public class ProductCategoryDao {
     public ArrayList<String> getListProductCateIdFormProductIdInCategoryProduct(String product_ID) {
         ArrayList<String> listProductCateID = new ArrayList<String>();
         try {
-            query = "SELECT productCate_ID FROM dbo.Category_Product WHERE product_ID=?";
+            query = "SELECT product_cate_id FROM dbo.pategory_croduct WHERE product_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, product_ID);
             rs = ps.executeQuery();

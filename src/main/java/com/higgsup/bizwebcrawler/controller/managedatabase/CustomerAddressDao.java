@@ -1,6 +1,6 @@
 package com.higgsup.bizwebcrawler.controller.managedatabase;
 
-import com.higgsup.bizwebcrawler.model.objectcustomer.ObjectCustomerAddress;
+import com.higgsup.bizwebcrawler.model.customer.CustomerAddress;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -29,14 +29,14 @@ public class CustomerAddressDao {
         this.template = new JdbcTemplate(dataSource);
     }
 
-    public void setDataCustomerAddress(ObjectCustomerAddress objectCustomerAddress) {
+    public void setDataCustomerAddress(CustomerAddress objectCustomerAddress) {
         try {
-            query = "SELECT *FROM dbo.Customer_Address WHERE customer_ID=?";
+            query = "SELECT *FROM dbo.Customer_Address WHERE customer_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, objectCustomerAddress.getCustomerAddID());
             rs = ps.executeQuery();
             if (!(rs.next()) == false) {
-                query = "INSERT dbo.Customer_Address(customerAdd_iD, addressUser ,name ,phone ,company ,zipeCode ,customer_ID ,nation ,city ,district)VALUES  ( ?,? ,?  ,?  , ?  ,?  , ? , ?  , ? , ? )";
+                query = "INSERT dbo.customer_address(customer_add_id, address_user ,name ,phone ,company ,zipe_code ,customer_id ,nation ,city ,district)VALUES  ( ?,? ,?  ,?  , ?  ,?  , ? , ?  , ? , ? )";
                 ps = con.startConnect().prepareCall(query);
                 ps.setString(1, objectCustomerAddress.getCustomerAddID());
                 ps.setString(2, objectCustomerAddress.getAddressUser());
@@ -58,10 +58,11 @@ public class CustomerAddressDao {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }
-    public ArrayList<String> getListCustomerDddIdFormCustomerId(String customer_ID) {
+
+    public ArrayList<String> getListCustomerAddIDFormCustomerID(String customer_ID) {
         ArrayList<String> ListCustomerAddiD = new ArrayList<String>();
         try {
-            query = "SELECT customerAdd_iD FROM dbo.Customer_Address WHERE customer_ID=?";
+            query = "SELECT customer_add_id FROM dbo.customer_address WHERE customer_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, customer_ID);
             rs = ps.executeQuery();
@@ -75,15 +76,16 @@ public class CustomerAddressDao {
         }
         return ListCustomerAddiD;
     }
-    public void updateDataCustomerAddress(ObjectCustomerAddress objectCustomerAddress) {
+
+    public void updateDataCustomerAddress(CustomerAddress objectCustomerAddress) {
         try {
-            query = "SELECT *FROM dbo.Customer_Address WHERE customerAdd_iD=? AND customer_ID=?";
+            query = "SELECT *FROM dbo.customer_address WHERE customer_add_id=? AND customer_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, objectCustomerAddress.getCustomerAddID());
             ps.setString(2, objectCustomerAddress.getCustomerID());
             rs = ps.executeQuery();
             if (rs.next()) {
-                query = "UPDATE dbo.Customer_Address SET addressUser=?,name=?,phone=?,company=?,zipeCode=?,nation=?,city=?,district=? WHERE customerAdd_iD=? AND customer_ID=?";
+                query = "UPDATE dbo.customer_address SET addressUser=?,name=?,phone=?,company=?,zipe_code=?,nation=?,city=?,district=? WHERE customer_add_id=? AND customer_id=?";
                 ps = con.startConnect().prepareCall(query);
                 ps.setString(1, objectCustomerAddress.getAddressUser());
                 ps.setString(2, objectCustomerAddress.getName());
@@ -97,17 +99,16 @@ public class CustomerAddressDao {
                 ps.setString(10, objectCustomerAddress.getCustomerID());
                 ps.executeUpdate();
             }
-
-
         } catch (ClassNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }
+
     public void deleteDataCustomerAddress(String ID) {
         try {
-            query = "DELETE dbo.Customer_Address WHERE customerAdd_iD=?";
+            query = "DELETE dbo.customer_address WHERE customer_add_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, ID);
             ps.executeUpdate();
@@ -117,22 +118,22 @@ public class CustomerAddressDao {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }
-    public ArrayList<ObjectCustomerAddress> getListAddressFormCustomerId(String customer_ID) {
-        ArrayList<ObjectCustomerAddress> loi = new ArrayList<ObjectCustomerAddress>();
 
+    public ArrayList<CustomerAddress> getListAddressFormCustomerId(String customer_id) {
+        ArrayList<CustomerAddress> listCustomerAddress = new ArrayList<CustomerAddress>();
         try {
-            query = "SELECT *FROM dbo.Customer_Address WHERE customer_ID=?";
+            query = "SELECT *FROM dbo.customer_address WHERE customer_id=?";
             ps = con.startConnect().prepareCall(query);
-            ps.setString(1, customer_ID);
+            ps.setString(1, customer_id);
             rs = ps.executeQuery();
             while (rs.next()) {
-                loi.add(new ObjectCustomerAddress(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), customer_ID, rs.getString(8), rs.getString(9), rs.getString(10)));
+                listCustomerAddress.add(new CustomerAddress(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), customer_id, rs.getString(8), rs.getString(9), rs.getString(10)));
             }
         } catch (ClassNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
-        return loi;
+        return listCustomerAddress;
     }
 }

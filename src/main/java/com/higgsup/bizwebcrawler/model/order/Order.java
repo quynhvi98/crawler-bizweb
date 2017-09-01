@@ -1,4 +1,4 @@
-package com.higgsup.bizwebcrawler.model.objectorder;/*
+package com.higgsup.bizwebcrawler.model.order;/*
     By chicanem 11/08/2017
     */
 
@@ -9,8 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Order_")
-public class ObjectOrder {
+@Table(name = "order_product")
+public class Order {
     @Id
     @Column(name = "order_ID")
     private String orderID;
@@ -30,7 +30,7 @@ public class ObjectOrder {
     @Column(name = "payment_ID")
     private int paymentID;
 
-    public ObjectOrder(String orderID, String date, String statusPaymen, String statusDelivery, Double totalBill, Double totalWeight, Double feeDelivery, String customerID, int paymentID) {
+    public Order(String orderID, String date, String statusPaymen, String statusDelivery, Double totalBill, Double totalWeight, Double feeDelivery, String customerID, int paymentID) {
         this.orderID = orderID;
         this.date = date;
         this.statusPaymen = statusPaymen;
@@ -113,7 +113,7 @@ public class ObjectOrder {
         this.paymentID = paymentID;
     }
 
-    public ObjectOrder() {
+    public Order() {
     }
 
 

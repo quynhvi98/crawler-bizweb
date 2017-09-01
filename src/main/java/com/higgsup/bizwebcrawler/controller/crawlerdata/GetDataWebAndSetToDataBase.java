@@ -3,10 +3,10 @@ package com.higgsup.bizwebcrawler.controller.crawlerdata;
 import com.higgsup.bizwebcrawler.controller.authentication.AuthenticationGetRequest;
 import com.higgsup.bizwebcrawler.controller.common.CommonUtil;
 import com.higgsup.bizwebcrawler.controller.managedatabase.QueryDataBase;
-import com.higgsup.bizwebcrawler.model.objectcustomer.ObjectCustomerAddress;
-import com.higgsup.bizwebcrawler.model.objectorder.ObjectOrder;
-import com.higgsup.bizwebcrawler.model.objectorder.ObjectOrderAddress;
-import com.higgsup.bizwebcrawler.model.objectorder.ObjectOrderProduct;
+import com.higgsup.bizwebcrawler.model.customer.CustomerAddress;
+import com.higgsup.bizwebcrawler.model.order.Order;
+import com.higgsup.bizwebcrawler.model.order.OrderAddress;
+import com.higgsup.bizwebcrawler.model.order.OrderProduct;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -229,7 +229,7 @@ public class GetDataWebAndSetToDataBase {
 
                             }
 
-                            ObjectCustomerAddress objectCustomerAddress = new ObjectCustomerAddress(customerAdd_iD, ListCustomerAddress.get(4), ListCustomerAddress.get(0) + "," + ListCustomerAddress.get(1), ListCustomerAddress.get(3), ListCustomerAddress.get(2), ListCustomerAddress.get(5), fullDataFromTags[0], ListCustomerAddress.get(6), ListCustomerAddress.get(7), ListCustomerAddress.get(8));
+                            CustomerAddress objectCustomerAddress = new CustomerAddress(customerAdd_iD, ListCustomerAddress.get(4), ListCustomerAddress.get(0) + "," + ListCustomerAddress.get(1), ListCustomerAddress.get(3), ListCustomerAddress.get(2), ListCustomerAddress.get(5), fullDataFromTags[0], ListCustomerAddress.get(6), ListCustomerAddress.get(7), ListCustomerAddress.get(8));
 
                             queryDataBase.setDataCustomerAddress(objectCustomerAddress);
                         }
@@ -398,20 +398,20 @@ public class GetDataWebAndSetToDataBase {
                         }
                         //
                         //set database
-                        ObjectOrder objectOrder = new ObjectOrder(fullDataFromTags[0], fullDataFromTags[1], fullDataFromTags[3], fullDataFromTags[4], Double.parseDouble(fullDataFromTags[5]), Double.parseDouble("123"), Double.parseDouble(fullDataFromTags[6]), fullDataFromTags[2], queryDataBase.getIDPaymentFromContent(namePayOrder));
+                        Order objectOrder = new Order(fullDataFromTags[0], fullDataFromTags[1], fullDataFromTags[3], fullDataFromTags[4], Double.parseDouble(fullDataFromTags[5]), Double.parseDouble("123"), Double.parseDouble(fullDataFromTags[6]), fullDataFromTags[2], queryDataBase.getIDPaymentFromContent(namePayOrder));
                         queryDataBase.setDataFromOrder(objectOrder);
-                        ArrayList<ObjectOrderProduct> objectOrderProducts = new ArrayList<ObjectOrderProduct>();
+                        ArrayList<OrderProduct> objectOrderProducts = new ArrayList<OrderProduct>();
                         states = ListProductOfOrder.keySet();
                         Iterator itr = states.iterator();
                         while (itr.hasNext()) {
                             idProduct = (String) itr.next();
-                            objectOrderProducts.add(new ObjectOrderProduct(Double.parseDouble(ListProductOfOrder.getProperty(idProduct)), idProduct, fullDataFromTags[0]));
+                            objectOrderProducts.add(new OrderProduct(Double.parseDouble(ListProductOfOrder.getProperty(idProduct)), idProduct, fullDataFromTags[0]));
                         }
-                        for (ObjectOrderProduct objectOrderProduct : objectOrderProducts
+                        for (OrderProduct objectOrderProduct : objectOrderProducts
                                 ) {
                             queryDataBase.setDataFromOrderAndProduct(objectOrderProduct);
                         }
-                        ObjectOrderAddress objectOrderAddress = new ObjectOrderAddress(0,emailDonHang, listSaveShippingAddress.get(0), listSaveShippingAddress.get(1), listSaveShippingAddress.get(2), listSaveShippingAddress.get(3), listSaveShippingAddress.get(4), listSaveShippingAddress.get(5), listSaveShippingAddress.get(6), billingAddress, fullDataFromTags[0]);
+                        OrderAddress objectOrderAddress = new OrderAddress(0,emailDonHang, listSaveShippingAddress.get(0), listSaveShippingAddress.get(1), listSaveShippingAddress.get(2), listSaveShippingAddress.get(3), listSaveShippingAddress.get(4), listSaveShippingAddress.get(5), listSaveShippingAddress.get(6), billingAddress, fullDataFromTags[0]);
                         queryDataBase.setDataFromOrderAddress(objectOrderAddress);
                         TimeUnit.SECONDS.sleep(5);
                     }
