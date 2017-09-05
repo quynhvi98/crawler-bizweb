@@ -17,49 +17,37 @@ public class Customers {
     private String email;
     @Column(name = "total_bill")
     private Double totalBill;
-
     public Customers(String customerID, String fullName, String email, Double totalBill) {
         this.customerID = customerID;
         this.fullName = fullName;
         this.email = email;
         this.totalBill = totalBill;
     }
-
-    public Customers() {
-    }
-
+    public Customers() { }
     public String getCustomerID() {
         return customerID;
     }
-
     public String getFullName() {
         return fullName;
     }
-
     public String getEmail() {
         return email;
     }
-
     public Double getTotalBill() {
         return totalBill;
     }
-
     public void setCustomerID(String customerID) {
         this.customerID = customerID;
     }
-
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
-
     public void setTotalBill(Double totalBill) {
         this.totalBill = totalBill;
     }
-
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Customers) {

@@ -24,7 +24,6 @@ public class CustomerAddress {
     private String district;
     @Column (name = "customer_id")
     private String customerID;
-
     public CustomerAddress(String customerAddID, String addressUser, String name, String phone, String company, String zipeCode, String nation, String city, String district, String customerID) {
         this.customerAddID = customerAddID;
         this.addressUser = addressUser;
@@ -37,90 +36,67 @@ public class CustomerAddress {
         this.district = district;
         this.customerID = customerID;
     }
-
-    public CustomerAddress() {
-    }
-
+    public CustomerAddress() { }
     public String getCustomerAddID() {
         return customerAddID;
     }
-
     public String getAddressUser() {
         return addressUser;
     }
-
     public String getName() {
         return name;
     }
-
     public String getPhone() {
         return phone;
     }
-
     public String getCompany() {
         return company;
     }
-
     public String getZipeCode() {
         return zipeCode;
     }
-
     public String getNation() {
         return nation;
     }
-
     public String getCity() {
         return city;
     }
-
     public String getDistrict() {
         return district;
     }
-
     public String getCustomerID() {
         return customerID;
     }
-
     public void setCustomerAddID(String customerAddID) {
         this.customerAddID = customerAddID;
     }
-
     public void setAddressUser(String addressUser) {
         this.addressUser = addressUser;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
     public void setCompany(String company) {
         this.company = company;
     }
-
     public void setZipeCode(String zipeCode) {
         this.zipeCode = zipeCode;
     }
-
     public void setNation(String nation) {
         this.nation = nation;
     }
-
     public void setCity(String city) {
         this.city = city;
     }
-
     public void setDistrict(String district) {
         this.district = district;
     }
-
     public void setCustomerID(String customerID) {
         this.customerID = customerID;
     }
-
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof CustomerAddress) {

@@ -19,6 +19,4 @@
     <bean id="orderAddressObject" class="com.higgsup.bizwebcrawler.model.order.OrderProduct"></bean>
     <!--- -->
     <!--- -->
-
-
 </beans>

@@ -1,11 +1,9 @@
 package com.higgsup.bizwebcrawler.model.product;
-
 import javax.persistence.*;
-
 /**
  * Created by viquynh
  */
-/*liên kết sản phẩm và danh mục hàng mới, hàng hot, hàng sale*/
+/*Product reference category: hot, new*/
 @Entity
 @Table(name = "category_product")
 public class CategoryProduct {
@@ -17,36 +15,28 @@ public class CategoryProduct {
     private String productCateID;
     @Column(name = "product_id")
     private  String productID;
-
     public CategoryProduct(String productCateID, String productID) {
         this.productCateID = productCateID;
         this.productID = productID;
     }
-
     public int getCategoryID() {
         return categoryID;
     }
-
     public void setCategoryID(int categoryID) {
         this.categoryID = categoryID;
     }
-
     public String getProductCateID() {
         return productCateID;
     }
-
     public void setProductCateID(String productCateID) {
         this.productCateID = productCateID;
     }
-
     public String getProductID() {
         return productID;
     }
-
     public void setProductID(String productID) {
         this.productID = productID;
     }
-
     public CategoryProduct() {
     }
 }

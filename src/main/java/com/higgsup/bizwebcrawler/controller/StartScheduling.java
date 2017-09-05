@@ -53,8 +53,6 @@ public class StartScheduling {
 
         public void run(){
             try{
-
-
             }catch (Exception e){
                 logger.info("Thread do not run!");
             }

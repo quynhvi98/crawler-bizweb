@@ -8,17 +8,13 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
 /**
  * Created by viquynh on 26/07/2017.
+ * Send request from client --> server
  */
-
 public class AuthenticationGetRequest {
-
     public String connectURLAndReturnHTML(String url, String cookie) throws IOException {
-
         StringBuilder htmlChain = new StringBuilder();
-
         try {
             HttpClient client = HttpClientBuilder.create().build();
             HttpGet request = new HttpGet(url);
@@ -39,4 +35,5 @@ public class AuthenticationGetRequest {
         }
         return htmlChain.toString();
     }
+
 }

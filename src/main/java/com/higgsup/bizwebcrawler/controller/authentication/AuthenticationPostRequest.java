@@ -1,5 +1,4 @@
 package com.higgsup.bizwebcrawler.controller.authentication;
-
 import com.higgsup.bizwebcrawler.controller.common.SendEmail;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -10,11 +9,10 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 /**
  * Created by viquynh on 26/07/2017.
+ *
  */
-
 public class AuthenticationPostRequest {
     private static final Logger logger = Logger.getLogger("AuthenticationPostRequest");
     private String cookie;
