@@ -5,7 +5,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
-
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

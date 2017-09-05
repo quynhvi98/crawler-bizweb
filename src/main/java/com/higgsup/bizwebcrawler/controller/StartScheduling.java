@@ -62,8 +62,9 @@ public class StartScheduling {
         public void run() {
                 try {
                     GetDataWebAndSetToDataBase GetDataWebAndSetToDataBase = new GetDataWebAndSetToDataBase();
-                    AuthenticationGetRequest AuthenticationGetRequest = new AuthenticationGetRequest();
-                    boolean checkErrorRequest = GetDataWebAndSetToDataBase.getDataProductFromWebAndSetToDataBase(AuthenticationGetRequest.connectURLAndReturnHTML("https://booktest2.bizwebvietnam.net/admin/products", cookie), cookie);
+                    AuthenticationGetRequest authenticationGetRequest = new AuthenticationGetRequest();
+                    authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/products", cookie);
+                    boolean checkErrorRequest = GetDataWebAndSetToDataBase.getDataProductFromWebAndSetToDataBase(authenticationGetRequest.getHtmlData(), cookie);
                     if (!(checkErrorRequest))
                         if(!cookie.equalsIgnoreCase("FalseAccount")){
                             cookie = authenticationPostRequest.doRequest();
@@ -80,7 +81,8 @@ public class StartScheduling {
                 try {
                     GetDataWebAndSetToDataBase getDataWebAndSetToDataBase = new GetDataWebAndSetToDataBase();
                     AuthenticationGetRequest authenticationGetRequest = new AuthenticationGetRequest();
-                    boolean checkErrorRequest = getDataWebAndSetToDataBase.getDataCustomerFromWebSetToDataBase(authenticationGetRequest.connectURLAndReturnHTML("https://booktest2.bizwebvietnam.net/admin/customers", cookie), cookie);
+                    authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/customers", cookie);
+                    boolean checkErrorRequest = getDataWebAndSetToDataBase.getDataCustomerFromWebSetToDataBase(authenticationGetRequest.getHtmlData(), cookie);
                     if (!(checkErrorRequest))
                         if(!cookie.equalsIgnoreCase("FalseAccount")){
                             cookie = authenticationPostRequest.doRequest();
@@ -98,7 +100,8 @@ public class StartScheduling {
                 try {
                     CheckDataWebAndUpdateDataBase checkDataWebAndUpdateDataBase = new CheckDataWebAndUpdateDataBase();
                     AuthenticationGetRequest authenticationGetRequest = new AuthenticationGetRequest();
-                    boolean checkUpdateRequest = checkDataWebAndUpdateDataBase.updateDataProductFromWebAndUpdateToDataBase(authenticationGetRequest.connectURLAndReturnHTML("https://booktest2.bizwebvietnam.net/admin/products", cookie), cookie);
+                    authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/products", cookie);
+                    boolean checkUpdateRequest = checkDataWebAndUpdateDataBase.updateDataProductFromWebAndUpdateToDataBase(authenticationGetRequest.getHtmlData(), cookie);
                     if (!(checkUpdateRequest))
                         if(!cookie.equalsIgnoreCase("FalseAccount")){
                             cookie = authenticationPostRequest.doRequest();
@@ -117,7 +120,8 @@ public class StartScheduling {
                 try {
                     CheckDataWebAndUpdateDataBase checkDataWebAndUpdateDataBase = new CheckDataWebAndUpdateDataBase();
                     AuthenticationGetRequest authenticationGetRequest = new AuthenticationGetRequest();
-                    boolean checkUpdateRequest = checkDataWebAndUpdateDataBase.updateDataCustomerFromWebSetToDataBase(authenticationGetRequest.connectURLAndReturnHTML("https://booktest2.bizwebvietnam.net/admin/customers", cookie), cookie);
+                    authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/customers", cookie);
+                    boolean checkUpdateRequest = checkDataWebAndUpdateDataBase.updateDataCustomerFromWebSetToDataBase(authenticationGetRequest.getHtmlData(), cookie);
                     if (!(checkUpdateRequest))
                         if(!cookie.equalsIgnoreCase("FalseAccount")){
                             cookie = authenticationPostRequest.doRequest();
@@ -135,7 +139,8 @@ public class StartScheduling {
                 try {
                     GetDataWebAndSetToDataBase getDataWebAndSetToDataBase = new GetDataWebAndSetToDataBase();
                     AuthenticationGetRequest authenticationGetRequest = new AuthenticationGetRequest();
-                    boolean checkErrorRequest = getDataWebAndSetToDataBase.getDataOrderFromWebSetToDataBase(authenticationGetRequest.connectURLAndReturnHTML("https://booktest2.bizwebvietnam.net/admin/orders", cookie), cookie);
+                    authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/orders", cookie);
+                    boolean checkErrorRequest = getDataWebAndSetToDataBase.getDataOrderFromWebSetToDataBase(authenticationGetRequest.getHtmlData(), cookie);
                     if (!(checkErrorRequest))
                         if(!cookie.equalsIgnoreCase("FalseAccount")){
                             cookie = authenticationPostRequest.doRequest();

@@ -4,7 +4,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,7 +12,8 @@ import java.io.InputStreamReader;
  * Send request from client --> server
  */
 public class AuthenticationGetRequest {
-    public String connectURLAndReturnHTML(String url, String cookie) throws IOException {
+    private String htmlData;
+    public void connectURLAndTakeHTML(String url, String cookie) throws IOException {
         StringBuilder htmlChain = new StringBuilder();
         try {
             HttpClient client = HttpClientBuilder.create().build();
@@ -29,11 +29,13 @@ public class AuthenticationGetRequest {
                 htmlChain.append(inputLine);
             }
             in.close();
-            return htmlChain.toString();
+            this.htmlData = htmlChain.toString();
         } catch (Exception e) {
             htmlChain.append(" <title>Đăng nhập quản trị hệ thống</title>\n");
         }
-        return htmlChain.toString();
+        this.htmlData = htmlChain.toString();
     }
-
+    public String getHtmlData() {
+        return htmlData;
+    }
 }

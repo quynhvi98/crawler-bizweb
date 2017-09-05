@@ -26,7 +26,7 @@ import java.util.logging.Logger;
  */
 public class GetDataOrderFromWebSetToDataBase {
     private static final Logger logger = Logger.getLogger(GetDataWebAndSetToDataBase.class.getName());
-    private com.higgsup.bizwebcrawler.controller.authentication.AuthenticationGetRequest AuthenticationGetRequest = new AuthenticationGetRequest();
+    private com.higgsup.bizwebcrawler.controller.authentication.AuthenticationGetRequest authenticationGetRequest = new AuthenticationGetRequest();
     public boolean getDataOrderFromWebSetToDataBase(String get, String cookie) throws IOException {
         CommonUtil commonUtil = new CommonUtil();
         try {
@@ -50,7 +50,8 @@ public class GetDataOrderFromWebSetToDataBase {
             }
             for (int ii = 1; ii <= allCustomers; ii++) {
                 // start
-                getHTML = Jsoup.parse(AuthenticationGetRequest.connectURLAndReturnHTML("https://booktest2.bizwebvietnam.net/admin/orders?page=" + ii, cookie));
+                authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/orders?page=" + ii, cookie);
+                getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                 Elements getDataFromTRTags = getHTML.select("tbody tr[id*=parent-quick-view-]");
                 for (Element tags : getDataFromTRTags) {
                     String[] fullDataFromTags = new String[15];
@@ -66,7 +67,8 @@ public class GetDataOrderFromWebSetToDataBase {
                     fullDataFromTags[5] = getDataFromAhrefTags.get(6).text();//
                     fullDataFromTags[5] = commonUtil.takeMoneyInString(fullDataFromTags[5]);//Tổng tiền
                     //
-                    getHTML = Jsoup.parse(AuthenticationGetRequest.connectURLAndReturnHTML("https://booktest2.bizwebvietnam.net/admin/orders/" + fullDataFromTags[0], cookie));//vào bên trong orders
+                    authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/orders/" + fullDataFromTags[0], cookie);
+                    getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());//vào bên trong orders
                     Elements getListProductsOfOrder = getHTML.select("tbody");
                     Elements getAllTagTrInTagTbody0 = getListProductsOfOrder.get(0).select("tr");
                     String[] fullDataFromTagsAddress = new String[15];

@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
  */
 public class GetDataCustomerFromWebSetToDataBase {
     private static final Logger logger = Logger.getLogger(GetDataWebAndSetToDataBase.class.getName());
-    private com.higgsup.bizwebcrawler.controller.authentication.AuthenticationGetRequest AuthenticationGetRequest = new AuthenticationGetRequest();
+    private com.higgsup.bizwebcrawler.controller.authentication.AuthenticationGetRequest authenticationGetRequest = new AuthenticationGetRequest();
 
     public boolean getDataCustomerFromWebSetToDataBase(String get, String cookie) throws IOException {
         CommonUtil commonUtil = new CommonUtil();
@@ -46,7 +46,8 @@ public class GetDataCustomerFromWebSetToDataBase {
                 allCustomers = 1;
             }
             for (int ii = 1; ii <= allCustomers; ii++) {
-                getHTML = Jsoup.parse(AuthenticationGetRequest.connectURLAndReturnHTML("https://booktest2.bizwebvietnam.net/admin/customers?page=" + ii, cookie));
+                authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/customers?page=" + ii, cookie);
+                getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                 Elements getDataFromTRTags = getHTML.select("tbody tr");
                 for (Element tags : getDataFromTRTags) {
                     String[] fullDataFromTags = new String[15];
@@ -83,8 +84,8 @@ public class GetDataCustomerFromWebSetToDataBase {
                         }
                         logger.info("Tổng chi tiêu: " + fullDataFromTags[6]);
                         queryDataBase.setDataFromCustomer(fullDataFromTags[0], fullDataFromTags[1], fullDataFromTags[3], fullDataFromTags[6]);
-
-                        getHTML = Jsoup.parse(AuthenticationGetRequest.connectURLAndReturnHTML("https://booktest2.bizwebvietnam.net/admin/customers/" + fullDataFromTags[0], cookie));
+                        authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/customers/" + fullDataFromTags[0], cookie);
+                        getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                         getDataFromTRTags = getHTML.select("div script.modal_source#modal-add-layouts[define*={editAddressModal]");
                         for (Element getTags : getDataFromTRTags
                                 ) {

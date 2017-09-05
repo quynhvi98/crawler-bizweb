@@ -18,8 +18,8 @@ import java.util.logging.Logger;
  * Created by viquynh
  */
 public class UpdateDataProductFromWebAndUpdateToDataBase {
-    private static final Logger logger = Logger.getLogger("CheckDataWebAndUpdateDataBase");
-    private com.higgsup.bizwebcrawler.controller.authentication.AuthenticationGetRequest AuthenticationGetRequest = new AuthenticationGetRequest();
+    private static final Logger logger = Logger.getLogger(UpdateDataProductFromWebAndUpdateToDataBase.class.getName());
+    private com.higgsup.bizwebcrawler.controller.authentication.AuthenticationGetRequest authenticationGetRequest = new AuthenticationGetRequest();
 
     public boolean updateDataProductFromWebAndUpdateToDataBase(String get, String cookie) {
         CommonUtil commonUtil = new CommonUtil();
@@ -43,7 +43,8 @@ public class UpdateDataProductFromWebAndUpdateToDataBase {
                 allProducts = 1;
             }
             for (int ii = 1; ii <= allProducts; ii++) {
-                getHTML = Jsoup.parse(AuthenticationGetRequest.connectURLAndReturnHTML("https://booktest2.bizwebvietnam.net/admin/products?page=" + ii, cookie));
+                authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/products?page=" + ii, cookie);
+                getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                 Elements getDataFromTrTags = getHTML.select("tbody tr");
                 for (Element tags : getDataFromTrTags) {
                     String[] fullDataFromTags = new String[15];
@@ -65,7 +66,8 @@ public class UpdateDataProductFromWebAndUpdateToDataBase {
                         fullDataFromTags[4] = getDataFromPTags.get(1).text();
                         fullDataFromTags[5] = getDataFromPTags.get(2).text();
                         queryDataBase.setDataProducer(fullDataFromTags[5]);
-                        getHTML = Jsoup.parse(AuthenticationGetRequest.connectURLAndReturnHTML("https://booktest2.bizwebvietnam.net/admin/products/" + fullDataFromTags[0], cookie));
+                        authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/products/" + fullDataFromTags[0], cookie);
+                        getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                         titleURL = getHTML.title();
                         if (titleURL.equals("Đăng nhập quản trị hệ thống")) {
                             return false;
