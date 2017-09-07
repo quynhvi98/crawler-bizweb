@@ -80,12 +80,12 @@ public class OrderDao {
 
     public void setDataFromOrderAddress(OrderAddress dataFromOrderAddress){
         try {
-            query = " SELECT *FROM dbo.order_address WHERE order_id=?";
+            query = " SELECT order_address_id FROM dbo.order_address WHERE order_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, dataFromOrderAddress.getOrderID());
             rs = ps.executeQuery();
             if (!(rs.next())) {
-                query = "INSERT dbo.order_address(email, namecustomer ,phone ,order_address ,zipcode ,nation ,city ,district ,payment_address ,order_id)VALUES  ( ? , ? , ? , ? , ? ,? , ? ,? , ?,?)";
+                query = "INSERT dbo.order_address(email, namecustomer ,phone ,order_address_content ,zipcode ,nation ,city ,district ,payment_address ,order_id)VALUES  ( ? , ? , ? , ? , ? ,? , ? ,? , ?,?)";
                 ps = con.startConnect().prepareCall(query);
                 ps.setString(1, dataFromOrderAddress.getEmail());
                 ps.setString(2, dataFromOrderAddress.getNameCustomer());

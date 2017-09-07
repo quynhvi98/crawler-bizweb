@@ -45,7 +45,7 @@ public class CheckDataWebAndUpdateDataBase {
                 allProducts = 1;
             }
             for (int ii = 1; ii <= allProducts; ii++) {
-                authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/products?page=" + ii, cookie);
+                authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products?page=" + ii, cookie);
                 getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                 Elements getDataFromTrTags = getHTML.select("tbody tr");
                 for (Element tags : getDataFromTrTags) {
@@ -68,7 +68,7 @@ public class CheckDataWebAndUpdateDataBase {
                         fullDataFromTags[4] = getDataFromPTags.get(1).text();
                         fullDataFromTags[5] = getDataFromPTags.get(2).text();
                         queryDataBase.setDataProducer(fullDataFromTags[5]);
-                        authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/products/" + fullDataFromTags[0], cookie);
+                        authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products/" + fullDataFromTags[0], cookie);
                         getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                         titleURL = getHTML.title();
                         if (titleURL.equals("Đăng nhập quản trị hệ thống")) {
@@ -168,7 +168,7 @@ public class CheckDataWebAndUpdateDataBase {
                 allCustomers = 1;
             }
             for (int ii = 1; ii <= allCustomers; ii++) {
-                authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/customers?page=" + ii, cookie);
+                authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/customers?page=" + ii, cookie);
                 getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                 Elements getDataFromTRTags = getHTML.select("tbody tr");
                 for (Element tags : getDataFromTRTags) {
@@ -214,7 +214,7 @@ public class CheckDataWebAndUpdateDataBase {
                         if (!objectCustomers.equals(dataCustomersFromCustomerID)) {
                             queryDataBase.updateDataCustomersFromObjectCustomer(objectCustomers);
                         }
-                        authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/customers/" + fullDataFromTags[0], cookie);
+                        authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/customers/" + fullDataFromTags[0], cookie);
                         getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                         getDataFromTRTags = getHTML.select("div script.modal_source#modal-add-layouts[define*={editAddressModal]");
                         for (Element getTags : getDataFromTRTags

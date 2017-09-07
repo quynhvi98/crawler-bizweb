@@ -31,7 +31,7 @@ public class CustomerAddressDao {
 
     public void setDataCustomerAddress(CustomerAddress objectCustomerAddress) {
         try {
-            query = "SELECT *FROM dbo.Customer_Address WHERE customer_id=?";
+            query = "SELECT customer_id FROM dbo.Customer_Address WHERE customer_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, objectCustomerAddress.getCustomerAddID());
             rs = ps.executeQuery();
@@ -85,7 +85,7 @@ public class CustomerAddressDao {
             ps.setString(2, objectCustomerAddress.getCustomerID());
             rs = ps.executeQuery();
             if (rs.next()) {
-                query = "UPDATE dbo.customer_address SET addressUser=?,name=?,phone=?,company=?,zipe_code=?,nation=?,city=?,district=? WHERE customer_add_id=? AND customer_id=?";
+                query = "UPDATE dbo.customer_address SET address_user=?,name=?,phone=?,company=?,zipe_code=?,nation=?,city=?,district=? WHERE customer_add_id=? AND customer_id=?";
                 ps = con.startConnect().prepareCall(query);
                 ps.setString(1, objectCustomerAddress.getAddressUser());
                 ps.setString(2, objectCustomerAddress.getName());

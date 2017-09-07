@@ -46,7 +46,7 @@ public class GetDataWebAndSetToDataBase {
                 allProducts = 1;
             }
             for (int ii = 1; ii <= allProducts; ii++) {
-                authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/products?page=" + ii, cookie);
+                authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products?page=" + ii, cookie);
                 getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                 Elements getDataFromTrTags = getHTML.select("tbody tr");
                 for (Element tags : getDataFromTrTags) {
@@ -66,13 +66,14 @@ public class GetDataWebAndSetToDataBase {
                         fullDataFromTags[4] = getDataFromPTags.get(1).text();
                         fullDataFromTags[5] = getDataFromPTags.get(2).text();
                         queryDataBase.setDataProducer(fullDataFromTags[5]);
-                        authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/products/" + fullDataFromTags[0], cookie);
+                        authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products/" + fullDataFromTags[0], cookie);
                         getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                         titleURL = getHTML.title();
                         if (titleURL.equals("Đăng nhập quản trị hệ thống")) {
                             return false;
                         }
                         Elements getDataFromDivRowTag = getHTML.select("div.row");
+                        System.out.println(getDataFromDivRowTag.size());
                         getDataFromTrTags = getDataFromDivRowTag.get(0).select("div.controls textarea[bind*=content]");
                         if(getDataFromTrTags.size()>0){
                             fullDataFromTags[6] = getDataFromTrTags.get(0).text();
@@ -135,6 +136,9 @@ public class GetDataWebAndSetToDataBase {
                 return false;
             }
             Elements getDataAllCustomer = getHTML.select("div div[class*=t-status-text dataTables_info]");//lấy tất cả links
+           if(getDataAllCustomer.text().equals("")){
+               return true;
+           }
             int allCustomers = Integer.parseInt(commonUtil.cutID(getDataAllCustomer.text()));
             if (allCustomers > 50) {
                 if (allCustomers % 50 == 0) {
@@ -147,7 +151,7 @@ public class GetDataWebAndSetToDataBase {
                 allCustomers = 1;
             }
             for (int ii = 1; ii <= allCustomers; ii++) {
-                authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/customers?page=" + ii, cookie);
+                authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/customers?page=" + ii, cookie);
                 getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                 Elements getDataFromTRTags = getHTML.select("tbody tr");
                 for (Element tags : getDataFromTRTags) {
@@ -185,7 +189,7 @@ public class GetDataWebAndSetToDataBase {
                         }
                         System.out.println("Tổng chi tiêu: " + fullDataFromTags[6]);
                         queryDataBase.setDataFromCustomer(fullDataFromTags[0], fullDataFromTags[1], fullDataFromTags[3], fullDataFromTags[6]);
-                        authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/customers/" + fullDataFromTags[0], cookie);
+                        authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/customers/" + fullDataFromTags[0], cookie);
                         getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                         getDataFromTRTags = getHTML.select("div script.modal_source#modal-add-layouts[define*={editAddressModal]");
                         for (Element getTags : getDataFromTRTags
@@ -231,7 +235,7 @@ public class GetDataWebAndSetToDataBase {
 
 
                             }
-
+                            ListCustomerAddress.add(" ");
                             CustomerAddress objectCustomerAddress = new CustomerAddress(customerAdd_iD, ListCustomerAddress.get(4), ListCustomerAddress.get(0) + "," + ListCustomerAddress.get(1), ListCustomerAddress.get(3), ListCustomerAddress.get(2), ListCustomerAddress.get(5), fullDataFromTags[0], ListCustomerAddress.get(6), ListCustomerAddress.get(7), ListCustomerAddress.get(8));
 
                             queryDataBase.setDataCustomerAddress(objectCustomerAddress);
@@ -243,6 +247,7 @@ public class GetDataWebAndSetToDataBase {
 
             }
         } catch (Exception e) {
+            e.printStackTrace();
             logger.info("Message error get data set database" + e);
         }
         return true;
@@ -258,6 +263,9 @@ public class GetDataWebAndSetToDataBase {
                 return false;
             }
             Elements getDataAllCustomer = getHTML.select("div div[class*=t-status-text dataTables_info]");//lấy tất cả links
+            if(getDataAllCustomer.text().equals("")){
+                return true;
+            }
             int allCustomers = Integer.parseInt(commonUtil.cutID(getDataAllCustomer.text()));
             if (allCustomers > 50) {
                 if (allCustomers % 50 == 0) {
@@ -271,7 +279,7 @@ public class GetDataWebAndSetToDataBase {
             }
             for (int ii = 1; ii <= allCustomers; ii++) {
                 // start
-                authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/orders?page=" + ii, cookie);
+                authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/orders?page=" + ii, cookie);
                 getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                 Elements getDataFromTRTags = getHTML.select("tbody tr[id*=parent-quick-view-]");
                 for (Element tags : getDataFromTRTags) {
@@ -288,7 +296,7 @@ public class GetDataWebAndSetToDataBase {
                     fullDataFromTags[5] = getDataFromAhrefTags.get(6).text();//
                     fullDataFromTags[5] = commonUtil.takeMoneyInString(fullDataFromTags[5]);//Tổng tiền
                     //
-                    authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/orders/" + fullDataFromTags[0], cookie);
+                    authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/orders/" + fullDataFromTags[0], cookie);
                     getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());//vào bên trong orders
                     Elements getListProductsOfOrder = getHTML.select("tbody");
                     Elements getAllTagTrInTagTbody0 = getListProductsOfOrder.get(0).select("tr");

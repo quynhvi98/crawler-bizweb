@@ -15,11 +15,11 @@ import java.util.logging.Logger;
 public class AuthenticationPostRequest {
     private static final Logger logger = Logger.getLogger("AuthenticationPostRequest");
     private String cookie;
-    public String doRequest() throws IOException {
+    public String doRequestTakeCookie() throws IOException {
         try {
             String email="lethanh9398@gmail.com";
             String password="abc123456789";
-            String url = "https://booktest2.bizwebvietnam.net/admin/authorization/login?Email="+email+"&Password="+password;
+            String url = "https://bookweb1.bizwebvietnam.net/admin/authorization/login?Email="+email+"&Password="+password;
             HttpClient client = HttpClientBuilder.create().build();
             HttpPost post = new HttpPost(url);
             post.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36");

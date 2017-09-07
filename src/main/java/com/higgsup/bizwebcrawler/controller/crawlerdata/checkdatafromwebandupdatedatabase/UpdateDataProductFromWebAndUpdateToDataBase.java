@@ -43,7 +43,7 @@ public class UpdateDataProductFromWebAndUpdateToDataBase {
                 allProducts = 1;
             }
             for (int ii = 1; ii <= allProducts; ii++) {
-                authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/products?page=" + ii, cookie);
+                authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products?page=" + ii, cookie);
                 getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                 Elements getDataFromTrTags = getHTML.select("tbody tr");
                 for (Element tags : getDataFromTrTags) {
@@ -66,7 +66,7 @@ public class UpdateDataProductFromWebAndUpdateToDataBase {
                         fullDataFromTags[4] = getDataFromPTags.get(1).text();
                         fullDataFromTags[5] = getDataFromPTags.get(2).text();
                         queryDataBase.setDataProducer(fullDataFromTags[5]);
-                        authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/products/" + fullDataFromTags[0], cookie);
+                        authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products/" + fullDataFromTags[0], cookie);
                         getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                         titleURL = getHTML.title();
                         if (titleURL.equals("Đăng nhập quản trị hệ thống")) {

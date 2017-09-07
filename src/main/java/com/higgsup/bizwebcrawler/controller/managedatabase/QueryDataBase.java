@@ -27,12 +27,12 @@ public class QueryDataBase {
     //oki
     public void setDataProductCategory(String productCate_ID, String name) {
         try {
-            query = " SELECT productCate_ID FROM Product_Category WHERE productCate_ID=?";
+            query = " SELECT product_cate_id FROM product_category WHERE product_cate_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setInt(1, Integer.parseInt(productCate_ID));
             rs = ps.executeQuery();
             if (!(rs.next())) {
-                query = "  INSERT dbo.Product_Category ( productCate_ID, name ) VALUES  ( ?,?)";
+                query = "  INSERT dbo.product_category ( product_cate_id, name ) VALUES  ( ?,?)";
                 ps = con.startConnect().prepareCall(query);
                 ps.setInt(1, Integer.parseInt(productCate_ID));
                 ps.setString(2, name);
@@ -47,7 +47,7 @@ public class QueryDataBase {
     //oki
     public int getIDProductCategory(String name) {
         try {
-            query = "SELECT productCate_ID FROM Product_Category WHERE name=?";
+            query = "SELECT product_cate_id FROM product_category WHERE name=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, name);
             rs = ps.executeQuery();
@@ -64,12 +64,12 @@ public class QueryDataBase {
     //oki
     public void setDataProductGroup(String name) {
         try {
-            query = "SELECT productGroup_iD FROM Product_Group WHERE name=?";
+            query = "SELECT product_group_id FROM product_group WHERE name=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, name);
             rs = ps.executeQuery();
             if (!(rs.next())) {
-                query = "INSERT dbo.Product_Group ( name )VALUES ( ?)";
+                query = "INSERT dbo.product_group ( name )VALUES ( ?)";
                 ps = con.startConnect().prepareCall(query);
                 ps.setString(1, name);
                 ps.executeUpdate();
@@ -84,7 +84,7 @@ public class QueryDataBase {
     //oki
     public int getIDProductGroup(String name) {
         try {
-            query = "SELECT productGroup_iD FROM Product_Group WHERE name=?";
+            query = "SELECT product_group_id FROM product_group WHERE name=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, name);
             rs = ps.executeQuery();
@@ -101,12 +101,12 @@ public class QueryDataBase {
     //oki
     public void setDataProducer(String Name) {
         try {
-            query = " SELECT producer_ID FROM Producer WHERE name=?";
+            query = " SELECT producer_ID FROM producer WHERE name=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, Name);
             rs = ps.executeQuery();
             if (!(rs.next())) {
-                query = "INSERT dbo.Producer( name )VALUES  ( ?)";
+                query = "INSERT dbo.producer( name )VALUES  ( ?)";
                 ps = con.startConnect().prepareCall(query);
                 ps.setString(1, Name);
                 ps.executeUpdate();
@@ -121,7 +121,7 @@ public class QueryDataBase {
     //oki
     public int getIDProducer(String Name) {
         try {
-            query = "SELECT producer_ID FROM Producer WHERE name=?";
+            query = "SELECT producer_id FROM producer WHERE name=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, Name);
             rs = ps.executeQuery();
@@ -138,12 +138,12 @@ public class QueryDataBase {
     ///oki
     public void setDataProduct(String product_ID, String name, String price, String stork, String content, String IMG, int productGroup_iD, int producer_ID) {
         try {
-            query = "SELECT product_ID FROM dbo.Product WHERE product_ID=?";
+            query = "SELECT product_id FROM dbo.product WHERE product_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, product_ID);
             rs = ps.executeQuery();
             if (!(rs.next())) {
-                query = "INSERT dbo.Product( product_ID ,name ,price ,stork ,content ,IMG ,productGroup_iD ,producer_ID)VALUES  ( ? , ? ,? , ? ,? , ? , ? , ?)";
+                query = "INSERT dbo.product( product_id ,name ,price ,stork ,content ,IMG ,product_group_id ,producer_id)VALUES  ( ? , ? ,? , ? ,? , ? , ? , ?)";
                 ps = con.startConnect().prepareCall(query);
                 ps.setString(1, product_ID);
                 ps.setString(2, name);
@@ -164,7 +164,7 @@ public class QueryDataBase {
     ///oki
     public boolean hasProductID(String product_ID) {
         try {
-            query = "SELECT product_ID FROM dbo.Product WHERE product_ID=?";
+            query = "SELECT product_id FROM dbo.product WHERE product_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, product_ID);
             rs = ps.executeQuery();
@@ -180,13 +180,13 @@ public class QueryDataBase {
     //oki
     public void setDataFromCategoryProductAndProduct(String productCate_ID, String product_ID) {//set category và product
         try {
-            query = "SELECT category_ID FROM Category_Product WHERE productCate_ID =? AND product_ID=?";//category_ID khóa chính bảng liên kết thể loại và sản phẩm
+            query = "SELECT category_id FROM category_product WHERE product_cate_id =? AND product_id=?";//category_ID khóa chính bảng liên kết thể loại và sản phẩm
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, productCate_ID);
             ps.setString(2, product_ID);
             rs = ps.executeQuery();
             if (!(rs.next())) {
-                query = "INSERT dbo.Category_Product( productCate_ID, product_ID )VALUES  ( ?, ?)";
+                query = "INSERT dbo.category_product( product_cate_id, product_id )VALUES  ( ?, ?)";
                 ps = con.startConnect().prepareCall(query);
                 ps.setString(1, productCate_ID);
                 ps.setString(2, product_ID);
@@ -204,7 +204,7 @@ public class QueryDataBase {
     public ArrayList<Product> getDataProductFromProductID(String product_ID) {
 
         try {
-            query = "SELECT * FROM Product WHERE product_ID=?";
+            query = "SELECT * FROM product WHERE product_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, product_ID);
             rs = ps.executeQuery();
@@ -223,7 +223,7 @@ public class QueryDataBase {
     //oki
     public void updateProduct(String product_ID, String name, Double price, int stork, float weight_, String content, String IMG, String description_, int productGroup_iD, int producer_ID) {
         try {
-            query = "UPDATE dbo.Product SET name =?,price=?,stork=?,weight_=?,content=?,IMG=?,description_=?,productGroup_iD=?,producer_ID=? WHERE product_ID=?";
+            query = "UPDATE dbo.product SET name =?,price=?,stork=?,weight=?,content=?,IMG=?,description=?,product_group_id=?,producer_id=? WHERE product_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, name);
             ps.setDouble(2, price);
@@ -244,7 +244,7 @@ public class QueryDataBase {
     //oki
     public void remoDataCategoryProductFromCateIdAndProductId(String productCate_ID, String product_ID) {
         try {
-            query = "DELETE dbo.Category_Product WHERE productCate_ID=? AND product_ID=?";
+            query = "DELETE dbo.category_product WHERE product_cate_id=? AND product_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, productCate_ID);
             ps.setString(2, product_ID);
@@ -259,7 +259,7 @@ public class QueryDataBase {
     public ArrayList<String> getListProductCateIdFormProductIdInCategoryProduct(String product_ID) {
         ArrayList<String> listProductCateID = new ArrayList<String>();
         try {
-            query = "SELECT productCate_ID FROM dbo.Category_Product WHERE product_ID=?";
+            query = "SELECT product_cate_id FROM dbo.category_product WHERE product_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, product_ID);
             rs = ps.executeQuery();
@@ -278,12 +278,12 @@ public class QueryDataBase {
     // oki
     public void setDataPaymenFromOrder(String content) {
         try {
-            query = " SELECT payment_ID FROM dbo.Paymen WHERE content=?";
+            query = " SELECT payment_id FROM dbo.paymen WHERE content=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, content);
             rs = ps.executeQuery();
             if (!(rs.next())) {
-                query = "INSERT dbo.Paymen( content )VALUES  ( ?)";
+                query = "INSERT dbo.paymen( content )VALUES  ( ?)";
                 ps = con.startConnect().prepareCall(query);
                 ps.setString(1, content);
                 ps.executeUpdate();
@@ -297,12 +297,12 @@ public class QueryDataBase {
     // oki
     public void setDataFromOrder(Order dataFromOrder) {
         try {
-            query = "SELECT order_ID FROM dbo.Order_ WHERE order_ID=?";
+            query = "SELECT order_id FROM dbo.order_product WHERE order_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, dataFromOrder.getOrderID());
             rs = ps.executeQuery();
             if (!(rs.next())) {
-                query = "INSERT dbo.Order_ ( order_ID ,date ,status_Paymen ,status_Delivery ,total_Bill ,total_Weight ,fee_Delivery ,customer_ID ,payment_ID )VALUES  ( ? , GETDATE(), ? , ? , ? , ? , ? ,  ? , ? )";
+                query = "INSERT dbo.order_product ( order_id ,date ,status_paymen ,status_delivery ,total_bill ,total_weight ,fee_delivery ,customer_id ,payment_id )VALUES  ( ? , GETDATE(), ? , ? , ? , ? , ? ,  ? , ? )";
                 ps = con.startConnect().prepareCall(query);
                 ps.setString(1,dataFromOrder.getOrderID());
                 //  ps.setString(2,dataFromOrder.getDate());
@@ -326,7 +326,7 @@ public class QueryDataBase {
     // oki
     public int getIDPaymentFromContent(String content) {
         try {
-            query = "SELECT payment_ID FROM Paymen WHERE content=?";
+            query = "SELECT payment_id FROM paymen WHERE content=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, content);
             rs = ps.executeQuery();
@@ -344,13 +344,13 @@ public class QueryDataBase {
 
     public void setDataFromOrderAndProduct(OrderProduct dataFromOrderAndProduct) {
         try {
-            query = "SELECT order_product_ID FROM Order_Product WHERE product_ID =? AND order_ID=?";
+                query = "SELECT order_product_id FROM product_order WHERE product_id =? AND order_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, dataFromOrderAndProduct.getProductID());
             ps.setString(2, dataFromOrderAndProduct.getOrderID());
             rs = ps.executeQuery();
             if (!(rs.next())) {
-                query = "INSERT dbo.Order_Product(quantity, product_ID, order_ID )VALUES  ( ?, ?,?)";
+                query = "INSERT dbo.product_order(quantity, product_ID, order_ID )VALUES  ( ?, ?,?)";
                 ps = con.startConnect().prepareCall(query);
                 ps.setDouble(1, dataFromOrderAndProduct.getQuantity());
                 ps.setString(2, dataFromOrderAndProduct.getProductID());
@@ -367,12 +367,12 @@ public class QueryDataBase {
 
     public void setDataFromOrderAddress(OrderAddress dataFromOrderAddress){
         try {
-            query = " SELECT *FROM dbo.Order_Address WHERE order_ID=?";
+            query = " SELECT order_address_id FROM dbo.order_address WHERE order_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, dataFromOrderAddress.getOrderID());
             rs = ps.executeQuery();
             if (!(rs.next())) {
-                query = "INSERT dbo.Order_Address(email, NameCustomer ,Phone ,Order_Address ,ZipCode ,nation ,city ,district ,PaymentAddress ,order_ID)VALUES  ( ? , ? , ? , ? , ? ,? , ? ,? , ?,?)";
+                query = "INSERT dbo.order_address(email, namecustomer ,phone ,order_address_content ,zipcode ,nation ,city ,district ,payment_address ,order_id)VALUES  ( ? , ? , ? , ? , ? ,? , ? ,? , ?,?)";
                 ps = con.startConnect().prepareCall(query);
                 ps.setString(1, dataFromOrderAddress.getEmail());
                 ps.setString(2, dataFromOrderAddress.getNameCustomer());
@@ -397,12 +397,12 @@ public class QueryDataBase {
 
     public void setDataFromCustomer(String customer_ID, String fullName, String email, String totalBill) {
         try {
-            query = " SELECT customer_ID FROM dbo.Customer WHERE customer_ID =?";
+            query = " SELECT customer_id FROM dbo.customer WHERE customer_id =?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, customer_ID);
             rs = ps.executeQuery();
             if (!(rs.next())) {
-                query = "INSERT Customer (customer_ID, fullName, email, totalBill) VALUES (?,?,?,?)";
+                query = "INSERT customer (customer_id, full_name, email, total_bill) VALUES (?,?,?,?)";
                 ps = con.startConnect().prepareCall(query);
                 ps.setString(1, customer_ID);
                 ps.setString(2, fullName);
@@ -419,7 +419,7 @@ public class QueryDataBase {
     //oki
     public boolean hasCustomerID(String customerID) {
         try {
-            query = "SELECT customer_ID FROM dbo.Customer WHERE customer_ID=?";
+            query = "SELECT customer_id FROM dbo.customer WHERE customer_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, customerID);
             rs = ps.executeQuery();
@@ -438,12 +438,12 @@ public class QueryDataBase {
 
 
         try {
-            query = "SELECT *FROM dbo.Customer_Address WHERE customer_ID=?";
+            query = "SELECT customer_id FROM dbo.customer_address WHERE customer_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, objectCustomerAddress.getCustomerAddID());
             rs = ps.executeQuery();
             if (rs.next() == false) {
-                query = "INSERT dbo.Customer_Address(customerAdd_iD, addressUser ,name ,phone ,company ,zipeCode ,customer_ID ,nation ,city ,district)VALUES  ( ?,? ,?  ,?  , ?  ,?  , ? , ?  , ? , ? )";
+                query = "INSERT dbo.customer_address(customer_add_id, address_user ,name ,phone ,company ,zipe_code ,customer_id ,nation ,city ,district)VALUES  ( ?,? ,?  ,?  , ?  ,?  , ? , ?  , ? , ? )";
                 ps = con.startConnect().prepareCall(query);
                 ps.setString(1, objectCustomerAddress.getCustomerAddID());
                 ps.setString(2, objectCustomerAddress.getAddressUser());
@@ -460,8 +460,10 @@ public class QueryDataBase {
 
 
         } catch (ClassNotFoundException e) {
-            logger.log(Level.SEVERE, e.getMessage());
+            e.printStackTrace();
+
         } catch (SQLException e) {
+            e.printStackTrace();
             logger.log(Level.SEVERE, e.getMessage());
         }
     }
@@ -470,7 +472,7 @@ public class QueryDataBase {
         ArrayList<String> ListCustomerAddiD = new ArrayList<String>();
 
         try {
-            query = "SELECT customerAdd_iD FROM dbo.Customer_Address WHERE customer_ID=?";
+            query = "SELECT customer_add_id FROM dbo.customer_address WHERE customer_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, customer_ID);
             rs = ps.executeQuery();
@@ -490,13 +492,13 @@ public class QueryDataBase {
     public void updateDataCustomerAddress(CustomerAddress objectCustomerAddress) {
 
         try {
-            query = "SELECT *FROM dbo.Customer_Address WHERE customerAdd_iD=? AND customer_ID=?";
+            query = "SELECT *FROM dbo.customer_address WHERE customer_add_id=? AND customer_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, objectCustomerAddress.getCustomerAddID());
             ps.setString(2, objectCustomerAddress.getCustomerID());
             rs = ps.executeQuery();
             if (rs.next()) {
-                query = "UPDATE dbo.Customer_Address SET addressUser=?,name=?,phone=?,company=?,zipeCode=?,nation=?,city=?,district=? WHERE customerAdd_iD=? AND customer_ID=?";
+                query = "UPDATE dbo.customer_address SET address_user=?,name=?,phone=?,company=?,zipe_code=?,nation=?,city=?,district=? WHERE customer_add_id=? AND customer_id=?";
                 ps = con.startConnect().prepareCall(query);
                 ps.setString(1, objectCustomerAddress.getAddressUser());
                 ps.setString(2, objectCustomerAddress.getName());
@@ -521,7 +523,7 @@ public class QueryDataBase {
     //oki
     public void deleteDataCustomerAddress(String ID) {
         try {
-            query = "DELETE dbo.Customer_Address WHERE customerAdd_iD=?";
+            query = "DELETE dbo.customer_address WHERE customer_add_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, ID);
             ps.executeUpdate();
@@ -536,7 +538,7 @@ public class QueryDataBase {
         ArrayList<CustomerAddress> loi = new ArrayList<CustomerAddress>();
 
         try {
-            query = "SELECT *FROM dbo.Customer_Address WHERE customer_ID=?";
+            query = "SELECT *FROM dbo.customer_address WHERE customer_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, customer_ID);
             rs = ps.executeQuery();
@@ -558,7 +560,7 @@ public class QueryDataBase {
     public Customers getDataCustomersFromCustomerID(String customer_ID) {
 
         try {
-            query = "SELECT *FROM dbo.Customer WHERE customer_ID=?";
+            query = "SELECT *FROM dbo.customer WHERE customer_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, customer_ID);
             rs = ps.executeQuery();
@@ -578,12 +580,12 @@ public class QueryDataBase {
     public void updateDataCustomersFromObjectCustomer(Customers objectCustomers) {
         Customers objectCustomers1=objectCustomers;
         try {
-            query = "SELECT *FROM dbo.Customer WHERE customer_ID=?";
+            query = "SELECT *FROM dbo.customer WHERE customer_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, objectCustomers.getCustomerID());
             rs = ps.executeQuery();
             if (rs.next()) {
-                query = "UPDATE dbo.Customer SET fullName=?,email=?,totalBill=? WHERE customer_ID=?";
+                query = "UPDATE dbo.Customer SET full_name=?,email=?,total_bill=? WHERE customer_id=?";
                 ps = con.startConnect().prepareCall(query);
                 ps.setString(1,objectCustomers1.getFullName());
                 ps.setString(2,objectCustomers1.getEmail());

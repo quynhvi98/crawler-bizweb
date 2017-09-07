@@ -50,7 +50,7 @@ public class GetDataOrderFromWebSetToDataBase {
             }
             for (int ii = 1; ii <= allCustomers; ii++) {
                 // start
-                authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/orders?page=" + ii, cookie);
+                authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/orders?page=" + ii, cookie);
                 getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                 Elements getDataFromTRTags = getHTML.select("tbody tr[id*=parent-quick-view-]");
                 for (Element tags : getDataFromTRTags) {
@@ -67,7 +67,7 @@ public class GetDataOrderFromWebSetToDataBase {
                     fullDataFromTags[5] = getDataFromAhrefTags.get(6).text();//
                     fullDataFromTags[5] = commonUtil.takeMoneyInString(fullDataFromTags[5]);//Tổng tiền
                     //
-                    authenticationGetRequest.connectURLAndTakeHTML("https://booktest2.bizwebvietnam.net/admin/orders/" + fullDataFromTags[0], cookie);
+                    authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/orders/" + fullDataFromTags[0], cookie);
                     getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());//vào bên trong orders
                     Elements getListProductsOfOrder = getHTML.select("tbody");
                     Elements getAllTagTrInTagTbody0 = getListProductsOfOrder.get(0).select("tr");
