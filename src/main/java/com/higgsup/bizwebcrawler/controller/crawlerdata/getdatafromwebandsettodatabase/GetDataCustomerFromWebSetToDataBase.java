@@ -131,9 +131,9 @@ public class GetDataCustomerFromWebSetToDataBase {
 
                             }
 
-                            CustomerAddress objectCustomerAddress = new CustomerAddress(customerAdd_iD, ListCustomerAddress.get(4), ListCustomerAddress.get(0) + "," + ListCustomerAddress.get(1), ListCustomerAddress.get(3), ListCustomerAddress.get(2), ListCustomerAddress.get(5), fullDataFromTags[0], ListCustomerAddress.get(6), ListCustomerAddress.get(7), ListCustomerAddress.get(8));
+                            //CustomerAddress objectCustomerAddress = new CustomerAddress(customerAdd_iD, ListCustomerAddress.get(4), ListCustomerAddress.get(0) + "," + ListCustomerAddress.get(1), ListCustomerAddress.get(3), ListCustomerAddress.get(2), ListCustomerAddress.get(5), fullDataFromTags[0], ListCustomerAddress.get(6), ListCustomerAddress.get(7), ListCustomerAddress.get(8));
 
-                            queryDataBase.setDataCustomerAddress(objectCustomerAddress);
+                            //queryDataBase.setDataCustomerAddress(objectCustomerAddress);
                         }
                         TimeUnit.SECONDS.sleep(11);
                     }

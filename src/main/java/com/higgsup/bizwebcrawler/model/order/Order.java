@@ -11,22 +11,22 @@ import javax.persistence.Table;
 @Table(name = "order_product")//order
 public class Order {
     @Id
-    @Column(name = "order_ID")
+    @Column(name = "order_id")
     private String orderID;
     private String date;
-    @Column(name = "status_Paymen")
+    @Column(name = "status_paymen")
     private String statusPaymen;
-    @Column(name = "status_Delivery")
+    @Column(name = "status_delivery")
     private String statusDelivery;
-    @Column(name = "total_Bill")
+    @Column(name = "total_bill")
     private Double totalBill;
-    @Column(name = "total_Weight")
+    @Column(name = "total_weight")
     private Double totalWeight;
-    @Column(name = "fee_Delivery")
+    @Column(name = "fee_delivery")
     private Double feeDelivery;
-    @Column(name = "customer_ID")
+    @Column(name = "customer_id")
     private String customerID;
-    @Column(name = "payment_ID")
+    @Column(name = "payment_id")
     private int paymentID;
     public Order(String orderID, String date, String statusPaymen, String statusDelivery, Double totalBill, Double totalWeight, Double feeDelivery, String customerID, int paymentID) {
         this.orderID = orderID;
@@ -94,4 +94,5 @@ public class Order {
         this.paymentID = paymentID;
     }
     public Order() { }
+
 }
