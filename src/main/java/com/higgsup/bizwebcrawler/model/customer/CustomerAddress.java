@@ -8,14 +8,25 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name ="customer_address")
-public class CustomerAddress {
+public class CustomerAddress extends Person{
     @Id
     @Column(name = "customer_add_id")
-    private String customerAddID;
+    @Override
+    public String getId() {
+        return super.getId();
+    }
     @Column(name = "address_user")
     private String addressUser;
-    private String name;
-    private String phone;
+    @Column(name = "name")
+    @Override
+    public String getFullName() {
+        return super.getFullName();
+    }
+    @Column(name="phone")
+    @Override
+    public String getPhoneNumber() {
+        return super.getPhoneNumber();
+    }
     private String company;
     @Column(name = "zipe_code")
     private String zipeCode;
@@ -24,12 +35,10 @@ public class CustomerAddress {
     private String nation;
     private String city;
     private String district;
-
-    public CustomerAddress(String customerAddID, String addressUser, String name, String phone, String company, String zipeCode, String customerID, String nation, String city, String district) {
-        this.customerAddID = customerAddID;
+    public CustomerAddress(){}
+    public CustomerAddress(String id, String firstName, String phoneNumber, String email, String passWord, String address, String addressUser, String company, String zipeCode, String customerID, String nation, String city, String district) {
+        super(id, firstName, phoneNumber, email, passWord, address);
         this.addressUser = addressUser;
-        this.name = name;
-        this.phone = phone;
         this.company = company;
         this.zipeCode = zipeCode;
         this.customerID = customerID;
@@ -38,36 +47,12 @@ public class CustomerAddress {
         this.district = district;
     }
 
-    public String getCustomerAddID() {
-        return customerAddID;
-    }
-
-    public void setCustomerAddID(String customerAddID) {
-        this.customerAddID = customerAddID;
-    }
-
     public String getAddressUser() {
         return addressUser;
     }
 
     public void setAddressUser(String addressUser) {
         this.addressUser = addressUser;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public String getCompany() {
@@ -118,13 +103,10 @@ public class CustomerAddress {
         this.district = district;
     }
 
-    public CustomerAddress() {
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof CustomerAddress) {
-            if (((CustomerAddress) obj).customerAddID.equals(this.customerAddID) && ((CustomerAddress) obj).name.equals(this.name) && ((CustomerAddress) obj).name.equals(this.name) && ((CustomerAddress) obj).phone.equals(this.phone) && ((CustomerAddress) obj).company.equals(this.company) && ((CustomerAddress) obj).zipeCode.equals(this.zipeCode) && ((CustomerAddress) obj).customerID.equals(this.customerID) && ((CustomerAddress) obj).nation.equals(this.nation) && ((CustomerAddress) obj).city.equals(this.city) && ((CustomerAddress) obj).district.equals(this.district))
+            if (((CustomerAddress) obj).getId().equals(this.getId()) &&((CustomerAddress) obj).addressUser.equals(this.addressUser)&& ((CustomerAddress) obj).getFullName().equals(this.getFullName()) && ((CustomerAddress) obj).getPhoneNumber().equals(this.getPhoneNumber()) && ((CustomerAddress) obj).company.equals(this.company) && ((CustomerAddress) obj).zipeCode.equals(this.zipeCode) && ((CustomerAddress) obj).customerID.equals(this.customerID) && ((CustomerAddress) obj).nation.equals(this.nation) && ((CustomerAddress) obj).city.equals(this.city) && ((CustomerAddress) obj).district.equals(this.district))
                 return true;
         } else {
             return false;

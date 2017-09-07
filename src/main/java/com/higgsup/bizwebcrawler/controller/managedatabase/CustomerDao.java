@@ -1,6 +1,6 @@
 package com.higgsup.bizwebcrawler.controller.managedatabase;
 
-import com.higgsup.bizwebcrawler.model.customer.Customers;
+import com.higgsup.bizwebcrawler.model.customer.Customer;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -67,7 +67,7 @@ public class CustomerDao {
         return false;
     }
 
-    public Customers getDataCustomersFromCustomerID(String customer_id) {
+    public Customer getDataCustomersFromCustomerID(String customer_id) {
 
         try {
             query = "SELECT * FROM dbo.customer WHERE customer_id=?";
@@ -75,8 +75,8 @@ public class CustomerDao {
             ps.setString(1, customer_id);
             rs = ps.executeQuery();
             while (rs.next()) {
-                Customers objectCustomers = new Customers(rs.getString(1), rs.getString(2), rs.getString(3), rs.getDouble(4));
-                return objectCustomers;
+                //Customer objectCustomers = new Customer(rs.getString(1), rs.getString(2), rs.getString(3), rs.getDouble(4));
+                //return objectCustomers;
             }
         } catch (ClassNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
@@ -87,12 +87,12 @@ public class CustomerDao {
         return null;
     }
 
-    public void updateDataCustomersFromObjectCustomer(Customers objectCustomers) {
-        Customers objectCustomers1=objectCustomers;
+    public void updateDataCustomersFromObjectCustomer(Customer objectCustomers) {
+        Customer objectCustomers1=objectCustomers;
         try {
             query = "SELECT *FROM dbo.customer WHERE customer_id=?";
             ps = con.startConnect().prepareCall(query);
-            ps.setString(1, objectCustomers.getCustomerID());
+            ps.setString(1, objectCustomers.getId());
             rs = ps.executeQuery();
             if (rs.next()) {
                 query = "UPDATE dbo.customer SET full_name=?,email=?,total_bill=? WHERE customer_id=?";
@@ -100,7 +100,7 @@ public class CustomerDao {
                 ps.setString(1,objectCustomers1.getFullName());
                 ps.setString(2,objectCustomers1.getEmail());
                 ps.setDouble(3,objectCustomers1.getTotalBill());
-                ps.setString(4,objectCustomers1.getCustomerID());
+                ps.setString(4,objectCustomers1.getId());
                 ps.executeUpdate();
             }
         } catch (ClassNotFoundException e) {

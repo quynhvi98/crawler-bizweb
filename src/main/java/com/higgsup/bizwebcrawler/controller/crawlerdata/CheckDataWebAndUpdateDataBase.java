@@ -3,8 +3,8 @@ package com.higgsup.bizwebcrawler.controller.crawlerdata;
 import com.higgsup.bizwebcrawler.controller.authentication.AuthenticationGetRequest;
 import com.higgsup.bizwebcrawler.controller.common.CommonUtil;
 import com.higgsup.bizwebcrawler.controller.managedatabase.QueryDataBase;
+import com.higgsup.bizwebcrawler.model.customer.Customer;
 import com.higgsup.bizwebcrawler.model.customer.CustomerAddress;
-import com.higgsup.bizwebcrawler.model.customer.Customers;
 import com.higgsup.bizwebcrawler.model.product.Product;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -209,11 +209,11 @@ public class CheckDataWebAndUpdateDataBase {
                         }
                         System.out.println("Tổng chi tiêu: " + fullDataFromTags[6]);
                         queryDataBase.setDataFromCustomer(fullDataFromTags[0], fullDataFromTags[1], fullDataFromTags[3], fullDataFromTags[6]);
-                        Customers objectCustomers = new Customers(fullDataFromTags[0], fullDataFromTags[1], fullDataFromTags[3], Double.parseDouble(fullDataFromTags[6]));
-                        Customers dataCustomersFromCustomerID = queryDataBase.getDataCustomersFromCustomerID(fullDataFromTags[0]);
-                        if (!objectCustomers.equals(dataCustomersFromCustomerID)) {
+                        //Customer objectCustomers = new Customers(fullDataFromTags[0], fullDataFromTags[1], fullDataFromTags[3], Double.parseDouble(fullDataFromTags[6]));
+                        Customer dataCustomersFromCustomerID = queryDataBase.getDataCustomersFromCustomerID(fullDataFromTags[0]);
+                       /* if (!objectCustomers.equals(dataCustomersFromCustomerID)) {
                             queryDataBase.updateDataCustomersFromObjectCustomer(objectCustomers);
-                        }
+                        }*/
                         authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/customers/" + fullDataFromTags[0], cookie);
                         getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                         getDataFromTRTags = getHTML.select("div script.modal_source#modal-add-layouts[define*={editAddressModal]");
@@ -257,7 +257,7 @@ public class CheckDataWebAndUpdateDataBase {
                                 }
                             }
                             //update CustomerAddress
-                            CustomerAddress objectCustomerAddress = new CustomerAddress(customerAdd_iD, ListCustomerAddress.get(4), ListCustomerAddress.get(0) + "," + ListCustomerAddress.get(1), ListCustomerAddress.get(3), ListCustomerAddress.get(2), ListCustomerAddress.get(5), fullDataFromTags[0], ListCustomerAddress.get(6), ListCustomerAddress.get(7), ListCustomerAddress.get(8));
+                            /*CustomerAddress objectCustomerAddress = new CustomerAddress(customerAdd_iD, ListCustomerAddress.get(4), ListCustomerAddress.get(0) + "," + ListCustomerAddress.get(1), ListCustomerAddress.get(3), ListCustomerAddress.get(2), ListCustomerAddress.get(5), fullDataFromTags[0], ListCustomerAddress.get(6), ListCustomerAddress.get(7), ListCustomerAddress.get(8));
                             int CheckIndix = listCustomerDddIdFormCustomerId.indexOf(objectCustomerAddress.getCustomerAddID());
                             if (CheckIndix >= 0) {
                                 if (listAddressFormCustomerId.get(CheckIndix).equals(objectCustomerAddress)) {
@@ -270,7 +270,7 @@ public class CheckDataWebAndUpdateDataBase {
                                 }
                             } else {
                                 queryDataBase.setDataCustomerAddress(objectCustomerAddress);
-                            }
+                            }*/
                         }
                         for (int i = 0; i < listCustomerDddIdFormCustomerId.size(); i++) {
                             queryDataBase.deleteDataCustomerAddress(listCustomerDddIdFormCustomerId.get(i));

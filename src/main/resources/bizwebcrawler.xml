@@ -2,8 +2,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <!--- Customer -->
-    <bean id="customer" class="com.higgsup.bizwebcrawler.model.customer.Customers"/>
+    <!--- Person -->
+    <bean id="person" class="com.higgsup.bizwebcrawler.model.customer.Person"/>
+    <bean id="customer" class="com.higgsup.bizwebcrawler.model.customer.Customer"/>
+
     <bean id="customerAddress" class="com.higgsup.bizwebcrawler.model.customer.CustomerAddress" />
 
     <!---Product -->
