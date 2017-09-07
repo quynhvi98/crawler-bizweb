@@ -9,7 +9,8 @@
     <!---Product -->
     <bean id="categoryProduct" class="com.higgsup.bizwebcrawler.model.product.CategoryProduct"></bean>
     <bean id="producer" class="com.higgsup.bizwebcrawler.model.product.Producer"></bean>
-    <bean id="product" class="com.higgsup.bizwebcrawler.model.product.Product"></bean>
+    <bean id="product" class="com.higgsup.bizwebcrawler.model.product.Product"><property ref="producer" name="producer"></property><property
+            name="productGroup" ref="productGroup"></property></bean>
     <bean id="productCategory" class="com.higgsup.bizwebcrawler.model.product.ProductCategory"/>
     <bean id="productGroup" class="com.higgsup.bizwebcrawler.model.product.ProductGroup"/>
     <!--- -->

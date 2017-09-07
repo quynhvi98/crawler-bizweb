@@ -128,7 +128,7 @@ public class ProductDao {
         return ID;
     }
 
-    public List<Product> getDataProductFromProductID(String product_ID) {
+   /* public List<Product> getDataProductFromProductID(String product_ID) {
         List<Product> products=this.template.query("SELECT * FROM product",new RowMapper<Product>(){
             public Product mapRow(ResultSet resultSet, int i) throws SQLException {
                 Product product=new Product(resultSet.getString(1), resultSet.getString(2), resultSet.getFloat(3), resultSet.getInt(4), resultSet.getFloat(5), resultSet.getString(6), resultSet.getString(7), resultSet.getString(8), resultSet.getInt(9), resultSet.getInt(10));
@@ -137,7 +137,7 @@ public class ProductDao {
         });
         return products;
     }
-
+*/
     public void updateProduct(String product_id, String name, Double price, int stork, float weight, String content, String IMG, String description, int product_group_id, int producer_id) {
         try {
             query = "UPDATE dbo.product SET name =?,price=?,stork=?,weight=?,content=?,IMG=?,description=?,product_group_id=?,producer_id=? WHERE product_id=?";
