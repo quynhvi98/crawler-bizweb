@@ -210,7 +210,7 @@ public class QueryDataBase {
             rs = ps.executeQuery();
             if (rs.next()) {
                 ArrayList<Product> dataProducerFromProductID = new ArrayList<Product>();
-                dataProducerFromProductID.add(new Product(rs.getString(1), rs.getString(2), rs.getFloat(3), rs.getInt(4), rs.getFloat(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getInt(9), rs.getInt(10)));
+              //  dataProducerFromProductID.add(new Product(rs.getString(1), rs.getString(2), rs.getFloat(3), rs.getInt(4), rs.getFloat(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getInt(9), rs.getInt(10)));
                 return dataProducerFromProductID;
             }
         } catch (ClassNotFoundException e) {

@@ -27,4 +27,5 @@ public class ProductGroup {
     public ProductGroup(String name) {
         this.name = name;
     }
+
 }
