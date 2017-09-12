@@ -30,7 +30,7 @@ public class GettingProductData {
             Document getHTML = Jsoup.parse(get);
             String titleURL = getHTML.title();
             if (titleURL.equals("Đăng nhập quản trị hệ thống")) {
-                return false;
+                throw new Error("Error cookie");
             }
             Elements getDataAllProducts = getHTML.select("div div[class*=t-status-text dataTables_info]");
             int allProducts = Integer.parseInt(commonUtil.cutID(getDataAllProducts.text()));
@@ -69,7 +69,7 @@ public class GettingProductData {
                         getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                         titleURL = getHTML.title();
                         if (titleURL.equals("Đăng nhập quản trị hệ thống")) {
-                            return false;
+                            throw new Error("Error cookie");
                         }
                         Elements getDataFromDivRowTag = getHTML.select("div.row");
                         getDataFromTrTags = getDataFromDivRowTag.get(0).select("div.controls textarea[bind*=content]");
