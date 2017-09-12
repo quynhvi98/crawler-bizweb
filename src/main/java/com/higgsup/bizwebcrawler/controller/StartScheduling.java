@@ -1,5 +1,4 @@
 package com.higgsup.bizwebcrawler.controller;
-
 import com.higgsup.bizwebcrawler.controller.authentication.AuthenticationGetRequest;
 import com.higgsup.bizwebcrawler.controller.authentication.AuthenticationPostRequest;
 import com.higgsup.bizwebcrawler.controller.crawlerdata.CheckDataWebAndUpdateDataBase;
@@ -12,18 +11,22 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 /*
     By chicanem 10/08/2017
     */
-public class StartScheduling {
+public class StartScheduling extends AuthenticationPostRequest {
     private static final Logger logger = Logger.getLogger("StartScheduling");
-    private String cookie;
-    private AuthenticationPostRequest authenticationPostRequest = new AuthenticationPostRequest();
+    @Override
+    public String getCookie() {
+        return super.getCookie();
+    }
+    @Override
+    public String doRequestTakeCookie() throws IOException {
+        return super.doRequestTakeCookie();
+    }
     public StartScheduling() {
         try {
-            authenticationPostRequest.doRequestTakeCookie();
-            cookie = authenticationPostRequest.getCookie();
+            doRequestTakeCookie();
         } catch (IOException e) {
             logger.info("Error fo request" + e);
         }
@@ -63,11 +66,11 @@ public class StartScheduling {
                 try {
                     GetDataWebAndSetToDataBase GetDataWebAndSetToDataBase = new GetDataWebAndSetToDataBase();
                     AuthenticationGetRequest authenticationGetRequest = new AuthenticationGetRequest();
-                    authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products", cookie);
-                    boolean checkErrorRequest = GetDataWebAndSetToDataBase.getDataProductFromWebAndSetToDataBase(authenticationGetRequest.getHtmlData(), cookie);
+                    authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products", getCookie());
+                    boolean checkErrorRequest = GetDataWebAndSetToDataBase.getDataProductFromWebAndSetToDataBase(authenticationGetRequest.getHtmlData(), getCookie());
                     if (!(checkErrorRequest))
-                        if(!cookie.equalsIgnoreCase("FalseAccount")){
-                            cookie = authenticationPostRequest.doRequestTakeCookie();
+                        if(!getCookie().equalsIgnoreCase("FalseAccount")){
+                            doRequestTakeCookie();
                         }
                     logger.info(checkErrorRequest + " product");
                 } catch (Exception e) {
@@ -81,11 +84,11 @@ public class StartScheduling {
                 try {
                     GetDataWebAndSetToDataBase getDataWebAndSetToDataBase = new GetDataWebAndSetToDataBase();
                     AuthenticationGetRequest authenticationGetRequest = new AuthenticationGetRequest();
-                    authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/customers", cookie);
-                    boolean checkErrorRequest = getDataWebAndSetToDataBase.getDataCustomerFromWebSetToDataBase(authenticationGetRequest.getHtmlData(), cookie);
+                    authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/customers", getCookie());
+                    boolean checkErrorRequest = getDataWebAndSetToDataBase.getDataCustomerFromWebSetToDataBase(authenticationGetRequest.getHtmlData(), getCookie());
                     if (!(checkErrorRequest))
-                        if(!cookie.equalsIgnoreCase("FalseAccount")){
-                            cookie = authenticationPostRequest.doRequestTakeCookie();
+                        if(!getCookie().equalsIgnoreCase("FalseAccount")){
+                             doRequestTakeCookie();
                         }
                     System.out.println(checkErrorRequest);
                 } catch (Exception e) {
@@ -100,11 +103,11 @@ public class StartScheduling {
                 try {
                     CheckDataWebAndUpdateDataBase checkDataWebAndUpdateDataBase = new CheckDataWebAndUpdateDataBase();
                     AuthenticationGetRequest authenticationGetRequest = new AuthenticationGetRequest();
-                    authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products", cookie);
-                    boolean checkUpdateRequest = checkDataWebAndUpdateDataBase.updateDataProductFromWebAndUpdateToDataBase(authenticationGetRequest.getHtmlData(), cookie);
+                    authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products", getCookie());
+                    boolean checkUpdateRequest = checkDataWebAndUpdateDataBase.updateDataProductFromWebAndUpdateToDataBase(authenticationGetRequest.getHtmlData(), getCookie());
                     if (!(checkUpdateRequest))
-                        if(!cookie.equalsIgnoreCase("FalseAccount")){
-                            cookie = authenticationPostRequest.doRequestTakeCookie();
+                        if(!getCookie().equalsIgnoreCase("FalseAccount")){
+                             doRequestTakeCookie();
                         }
                     logger.info(checkUpdateRequest + " update");
                 } catch (Exception e) {
@@ -120,11 +123,11 @@ public class StartScheduling {
                 try {
                     CheckDataWebAndUpdateDataBase checkDataWebAndUpdateDataBase = new CheckDataWebAndUpdateDataBase();
                     AuthenticationGetRequest authenticationGetRequest = new AuthenticationGetRequest();
-                    authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/customers", cookie);
-                    boolean checkUpdateRequest = checkDataWebAndUpdateDataBase.updateDataCustomerFromWebSetToDataBase(authenticationGetRequest.getHtmlData(), cookie);
+                    authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/customers", getCookie());
+                    boolean checkUpdateRequest = checkDataWebAndUpdateDataBase.updateDataCustomerFromWebSetToDataBase(authenticationGetRequest.getHtmlData(), getCookie());
                     if (!(checkUpdateRequest))
-                        if(!cookie.equalsIgnoreCase("FalseAccount")){
-                            cookie = authenticationPostRequest.doRequestTakeCookie();
+                        if(!getCookie().equalsIgnoreCase("FalseAccount")){
+                           doRequestTakeCookie();
                         }
                     System.out.println(checkUpdateRequest);
                 } catch (Exception e) {
@@ -139,11 +142,11 @@ public class StartScheduling {
                 try {
                     GetDataWebAndSetToDataBase getDataWebAndSetToDataBase = new GetDataWebAndSetToDataBase();
                     AuthenticationGetRequest authenticationGetRequest = new AuthenticationGetRequest();
-                    authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/orders", cookie);
-                    boolean checkErrorRequest = getDataWebAndSetToDataBase.getDataOrderFromWebSetToDataBase(authenticationGetRequest.getHtmlData(), cookie);
+                    authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/orders", getCookie());
+                    boolean checkErrorRequest = getDataWebAndSetToDataBase.getDataOrderFromWebSetToDataBase(authenticationGetRequest.getHtmlData(), getCookie());
                     if (!(checkErrorRequest))
-                        if(!cookie.equalsIgnoreCase("FalseAccount")){
-                            cookie = authenticationPostRequest.doRequestTakeCookie();
+                        if(!getCookie().equalsIgnoreCase("FalseAccount")){
+                             doRequestTakeCookie();
                         }
                     System.out.println(checkErrorRequest);
                 } catch (Exception e) {
