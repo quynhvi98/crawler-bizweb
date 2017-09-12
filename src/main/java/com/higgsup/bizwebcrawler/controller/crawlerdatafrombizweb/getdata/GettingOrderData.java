@@ -1,8 +1,7 @@
-package com.higgsup.bizwebcrawler.controller.crawlerdata.getdatafromwebandsettodatabase;
+package com.higgsup.bizwebcrawler.controller.crawlerdatafrombizweb.getdata;
 
-import com.higgsup.bizwebcrawler.controller.authentication.AuthenticationGetRequest;
+import com.higgsup.bizwebcrawler.controller.authentication.HtmlData;
 import com.higgsup.bizwebcrawler.controller.common.CommonUtil;
-import com.higgsup.bizwebcrawler.controller.crawlerdata.GetDataWebAndSetToDataBase;
 import com.higgsup.bizwebcrawler.controller.managedatabase.QueryDataBase;
 import com.higgsup.bizwebcrawler.model.order.Order;
 import com.higgsup.bizwebcrawler.model.order.OrderAddress;
@@ -24,9 +23,9 @@ import java.util.logging.Logger;
 /**
  * Created by viquynh
  */
-public class GetDataOrderFromWebSetToDataBase {
-    private static final Logger logger = Logger.getLogger(GetDataWebAndSetToDataBase.class.getName());
-    private com.higgsup.bizwebcrawler.controller.authentication.AuthenticationGetRequest authenticationGetRequest = new AuthenticationGetRequest();
+public class GettingOrderData {
+    private static final Logger logger = Logger.getLogger(GettingOrderData.class.getName());
+    private HtmlData authenticationGetRequest = new HtmlData();
     public boolean getDataOrderFromWebSetToDataBase(String get, String cookie) throws IOException {
         CommonUtil commonUtil = new CommonUtil();
         try {
