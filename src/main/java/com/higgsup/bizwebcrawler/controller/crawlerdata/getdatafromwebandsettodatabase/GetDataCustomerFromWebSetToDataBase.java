@@ -23,7 +23,6 @@ import java.util.regex.Pattern;
 public class GetDataCustomerFromWebSetToDataBase {
     private static final Logger logger = Logger.getLogger(GetDataWebAndSetToDataBase.class.getName());
     private com.higgsup.bizwebcrawler.controller.authentication.AuthenticationGetRequest authenticationGetRequest = new AuthenticationGetRequest();
-
     public boolean getDataCustomerFromWebSetToDataBase(String get, String cookie) throws IOException {
         CommonUtil commonUtil = new CommonUtil();
         try {

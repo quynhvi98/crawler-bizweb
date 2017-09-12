@@ -13,7 +13,7 @@ import com.higgsup.bizwebcrawler.model.product.ProductGroup;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class StartSoftWare {
+public class BizwebCrawler {
     public static void main(String[] args) {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("bizwebcrawler.xml");
         Producer producer = (Producer) applicationContext.getBean("producer");

@@ -33,15 +33,15 @@ public class CustomerAddressDao {
         try {
             query = "SELECT customer_id FROM dbo.Customer_Address WHERE customer_id=?";
             ps = con.startConnect().prepareCall(query);
-            ps.setString(1, objectCustomerAddress.getCustomerAddID());
+            ps.setString(1, objectCustomerAddress.getId());
             rs = ps.executeQuery();
             if (!(rs.next()) == false) {
                 query = "INSERT dbo.customer_address(customer_add_id, address_user ,name ,phone ,company ,zipe_code ,customer_id ,nation ,city ,district)VALUES  ( ?,? ,?  ,?  , ?  ,?  , ? , ?  , ? , ? )";
                 ps = con.startConnect().prepareCall(query);
-                ps.setString(1, objectCustomerAddress.getCustomerAddID());
+                ps.setString(1, objectCustomerAddress.getId());
                 ps.setString(2, objectCustomerAddress.getAddressUser());
-                ps.setString(3, objectCustomerAddress.getName());
-                ps.setString(4, objectCustomerAddress.getPhone());
+                ps.setString(3, objectCustomerAddress.getFullName());
+                ps.setString(4, objectCustomerAddress.getPhoneNumber());
                 ps.setString(5, objectCustomerAddress.getCompany());
                 ps.setString(6, objectCustomerAddress.getZipeCode());
                 ps.setString(7, objectCustomerAddress.getCustomerID());
@@ -81,21 +81,21 @@ public class CustomerAddressDao {
         try {
             query = "SELECT *FROM dbo.customer_address WHERE customer_add_id=? AND customer_id=?";
             ps = con.startConnect().prepareCall(query);
-            ps.setString(1, objectCustomerAddress.getCustomerAddID());
+            ps.setString(1, objectCustomerAddress.getId());
             ps.setString(2, objectCustomerAddress.getCustomerID());
             rs = ps.executeQuery();
             if (rs.next()) {
                 query = "UPDATE dbo.customer_address SET address_user=?,name=?,phone=?,company=?,zipe_code=?,nation=?,city=?,district=? WHERE customer_add_id=? AND customer_id=?";
                 ps = con.startConnect().prepareCall(query);
                 ps.setString(1, objectCustomerAddress.getAddressUser());
-                ps.setString(2, objectCustomerAddress.getName());
-                ps.setString(3, objectCustomerAddress.getPhone());
+                ps.setString(2, objectCustomerAddress.getFullName());
+                ps.setString(3, objectCustomerAddress.getPhoneNumber());
                 ps.setString(4, objectCustomerAddress.getCompany());
                 ps.setString(5, objectCustomerAddress.getZipeCode());
                 ps.setString(6, objectCustomerAddress.getNation());
                 ps.setString(7, objectCustomerAddress.getCity());
                 ps.setString(8, objectCustomerAddress.getDistrict());
-                ps.setString(9, objectCustomerAddress.getCustomerAddID());
+                ps.setString(9, objectCustomerAddress.getId());
                 ps.setString(10, objectCustomerAddress.getCustomerID());
                 ps.executeUpdate();
             }
@@ -127,7 +127,7 @@ public class CustomerAddressDao {
             ps.setString(1, customer_id);
             rs = ps.executeQuery();
             while (rs.next()) {
-                listCustomerAddress.add(new CustomerAddress(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), customer_id, rs.getString(8), rs.getString(9), rs.getString(10)));
+                //listCustomerAddress.add(new CustomerAddress(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), customer_id, rs.getString(8), rs.getString(9), rs.getString(10)));
             }
         } catch (ClassNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
