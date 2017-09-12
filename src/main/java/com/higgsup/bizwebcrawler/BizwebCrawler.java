@@ -4,9 +4,6 @@ package com.higgsup.bizwebcrawler;
  * Created by viquynh.
  */
 
-import com.higgsup.bizwebcrawler.controller.StartScheduling;
-import com.higgsup.bizwebcrawler.controller.managedatabase.ProductCategoryDao;
-import com.higgsup.bizwebcrawler.controller.managedatabase.ProductDao;
 import com.higgsup.bizwebcrawler.model.product.Producer;
 import com.higgsup.bizwebcrawler.model.product.Product;
 import com.higgsup.bizwebcrawler.model.product.ProductGroup;

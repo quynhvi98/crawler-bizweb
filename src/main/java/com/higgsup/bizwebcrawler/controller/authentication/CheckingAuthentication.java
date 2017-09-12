@@ -12,8 +12,8 @@ import java.util.logging.Logger;
  * Created by viquynh on 26/07/2017.
  *
  */
-public class AuthenticationPostRequest {
-    private static final Logger logger = Logger.getLogger("AuthenticationPostRequest");
+public class CheckingAuthentication {
+    private static final Logger logger = Logger.getLogger(CheckingAuthentication.class.getName());
     private String cookie;
     public String doRequestTakeCookie() throws IOException {
         try {

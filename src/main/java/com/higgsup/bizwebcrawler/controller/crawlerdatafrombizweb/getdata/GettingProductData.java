@@ -1,27 +1,29 @@
-package com.higgsup.bizwebcrawler.controller.crawlerdata.checkdatafromwebandupdatedatabase;
+package com.higgsup.bizwebcrawler.controller.crawlerdatafrombizweb.getdata;
 
-import com.higgsup.bizwebcrawler.controller.authentication.AuthenticationGetRequest;
+import com.higgsup.bizwebcrawler.controller.authentication.HtmlData;
 import com.higgsup.bizwebcrawler.controller.common.CommonUtil;
 import com.higgsup.bizwebcrawler.controller.managedatabase.QueryDataBase;
-import com.higgsup.bizwebcrawler.model.product.Product;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.util.*;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * Created by viquynh
  */
-public class UpdateDataProductFromWebAndUpdateToDataBase {
-    private static final Logger logger = Logger.getLogger(UpdateDataProductFromWebAndUpdateToDataBase.class.getName());
-    private com.higgsup.bizwebcrawler.controller.authentication.AuthenticationGetRequest authenticationGetRequest = new AuthenticationGetRequest();
+public class GettingProductData {
+    private static final Logger logger = Logger.getLogger(GettingProductData.class.getName());
+    private HtmlData authenticationGetRequest = new HtmlData();
 
-    public boolean updateDataProductFromWebAndUpdateToDataBase(String get, String cookie) {
+    public boolean getDataProductFromWebAndSetToDataBase(String get, String cookie) throws IOException {
         CommonUtil commonUtil = new CommonUtil();
         try {
             QueryDataBase queryDataBase = new QueryDataBase();
@@ -51,10 +53,7 @@ public class UpdateDataProductFromWebAndUpdateToDataBase {
                     HashMap getDataCategoryProduct = new HashMap();//lấy danh mục mới, hot, sale
                     Elements getDataFromAhrefTags = tags.select("td  a[href]");
                     fullDataFromTags[0] = commonUtil.cutID(getDataFromAhrefTags.get(0).attr("href"));
-
-                    if (!(queryDataBase.hasProductID(fullDataFromTags[0]))) {
-                        ArrayList<Product> dataProducerFromProductID = null;
-                        dataProducerFromProductID = queryDataBase.getDataProductFromProductID(fullDataFromTags[0]);
+                    if (queryDataBase.hasProductID(fullDataFromTags[0])) {
                         fullDataFromTags[1] = getDataFromAhrefTags.get(0).text();
                         Elements getIMGProduct = tags.select("td  img[src]");
                         fullDataFromTags[2] = "https:" + getIMGProduct.get(0).attr("src");
@@ -73,8 +72,10 @@ public class UpdateDataProductFromWebAndUpdateToDataBase {
                             return false;
                         }
                         Elements getDataFromDivRowTag = getHTML.select("div.row");
-                        getDataFromTrTags = getDataFromDivRowTag.get(0).select("div.controls textarea");
-                        fullDataFromTags[6] = getDataFromTrTags.get(0).text();
+                        getDataFromTrTags = getDataFromDivRowTag.get(0).select("div.controls textarea[bind*=content]");
+                        if(getDataFromTrTags.size()>0){
+                            fullDataFromTags[6] = getDataFromTrTags.get(0).text();
+                        }
                         getDataFromTrTags = getDataFromDivRowTag.get(2).select("a[href]");
                         for (int i = 1; i < getDataFromTrTags.size(); i++) {
                             if (getDataFromTrTags.get(i).text().toString().length() > 0) {
@@ -93,54 +94,34 @@ public class UpdateDataProductFromWebAndUpdateToDataBase {
                             logger.info("Tác Giả " + fullDataFromTags[5]);
                             logger.info("Mô Tả: " + fullDataFromTags[6]);
                             logger.info("số 7: " + fullDataFromTags[7]);
-
+                            queryDataBase.setDataProductGroup(fullDataFromTags[4]);
+                            queryDataBase.setDataProduct(fullDataFromTags[0], fullDataFromTags[1], fullDataFromTags[7], fullDataFromTags[3], fullDataFromTags[6], fullDataFromTags[2], queryDataBase.getIDProductGroup(fullDataFromTags[4]), queryDataBase.getIDProducer(fullDataFromTags[5]));
                         } else {
-                            getDataFromTrTags = getDataFromDivRowTag.get(7).select("div.controls input[value]");
+                            getDataFromTrTags = getDataFromDivRowTag.get(7).select("div.controls input[value] ");
                             fullDataFromTags[7] = getDataFromTrTags.get(0).attr("value");
                             if (fullDataFromTags[7] == null) {
                                 fullDataFromTags[7] = "0";
                             }
-                        }
-                      //  if (!dataProducerFromProductID.get(0).getName().equals(fullDataFromTags[1]) && String.valueOf(dataProducerFromProductID.get(0).getPrice()).equals(String.valueOf(Double.parseDouble(fullDataFromTags[7]))) && String.valueOf(dataProducerFromProductID.get(0).getStork()).equals(fullDataFromTags[3]) && dataProducerFromProductID.get(0).getContent().equals(fullDataFromTags[6]) && dataProducerFromProductID.get(0).getImg().equals(fullDataFromTags[2]) && String.valueOf(dataProducerFromProductID.get(0).getProductGroupID()).equals(String.valueOf(queryDataBase.getIDProductGroup(fullDataFromTags[4]))) && String.valueOf(dataProducerFromProductID.get(0).getProducerID()).equals(String.valueOf(queryDataBase.getIDProducer(fullDataFromTags[5])))) {
-                      //      queryDataBase.updateProduct(fullDataFromTags[0], fullDataFromTags[1], Double.parseDouble(fullDataFromTags[7]), Integer.parseInt(fullDataFromTags[3]), 0, fullDataFromTags[6], fullDataFromTags[2], "", queryDataBase.getIDProductGroup(fullDataFromTags[4]), queryDataBase.getIDProducer(fullDataFromTags[5]));
-                      //  }
-                        ArrayList<String> listProductCateID = null;
-                        listProductCateID = queryDataBase.getListProductCateIdFormProductIdInCategoryProduct(fullDataFromTags[0]);
-                        Set set = getDataCategoryProduct.entrySet();
-                        Iterator i = set.iterator();
-
-                        while (i.hasNext()) {
-                            Map.Entry mapEntry = (Map.Entry) i.next();
-                            queryDataBase.setDataProductCategory((String) mapEntry.getKey(), (String) mapEntry.getValue());
-
-                            int indexList = listProductCateID.indexOf((String) mapEntry.getKey());
-                            if (indexList >= 0) {
-                                listProductCateID.remove(indexList);
-
-                            } else {
+                            queryDataBase.setDataProductGroup(fullDataFromTags[4]);
+                            queryDataBase.setDataProduct(fullDataFromTags[0], fullDataFromTags[1], fullDataFromTags[7], fullDataFromTags[3], fullDataFromTags[6], fullDataFromTags[2], queryDataBase.getIDProductGroup(fullDataFromTags[4]), queryDataBase.getIDProducer(fullDataFromTags[5]));
+                            Set set = getDataCategoryProduct.entrySet();
+                            Iterator i = set.iterator();
+                            while (i.hasNext()) {
+                                Map.Entry mapEntry = (Map.Entry) i.next();
+                                queryDataBase.setDataProductCategory((String) mapEntry.getKey(), (String) mapEntry.getValue());
                                 queryDataBase.setDataFromCategoryProductAndProduct((String) mapEntry.getKey(), fullDataFromTags[0]);
-
                             }
                         }
-                        for (String productCate_ID : listProductCateID
-                                ) {
-                            logger.info("Delete");
-                            queryDataBase.remoDataCategoryProductFromCateIdAndProductId(productCate_ID, fullDataFromTags[0]);
-                        }
-                        dataProducerFromProductID.clear();
-                        TimeUnit.SECONDS.sleep(159);
+                        TimeUnit.SECONDS.sleep(10);
                     } else {
-                        logger.info("Empty");
+                        break;
                     }
-
                 }
             }
         } catch (Exception e) {
-
-            logger.log(Level.ALL, e.getMessage());
-            return false;
+            e.printStackTrace();
         }
-
         return true;
     }
+
 }

@@ -9,9 +9,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 /**
  * Created by viquynh on 26/07/2017.
- * Send request from client --> server
+ * Send request from client --> server --> receive html data from web
  */
-public class AuthenticationGetRequest {
+public class HtmlData {
     private String htmlData;
     public void connectURLAndTakeHTML(String url, String cookie) throws IOException {
         StringBuilder htmlChain = new StringBuilder();
