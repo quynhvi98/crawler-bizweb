@@ -1,22 +1,21 @@
 package com.higgsup.bizwebcrawler.controller.scheduling;
 
 import com.higgsup.bizwebcrawler.controller.authentication.HtmlData;
-import com.higgsup.bizwebcrawler.controller.crawlerdatafrombizweb.getdata.GettingOrderData;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by viquy 3:12 PM 9/12/2017
+ * By chicanem   16:55 - 13/09/2017
  */
-abstract class QueryingOrderInformation extends StartScheduling implements Runnable {
-    private static final Logger logger = Logger.getLogger(QueryingOrderInformation.class.getName());
+public class UpdatingOrderData  extends StartScheduling implements Runnable{
+    private static final Logger logger = Logger.getLogger("Updating Product Data");
     public void run() {
         try {
-            GettingOrderData getDataWebAndSetToDataBase = new GettingOrderData();
+            com.higgsup.bizwebcrawler.controller.crawlerdatafrombizweb.updatedata.UpdatingOrderData getDataWebAndSetToDataBase = new com.higgsup.bizwebcrawler.controller.crawlerdatafrombizweb.updatedata.UpdatingOrderData();
             HtmlData authenticationGetRequest = new HtmlData();
             authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/orders", getCookie());
-            boolean checkErrorRequest = getDataWebAndSetToDataBase.getDataOrderFromWebSetToDataBase(authenticationGetRequest.getHtmlData(), getCookie());
+            boolean checkErrorRequest = getDataWebAndSetToDataBase.checkDataOrderWebAndUpdateDataBase(authenticationGetRequest.getHtmlData(), getCookie());
             if (!(checkErrorRequest))
                 if (!getCookie().equalsIgnoreCase("FalseAccount")) {
                     doRequestTakeCookie();
