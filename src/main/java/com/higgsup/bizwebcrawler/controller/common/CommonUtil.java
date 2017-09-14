@@ -1,6 +1,10 @@
 package com.higgsup.bizwebcrawler.controller.common;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -61,5 +65,20 @@ import java.util.regex.Pattern;
         return NumberMoney;
     }
 
+    public String fomatDateSQL(String date) throws ParseException {
 
+         date=date.replaceAll("/","-");
+        date=date.substring(0,16);
+        System.out.println(date+" cat");
+        SimpleDateFormat formatDateInput = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        SimpleDateFormat formatDateUot = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date date1 = formatDateInput.parse(date);
+        return formatDateUot.format(date1);
+    }
+    public String cutDateSQL(String date){
+        System.out.println(date+ "  vv");
+        date=date.replaceAll("/","-");
+        date=date.substring(0,16);
+     return date;
+    }
 }

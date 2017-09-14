@@ -21,5 +21,6 @@
     <bean id="orderProductObject" class="com.higgsup.bizwebcrawler.model.order.OrderAddress"></bean>
     <bean id="orderAddressObject" class="com.higgsup.bizwebcrawler.model.order.OrderProduct"></bean>
     <!--- -->
+    <bean id="scheduling" class="com.higgsup.bizwebcrawler.controller.scheduling.StartScheduling"></bean>
     <!--- -->
 </beans>

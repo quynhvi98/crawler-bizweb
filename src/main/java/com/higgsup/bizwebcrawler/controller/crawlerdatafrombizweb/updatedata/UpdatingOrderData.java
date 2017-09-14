@@ -1,4 +1,4 @@
-package com.higgsup.bizwebcrawler.controller.crawlerdatafrombizweb.getdata;
+package com.higgsup.bizwebcrawler.controller.crawlerdatafrombizweb.updatedata;
 
 import com.higgsup.bizwebcrawler.controller.authentication.HtmlData;
 import com.higgsup.bizwebcrawler.controller.common.CommonUtil;
@@ -21,12 +21,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by viquynh
+ * By chicanem   16:58 - 13/09/2017
  */
-public class GettingOrderData {
-    private static final Logger logger = Logger.getLogger(GettingOrderData.class.getName());
+public class UpdatingOrderData {
+    private static final Logger logger = Logger.getLogger(UpdatingOrderData.class.getName());
     private HtmlData authenticationGetRequest = new HtmlData();
-    public boolean getDataOrderFromWebSetToDataBase(String get, String cookie) throws IOException {
+
+    public boolean checkDataOrderWebAndUpdateDataBase(String get, String cookie) throws IOException {
         CommonUtil commonUtil = new CommonUtil();
         try {
             QueryDataBase queryDataBase = new QueryDataBase();
@@ -48,6 +49,8 @@ public class GettingOrderData {
             } else {
                 allCustomers = 1;
             }
+            ArrayList<Order> listDataOrders=queryDataBase.getListDataOrders();
+            ArrayList<OrderAddress> listOrderAddress=queryDataBase.getListDataOrderAddress();
             for (int ii = 1; ii <= allCustomers; ii++) {
                 // start
                 authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/orders?page=" + ii, cookie);
@@ -83,7 +86,7 @@ public class GettingOrderData {
                             ListProductOfOrder.put(commonUtil.cutNumberToCharStop(listElementsHref.get(0).attr("href")), listElementsGetProductID.get(4).text());
                         }
                     }
-                    Elements  getAllTagTrInTagTbody1 = getListProductsOfOrder.get(1).select("tr");
+                    Elements getAllTagTrInTagTbody1 = getListProductsOfOrder.get(1).select("tr");
                     getAllTagTrInTagTbody1 = getAllTagTrInTagTbody1.get(1).select("td");
                     if (getAllTagTrInTagTbody1.size() > 1) {
                         Elements elements1 = getAllTagTrInTagTbody1.get(0).select("div");
@@ -167,12 +170,12 @@ public class GettingOrderData {
                         logger.info("địa chỉ thanh toán");
                         String billingAddress = "";
                         for (int i = 0; i < 5; i++) {
-                            if(!billingAddress.equalsIgnoreCase("Giống địa chỉ giao hàng;")){
+                            if (!billingAddress.equalsIgnoreCase("Giống địa chỉ giao hàng;")) {
                                 billingAddress += fullDataFromTagsAddress[i] + ";";
 
-                            }else {
-                                billingAddress="";
-                                i=5;
+                            } else {
+                                billingAddress = "";
+                                i = 5;
                             }
                         }
                         logger.info(" \nđịa chỉ giao hàng\n");
@@ -183,20 +186,48 @@ public class GettingOrderData {
                         //
                         //set database
                         Order objectOrder = new Order(fullDataFromTags[0], commonUtil.fomatDateSQL(fullDataFromTags[1]), fullDataFromTags[3], fullDataFromTags[4], Double.parseDouble(fullDataFromTags[5]), Double.parseDouble("123"), Double.parseDouble(fullDataFromTags[6]), fullDataFromTags[2], queryDataBase.getIDPaymentFromContent(namePayOrder));
-                        queryDataBase.setDataFromOrder(objectOrder);
-                        ArrayList<OrderProduct> objectOrderProducts = new ArrayList<OrderProduct>();
+                        int indexorder=listDataOrders.indexOf(objectOrder);
+                        if(listDataOrders.get(indexorder).getDate().equals(objectOrder.getDate())&&listDataOrders.get(indexorder).getStatusPaymen().equals(objectOrder.getStatusPaymen())&&listDataOrders.get(indexorder).getStatusDelivery().equals(objectOrder.getStatusDelivery())&&listDataOrders.get(indexorder).getTotalBill().equals(objectOrder.getTotalBill())&&listDataOrders.get(indexorder).getTotalWeight().equals(objectOrder.getTotalWeight())&&listDataOrders.get(indexorder).getFeeDelivery().equals(objectOrder.getFeeDelivery())&&listDataOrders.get(indexorder).getCustomerID().equals(objectOrder.getCustomerID())&&listDataOrders.get(indexorder).getPaymentID()==objectOrder.getPaymentID()){
+                        }else {
+                            queryDataBase.updateDataFromOrder(objectOrder);
+                            System.out.println("okii");
+                        }
+
+
+
+                       ArrayList<OrderProduct> objectOrderProducts = new ArrayList<OrderProduct>();
                         states = ListProductOfOrder.keySet();
                         Iterator itr = states.iterator();
                         while (itr.hasNext()) {
                             idProduct = (String) itr.next();
                             objectOrderProducts.add(new OrderProduct(Double.parseDouble(ListProductOfOrder.getProperty(idProduct)), idProduct, fullDataFromTags[0]));
                         }
+                        ArrayList<OrderProduct> listOrderProduct =queryDataBase.getListDataOrderProduct(fullDataFromTags[0]);
                         for (OrderProduct objectOrderProduct : objectOrderProducts
                                 ) {
-                            queryDataBase.setDataFromOrderAndProduct(objectOrderProduct);
+                            int indexObject=listOrderProduct.indexOf(objectOrderProduct);
+                         boolean checkquery=   queryDataBase.updateDataFromOrderAndProduct(objectOrderProduct);
+                         if(checkquery==false){
+                             queryDataBase.setDataFromOrderAndProduct(objectOrderProduct);
+                         }
+
                         }
-                        OrderAddress objectOrderAddress = new OrderAddress(0,emailDonHang, listSaveShippingAddress.get(0), listSaveShippingAddress.get(1), listSaveShippingAddress.get(2), listSaveShippingAddress.get(3), listSaveShippingAddress.get(4), listSaveShippingAddress.get(5), listSaveShippingAddress.get(6), billingAddress, fullDataFromTags[0]);
-                        queryDataBase.setDataFromOrderAddress(objectOrderAddress);
+
+                        //
+
+                        OrderAddress objectOrderAddress = new OrderAddress(0, emailDonHang, listSaveShippingAddress.get(0), listSaveShippingAddress.get(1), listSaveShippingAddress.get(2), listSaveShippingAddress.get(3), listSaveShippingAddress.get(4), listSaveShippingAddress.get(5), listSaveShippingAddress.get(6), billingAddress, fullDataFromTags[0]);
+                        int index=listOrderAddress.indexOf(objectOrderAddress);
+                        System.out.println("vvv "+index+"size "+listOrderAddress.size());
+                        if(listOrderAddress.get(index).getEmail().equals(objectOrderAddress.getEmail())&&listOrderAddress.get(index).getNameCustomer().equals(objectOrderAddress.getNameCustomer())&&listOrderAddress.get(index).getPhone().equals(objectOrderAddress.getPhone())&&listOrderAddress.get(index).getOrderAddress().equals(objectOrderAddress.getOrderAddress())&&listOrderAddress.get(index).getZipCode().equals(objectOrderAddress.getZipCode())&&listOrderAddress.get(index).getNation().equals(objectOrderAddress.getNation())&&listOrderAddress.get(index).getCity().equals(objectOrderAddress.getCity())&&listOrderAddress.get(index).getDistrict().equals(objectOrderAddress.getDistrict())&&listOrderAddress.get(index).getPaymentAddress().equals(objectOrderAddress.getPaymentAddress())&&listOrderAddress.get(index).getOrderID().equals(objectOrderAddress.getOrderID())){
+
+                        }else {
+                            queryDataBase.updateDataFromOrderAddress(objectOrderAddress);
+                        }
+                        if(index<0){
+                            queryDataBase.setDataFromOrderAddress(objectOrderAddress);
+                        }
+
+
                         TimeUnit.SECONDS.sleep(5);
                     }
                 }
@@ -208,4 +239,6 @@ public class GettingOrderData {
         }
         return false;
     }
+
+
 }

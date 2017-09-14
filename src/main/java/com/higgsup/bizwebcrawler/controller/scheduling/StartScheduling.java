@@ -21,11 +21,6 @@ public class StartScheduling extends CheckingAuthentication {
         return super.getCookie();
     }
 
-    @Override
-    public String doRequestTakeCookie() throws IOException {
-        return super.doRequestTakeCookie();
-    }
-
     public StartScheduling() {
     }
 
@@ -65,14 +60,31 @@ public class StartScheduling extends CheckingAuthentication {
                     super.run();
                 }
             };
+            Runnable updatingOrderData = new UpdatingOrderData() {
+                @Override
+                public void run() {
+                    super.run();
+                }
+            };
             reLoadTime.scheduleWithFixedDelay(queryProduct, 0, 100, TimeUnit.SECONDS);
             reLoadTime.scheduleWithFixedDelay(queryInfoCustomer, 0, 100, TimeUnit.SECONDS);
             reLoadTime.scheduleWithFixedDelay(queryInfoOrder, 0, 100, TimeUnit.SECONDS);
             reLoadTime.scheduleWithFixedDelay(updateDataProduct, 0, 120, TimeUnit.MINUTES);
             reLoadTime.scheduleWithFixedDelay(updateDatCustomer, 0, 120, TimeUnit.MINUTES);
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.getMessage());
-            logger.info("Error fo request" + e);
+            reLoadTime.scheduleWithFixedDelay(updatingOrderData, 0, 120, TimeUnit.MINUTES);
+
+        } catch (Error e) {
+            String s = e.getLocalizedMessage();
+            if (s.equals("FalseAccount")) {
+                System.out.println("sai tk mk");
+            }
+            if (s.equals("Not Connect Internet")) {
+                System.out.println("mất mạng");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }
