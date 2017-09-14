@@ -107,5 +107,16 @@ public class OrderAddress {
         this.paymentAddress = paymentAddress;
         this.orderID = orderID;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof OrderAddress){
+            if(this.orderID.equals(((OrderAddress) o).orderID)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public OrderAddress() { }
 }

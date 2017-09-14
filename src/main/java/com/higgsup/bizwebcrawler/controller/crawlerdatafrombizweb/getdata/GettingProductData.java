@@ -72,7 +72,21 @@ public class GettingProductData {
                             throw new Error("Error cookie");
                         }
                         Elements getDataFromDivRowTag = getHTML.select("div.row");
-                        getDataFromTrTags = getDataFromDivRowTag.get(0).select("div.controls textarea[bind*=content]");
+                        if(getDataFromDivRowTag.size()>0){
+                            getDataFromTrTags = getDataFromDivRowTag.get(0).select("div.controls textarea[bind*=content]");
+
+                        }else {
+                            authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products/" + fullDataFromTags[0], cookie);
+                            getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
+                            titleURL = getHTML.title();
+                            if (titleURL.equals("Đăng nhập quản trị hệ thống")) {
+                                throw new Error("Error cookie");
+                            }
+                            getDataFromDivRowTag = getHTML.select("div.row");
+                            if(getDataFromDivRowTag.size()<0){
+                                throw new Error("False "+fullDataFromTags[0]);
+                            }
+                        }
                         if(getDataFromTrTags.size()>0){
                             fullDataFromTags[6] = getDataFromTrTags.get(0).text();
                         }
