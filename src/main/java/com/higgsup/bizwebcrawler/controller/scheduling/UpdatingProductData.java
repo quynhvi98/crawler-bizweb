@@ -24,6 +24,5 @@ abstract class UpdatingProductData extends StartScheduling implements Runnable {
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
-
     }
 }

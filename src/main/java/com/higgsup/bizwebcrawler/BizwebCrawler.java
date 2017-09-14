@@ -14,7 +14,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class BizwebCrawler {
     public static void main(String[] args) {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("bizwebcrawler.xml");
-  /*      Producer producer = (Producer) applicationContext.getBean("producer");
+  /*    Producer producer = (Producer) applicationContext.getBean("producer");
         producer.setName("haha");
         ProductGroup productGroup = (ProductGroup) applicationContext.getBean("productGroup");
         productGroup.setName("haha");

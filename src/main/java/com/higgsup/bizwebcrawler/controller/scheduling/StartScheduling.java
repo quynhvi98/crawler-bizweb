@@ -30,7 +30,6 @@ public class StartScheduling extends CheckingAuthentication {
             ConnectDB con = new ConnectDB();
             con.startConnect();
             doRequestTakeCookie();
-            System.out.println("ddd: "+getCookie());
             Runnable queryProduct = new QueryingProductInformation() {
                 @Override
                 public void run() {
@@ -72,7 +71,7 @@ public class StartScheduling extends CheckingAuthentication {
                 System.out.println("sai tk mk");
             }
             if (s.equals("Not Connect Internet")) {
-                System.out.println("mất mạng");
+                System.out.println("Not Connect Internet");
             }
         } catch (IOException e) {
             e.printStackTrace();

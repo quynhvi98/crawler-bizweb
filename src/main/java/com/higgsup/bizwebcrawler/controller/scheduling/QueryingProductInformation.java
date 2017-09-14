@@ -1,5 +1,6 @@
 package com.higgsup.bizwebcrawler.controller.scheduling;
 
+import com.higgsup.bizwebcrawler.controller.authentication.CheckingAuthentication;
 import com.higgsup.bizwebcrawler.controller.authentication.HtmlData;
 import com.higgsup.bizwebcrawler.controller.crawlerdatafrombizweb.getdata.GettingProductData;
 
@@ -16,13 +17,11 @@ abstract class QueryingProductInformation extends StartScheduling implements Run
     public String getCookie() {
         return super.getCookie();
     }
-
     public void run() {
         try {
             GettingProductData GetDataWebAndSetToDataBase = new GettingProductData();
             HtmlData authenticationGetRequest = new HtmlData();
             authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products", getCookie());
-            System.out.println("ff "+getCookie());
             boolean checkErrorRequest = GetDataWebAndSetToDataBase.getDataProductFromWebAndSetToDataBase(authenticationGetRequest.getHtmlData(), getCookie());
             logger.info(checkErrorRequest + " product");
         } catch (Error e) {
