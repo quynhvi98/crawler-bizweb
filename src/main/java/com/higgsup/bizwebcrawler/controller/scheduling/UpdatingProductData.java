@@ -2,6 +2,7 @@ package com.higgsup.bizwebcrawler.controller.scheduling;
 
 import com.higgsup.bizwebcrawler.controller.authentication.HtmlData;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,11 +17,16 @@ abstract class UpdatingProductData extends StartScheduling implements Runnable {
             HtmlData authenticationGetRequest = new HtmlData();
             authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products", getCookie());
             boolean checkUpdateRequest = checkDataWebAndUpdateDataBase.updateDataProductFromWebAndUpdateToDataBase(authenticationGetRequest.getHtmlData(), getCookie());
-            if (!(checkUpdateRequest))
-                if (!getCookie().equalsIgnoreCase("FalseAccount")) {
+        } catch (Error e) {
+            String s = e.getLocalizedMessage();
+            if (s.equals("Error cookie")) {
+                try {
+                    System.out.println("lỗi cookie");
                     doRequestTakeCookie();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
                 }
-            logger.info(checkUpdateRequest + " update");
+            }
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage());
         }

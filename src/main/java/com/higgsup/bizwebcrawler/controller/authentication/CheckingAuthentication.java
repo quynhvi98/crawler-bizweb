@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  */
 public class CheckingAuthentication {
     private static final Logger logger = Logger.getLogger(CheckingAuthentication.class.getName());
-    private static String cookie;
+    private static   String cookie;
     private String query;
     private PreparedStatement ps;
     private ResultSet rs;

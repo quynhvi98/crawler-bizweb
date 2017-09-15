@@ -33,8 +33,8 @@ public class GettingOrderData {
             Document getHTML = Jsoup.parse(get);
             String titleURL = getHTML.title();
             if (titleURL.equals("Đăng nhập quản trị hệ thống")) {
-                System.out.println("lỗi đăng nhập hệ th");
-                return false;
+                throw new Error("Error cookie");
+
             }
             Elements getDataAllCustomer = getHTML.select("div div[class*=t-status-text dataTables_info]");//lấy tất cả links
             int allCustomers = Integer.parseInt(commonUtil.cutID(getDataAllCustomer.text()));
@@ -52,6 +52,10 @@ public class GettingOrderData {
                 // start
                 authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/orders?page=" + ii, cookie);
                 getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
+                if (getHTML.title().equals("Đăng nhập quản trị hệ thống")) {
+                    throw new Error("Error cookie");
+
+                }
                 Elements getDataFromTRTags = getHTML.select("tbody tr[id*=parent-quick-view-]");
                 for (Element tags : getDataFromTRTags) {
                     String[] fullDataFromTags = new String[15];
@@ -69,6 +73,10 @@ public class GettingOrderData {
                     //
                     authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/orders/" + fullDataFromTags[0], cookie);
                     getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());//vào bên trong orders
+                    if (getHTML.title().equals("Đăng nhập quản trị hệ thống")) {
+                        throw new Error("Error cookie");
+
+                    }
                     Elements getListProductsOfOrder = getHTML.select("tbody");
                     Elements getAllTagTrInTagTbody0 = getListProductsOfOrder.get(0).select("tr");
                     String[] fullDataFromTagsAddress = new String[15];

@@ -30,7 +30,7 @@ public class UpdatingCustomerData {
             Document getHTML = Jsoup.parse(get);
             String titleURL = getHTML.title();
             if (titleURL.equals("Đăng nhập quản trị hệ thống")) {
-                return false;
+                throw new Error("Error cookie");
             }
             Elements getDataAllCustomer = getHTML.select("div div[class*=t-status-text dataTables_info]");//lấy tất cả links
             int allCustomers = Integer.parseInt(commonUtil.cutID(getDataAllCustomer.text()));
@@ -47,6 +47,10 @@ public class UpdatingCustomerData {
             for (int ii = 1; ii <= allCustomers; ii++) {
                 authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/customers?page=" + ii, cookie);
                 getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
+                if (getHTML.title().equals("Đăng nhập quản trị hệ thống")) {
+                    throw new Error("Error cookie");
+
+                }
                 Elements getDataFromTRTags = getHTML.select("tbody tr");
                 for (Element tags : getDataFromTRTags) {
                     String[] fullDataFromTags = new String[15];
@@ -93,6 +97,10 @@ public class UpdatingCustomerData {
                         }*/
                         authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/customers/" + fullDataFromTags[0], cookie);
                         getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
+                        if (getHTML.title().equals("Đăng nhập quản trị hệ thống")) {
+                            throw new Error("Error cookie");
+
+                        }
                         getDataFromTRTags = getHTML.select("div script.modal_source#modal-add-layouts[define*={editAddressModal]");
                         for (Element getTags : getDataFromTRTags
                                 ) {

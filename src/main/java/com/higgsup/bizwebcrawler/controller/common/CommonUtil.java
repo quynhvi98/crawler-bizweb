@@ -69,7 +69,6 @@ import java.util.regex.Pattern;
 
          date=date.replaceAll("/","-");
         date=date.substring(0,16);
-        System.out.println(date+" cat");
         SimpleDateFormat formatDateInput = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         SimpleDateFormat formatDateUot = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date date1 = formatDateInput.parse(date);

@@ -22,6 +22,7 @@ public class StartScheduling extends CheckingAuthentication {
     }
 
     public StartScheduling() {
+
     }
 
     public void startScheduling() {//bắt đầu chương trình
@@ -81,9 +82,9 @@ public class StartScheduling extends CheckingAuthentication {
             if (s.equals("Not Connect Internet")) {
                 System.out.println("mất mạng");
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
