@@ -17,6 +17,8 @@ abstract class UpdatingProductData extends StartScheduling implements Runnable {
             HtmlData authenticationGetRequest = new HtmlData();
             authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products", getCookie());
             boolean checkUpdateRequest = checkDataWebAndUpdateDataBase.updateDataProductFromWebAndUpdateToDataBase(authenticationGetRequest.getHtmlData(), getCookie());
+            logger.info(checkUpdateRequest + " UpdatingProductData");
+
         } catch (Error e) {
             String s = e.getLocalizedMessage();
             if (s.equals("Error cookie")) {

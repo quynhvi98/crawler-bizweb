@@ -18,6 +18,7 @@ abstract class QueryingOrderInformation extends StartScheduling implements Runna
             HtmlData authenticationGetRequest = new HtmlData();
             authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/orders", getCookie());
             boolean checkErrorRequest = getDataWebAndSetToDataBase.getDataOrderFromWebSetToDataBase(authenticationGetRequest.getHtmlData(), getCookie());
+            logger.info(checkErrorRequest + " QueryingOrderInformation");
         } catch (Error e) {
             String s = e.getLocalizedMessage();
             if (s.equals("Error cookie")) {

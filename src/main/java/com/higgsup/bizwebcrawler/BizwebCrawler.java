@@ -24,6 +24,7 @@ public class BizwebCrawler {
         System.out.println(Product1.getProducer().getName());*/
         StartScheduling startScheduling = (StartScheduling) applicationContext.getBean("scheduling");
         startScheduling.startScheduling();
+
     }
 }
 

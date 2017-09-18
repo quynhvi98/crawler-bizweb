@@ -17,6 +17,8 @@ abstract class UpdatingCustomerData extends StartScheduling implements Runnable 
             HtmlData authenticationGetRequest = new HtmlData();
             authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/customers", getCookie());
             boolean checkUpdateRequest = checkDataWebAndUpdateDataBase.updateDataCustomerFromWebSetToDataBase(authenticationGetRequest.getHtmlData(), getCookie());
+            logger.info(checkUpdateRequest + " UpdatingCustomerData");
+
         } catch (Error e) {
             String s = e.getLocalizedMessage();
             if (s.equals("Error cookie")) {

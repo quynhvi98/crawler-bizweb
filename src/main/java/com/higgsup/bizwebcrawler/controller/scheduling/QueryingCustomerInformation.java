@@ -17,6 +17,7 @@ abstract class QueryingCustomerInformation extends StartScheduling implements Ru
             HtmlData authenticationGetRequest = new HtmlData();
             authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/customers", getCookie());
             boolean checkErrorRequest = getDataWebAndSetToDataBase.getDataCustomerFromWebSetToDataBase(authenticationGetRequest.getHtmlData(), getCookie());
+            logger.info(checkErrorRequest + " QueryingCustomerInformation");
         } catch (Error e) {
             String s = e.getLocalizedMessage();
             if (s.equals("Error cookie")) {

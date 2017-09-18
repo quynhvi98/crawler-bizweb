@@ -34,45 +34,55 @@ public class StartScheduling extends CheckingAuthentication {
             Runnable queryProduct = new QueryingProductInformation() {
                 @Override
                 public void run() {
+                    System.out.printf("queryProduct");
                     super.run();
                 }
             };
             Runnable queryInfoCustomer = new QueryingCustomerInformation() {
                 @Override
                 public void run() {
+                    System.out.printf("queryInfoCustomer");
+
                     super.run();
                 }
             };
             Runnable queryInfoOrder = new QueryingOrderInformation() {
                 @Override
                 public void run() {
+                    System.out.printf("queryInfoOrder");
+
                     super.run();
                 }
             };
             Runnable updateDataProduct = new UpdatingProductData() {
                 @Override
                 public void run() {
+                    System.out.printf("updateDataProduct");
                     super.run();
                 }
             };
             Runnable updateDatCustomer = new UpdatingCustomerData() {
                 @Override
                 public void run() {
+                    System.out.printf("updateDatCustomer");
+
                     super.run();
                 }
             };
             Runnable updatingOrderData = new UpdatingOrderData() {
                 @Override
                 public void run() {
+                    System.out.printf("updatingOrderData");
+
                     super.run();
                 }
             };
-            reLoadTime.scheduleWithFixedDelay(queryProduct, 0, 100, TimeUnit.SECONDS);
-            reLoadTime.scheduleWithFixedDelay(queryInfoCustomer, 0, 100, TimeUnit.SECONDS);
-            reLoadTime.scheduleWithFixedDelay(queryInfoOrder, 0, 100, TimeUnit.SECONDS);
-            reLoadTime.scheduleWithFixedDelay(updateDataProduct, 0, 120, TimeUnit.MINUTES);
-            reLoadTime.scheduleWithFixedDelay(updateDatCustomer, 0, 120, TimeUnit.MINUTES);
-            reLoadTime.scheduleWithFixedDelay(updatingOrderData, 0, 120, TimeUnit.MINUTES);
+            reLoadTime.scheduleWithFixedDelay(queryProduct, 10, 100, TimeUnit.SECONDS);
+          //  reLoadTime.scheduleWithFixedDelay(queryInfoCustomer, 0, 100, TimeUnit.SECONDS);
+          //  reLoadTime.scheduleWithFixedDelay(queryInfoOrder, 0, 100, TimeUnit.SECONDS);
+           // reLoadTime.scheduleWithFixedDelay(updateDataProduct, 0, 120, TimeUnit.MINUTES);
+           // reLoadTime.scheduleWithFixedDelay(updateDatCustomer, 0, 120, TimeUnit.MINUTES);
+           // reLoadTime.scheduleWithFixedDelay(updatingOrderData, 0, 120, TimeUnit.MINUTES);
 
         } catch (Error e) {
             String s = e.getLocalizedMessage();
