@@ -14,9 +14,9 @@ public class Product {
     @Column(name = "product_id")
     private String productID;
     private String name;
-    private float price;
+    private Double price;
     private int stork;
-    private float weight;
+    private Double weight;
     private String content;
     @Column(name = "IMG")
     private String img;
@@ -25,12 +25,16 @@ public class Product {
     @JoinColumn(name = "product_group_id")
     @Autowired
     private ProductGroup productGroup;
+    @Column(name = "product_group_id")
+    private int productGroupId;
     @ManyToOne
     @JoinColumn(name = "producer_id")
     @Autowired
     private Producer producer;
+    @Column(name = "producer_id")
+    private int producerId;
 
-    public Product(String productID, String name, float price, int stork, float weight, String content, String img, String description) {
+    public Product(String productID, String name, Double price, int stork, Double weight, String content, String img, String description) {
         this.productID = productID;
         this.name = name;
         this.price = price;
@@ -46,6 +50,37 @@ public class Product {
         return productID;
     }
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productID='" + productID + '\'' +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", stork=" + stork +
+                ", weight=" + weight +
+                ", content='" + content + '\'' +
+                ", img='" + img + '\'' +
+                ", description='" + description + '\'' +
+                ", productGroup=" + productGroup +
+                ", productGroupId=" + productGroupId +
+                ", producer=" + producer +
+                ", producerId=" + producerId +
+                '}';
+    }
+
+    public Product(String productID, String name, Double price, int stork, Double weight, String content, String img, String description, int productGroupId, int producerId) {
+        this.productID = productID;
+        this.name = name;
+        this.price = price;
+        this.stork = stork;
+        this.weight = weight;
+        this.content = content;
+        this.img = img;
+        this.description = description;
+        this.productGroupId = productGroupId;
+        this.producerId = producerId;
+    }
+
     public void setProductID(String productID) {
         this.productID = productID;
     }
@@ -58,11 +93,11 @@ public class Product {
         this.name = name;
     }
 
-    public float getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -74,11 +109,11 @@ public class Product {
         this.stork = stork;
     }
 
-    public float getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(float weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 
@@ -114,6 +149,14 @@ public class Product {
         this.productGroup = productGroup;
     }
 
+    public int getProductGroupId() {
+        return productGroupId;
+    }
+
+    public void setProductGroupId(int productGroupId) {
+        this.productGroupId = productGroupId;
+    }
+
     public Producer getProducer() {
         return producer;
     }
@@ -121,6 +164,15 @@ public class Product {
     public void setProducer(Producer producer) {
         this.producer = producer;
     }
+
+    public int getProducerId() {
+        return producerId;
+    }
+
+    public void setProducerId(int producerId) {
+        this.producerId = producerId;
+    }
+
 
     public Product() {
     }

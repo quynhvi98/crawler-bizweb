@@ -28,7 +28,7 @@ public class UpdatingProductData {
             Document getHTML = Jsoup.parse(get);
             String titleURL = getHTML.title();
             if (titleURL.equals("Đăng nhập quản trị hệ thống")) {
-                return false;
+                throw new Error("Error cookie");
             }
             Elements getDataAllProducts = getHTML.select("div div[class*=t-status-text dataTables_info]");
             int allProducts = Integer.parseInt(commonUtil.cutID(getDataAllProducts.text()));
@@ -45,6 +45,10 @@ public class UpdatingProductData {
             for (int ii = 1; ii <= allProducts; ii++) {
                 authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products?page=" + ii, cookie);
                 getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
+                if (getHTML.title().equals("Đăng nhập quản trị hệ thống")) {
+                    throw new Error("Error cookie");
+
+                }
                 Elements getDataFromTrTags = getHTML.select("tbody tr");
                 for (Element tags : getDataFromTrTags) {
                     String[] fullDataFromTags = new String[15];
@@ -70,7 +74,7 @@ public class UpdatingProductData {
                         getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                         titleURL = getHTML.title();
                         if (titleURL.equals("Đăng nhập quản trị hệ thống")) {
-                            return false;
+                            throw new Error("Error cookie");
                         }
                         Elements getDataFromDivRowTag = getHTML.select("div.row");
                         getDataFromTrTags = getDataFromDivRowTag.get(0).select("div.controls textarea");

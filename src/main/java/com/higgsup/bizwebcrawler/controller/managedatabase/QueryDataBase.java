@@ -212,7 +212,7 @@ public class QueryDataBase {
             rs = ps.executeQuery();
             if (rs.next()) {
                 ArrayList<Product> dataProducerFromProductID = new ArrayList<Product>();
-              //  dataProducerFromProductID.add(new Product(rs.getString(1), rs.getString(2), rs.getFloat(3), rs.getInt(4), rs.getFloat(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getInt(9), rs.getInt(10)));
+                dataProducerFromProductID.add(new Product(rs.getString(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getDouble(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getInt(9), rs.getInt(10)));
                 return dataProducerFromProductID;
             }
         } catch (ClassNotFoundException e) {
@@ -223,7 +223,7 @@ public class QueryDataBase {
         return null;
     }
     //oki
-    public void updateProduct(String product_ID, String name, Double price, int stork, float weight_, String content, String IMG, String description_, int productGroup_iD, int producer_ID) {
+    public void updateProduct(String product_ID, String name, Double price, int stork, double weight_, String content, String IMG, String description_, int productGroup_iD, int producer_ID) {
         try {
             query = "UPDATE dbo.product SET name =?,price=?,stork=?,weight=?,content=?,IMG=?,description=?,product_group_id=?,producer_id=? WHERE product_id=?";
             ps = con.startConnect().prepareCall(query);
@@ -238,7 +238,7 @@ public class QueryDataBase {
             ps.setInt(9, producer_ID);
             ps.setString(10, product_ID);
             ps.executeUpdate();
-            System.out.println("update  oki");
+            System.out.println("update  oki "+name +" ffff");
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage());
         }

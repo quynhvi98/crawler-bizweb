@@ -45,6 +45,10 @@ public class GettingCustomerData {
             for (int ii = 1; ii <= allCustomers; ii++) {
                 authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/customers?page=" + ii, cookie);
                 getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
+                if (getHTML.title().equals("Đăng nhập quản trị hệ thống")) {
+                    throw new Error("Error cookie");
+
+                }
                 Elements getDataFromTRTags = getHTML.select("tbody tr");
                 for (Element tags : getDataFromTRTags) {
                     String[] fullDataFromTags = new String[15];
@@ -83,6 +87,10 @@ public class GettingCustomerData {
                         queryDataBase.setDataFromCustomer(fullDataFromTags[0], fullDataFromTags[1], fullDataFromTags[3], fullDataFromTags[6]);
                         authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/customers/" + fullDataFromTags[0], cookie);
                         getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
+                        if (getHTML.title().equals("Đăng nhập quản trị hệ thống")) {
+                            throw new Error("Error cookie");
+
+                        }
                         getDataFromTRTags = getHTML.select("div script.modal_source#modal-add-layouts[define*={editAddressModal]");
                         for (Element getTags : getDataFromTRTags
                                 ) {

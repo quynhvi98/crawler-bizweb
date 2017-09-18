@@ -12,6 +12,7 @@ import java.util.logging.Logger;
  * Created by viquy 2:24 PM 9/12/2017
  */
 abstract class QueryingProductInformation extends StartScheduling implements Runnable {
+
     private static final Logger logger = Logger.getLogger(QueryingProductInformation.class.getName());
     @Override
     public String getCookie() {
