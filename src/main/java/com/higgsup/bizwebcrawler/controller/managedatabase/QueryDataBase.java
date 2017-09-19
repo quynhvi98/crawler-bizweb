@@ -46,6 +46,7 @@ public class QueryDataBase {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }
+
     //oki
     public int getIDProductCategory(String name) {
         try {
@@ -63,6 +64,7 @@ public class QueryDataBase {
         }
         return 0;
     }
+
     //oki
     public void setDataProductGroup(String name) {
         try {
@@ -83,6 +85,7 @@ public class QueryDataBase {
         }
 
     }
+
     //oki
     public int getIDProductGroup(String name) {
         try {
@@ -100,6 +103,7 @@ public class QueryDataBase {
         }
         return 0;
     }
+
     //oki
     public void setDataProducer(String Name) {
         try {
@@ -120,6 +124,7 @@ public class QueryDataBase {
         }
 
     }
+
     //oki
     public int getIDProducer(String Name) {
         try {
@@ -137,24 +142,27 @@ public class QueryDataBase {
         }
         return 0;
     }
+
     ///oki
-    public void setDataProduct(String product_ID, String name, String price, String stork, String content, String IMG, int productGroup_iD, int producer_ID) {
+    public void setDataProduct(Product product) {
         try {
             query = "SELECT product_id FROM dbo.product WHERE product_id=?";
             ps = con.startConnect().prepareCall(query);
-            ps.setString(1, product_ID);
+            ps.setString(1, product.getProductID());
             rs = ps.executeQuery();
             if (!(rs.next())) {
-                query = "INSERT dbo.product( product_id ,name ,price ,stork ,content ,IMG ,product_group_id ,producer_id)VALUES  ( ? , ? ,? , ? ,? , ? , ? , ?)";
+                query = "INSERT dbo.product( product_id ,name ,price ,stork,weight ,content ,IMG ,description,product_group_id ,producer_id)VALUES  ( ? , ?,?,? ,? , ? ,? , ? , ? , ?)";
                 ps = con.startConnect().prepareCall(query);
-                ps.setString(1, product_ID);
-                ps.setString(2, name);
-                ps.setDouble(3, Double.parseDouble(price));
-                ps.setInt(4, Integer.parseInt(stork));
-                ps.setString(5, content);
-                ps.setString(6, IMG);
-                ps.setInt(7, productGroup_iD);
-                ps.setInt(8, producer_ID);
+                ps.setString(1, product.getProductID());
+                ps.setString(2, product.getName());
+                ps.setDouble(3, product.getPrice());
+                ps.setInt(4, product.getStork());
+                ps.setDouble(5, product.getWeight());
+                ps.setString(6, product.getContent());
+                ps.setString(7, product.getImg());
+                ps.setString(8, product.getDescription());
+                ps.setInt(9, product.getProductGroupId());
+                ps.setInt(10, product.getProducerId());
                 ps.executeUpdate();
             }
         } catch (ClassNotFoundException e) {
@@ -163,6 +171,7 @@ public class QueryDataBase {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }
+
     ///oki
     public boolean hasProductID(String product_ID) {
         try {
@@ -179,6 +188,7 @@ public class QueryDataBase {
         }
         return false;
     }
+
     //oki
     public void setDataFromCategoryProductAndProduct(String productCate_ID, String product_ID) {//set category và product
         try {
@@ -202,6 +212,7 @@ public class QueryDataBase {
             // logger.log(Level.SEVERE, e.getMessage());
         }
     }
+
     //oki
     public ArrayList<Product> getDataProductFromProductID(String product_ID) {
 
@@ -222,27 +233,29 @@ public class QueryDataBase {
         }
         return null;
     }
+
     //oki
-    public void updateProduct(String product_ID, String name, Double price, int stork, double weight_, String content, String IMG, String description_, int productGroup_iD, int producer_ID) {
+    public void updateProduct(String product_ID, String name, Double price, int stork, double weight, String content, String IMG, String description, int productGroup_iD, int producer_ID) {
         try {
             query = "UPDATE dbo.product SET name =?,price=?,stork=?,weight=?,content=?,IMG=?,description=?,product_group_id=?,producer_id=? WHERE product_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, name);
             ps.setDouble(2, price);
             ps.setInt(3, stork);
-            ps.setDouble(4, weight_);
+            ps.setDouble(4, weight);
             ps.setString(5, content);
             ps.setString(6, IMG);
-            ps.setString(7, description_);
+            ps.setString(7, description);
             ps.setInt(8, productGroup_iD);
             ps.setInt(9, producer_ID);
             ps.setString(10, product_ID);
             ps.executeUpdate();
-            System.out.println("update  oki "+name +" ffff");
+            System.out.println("update  oki " + name + " ffff");
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }
+
     //oki
     public void remoDataCategoryProductFromCateIdAndProductId(String productCate_ID, String product_ID) {
         try {
@@ -257,6 +270,7 @@ public class QueryDataBase {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }
+
     //oki
     public ArrayList<String> getListProductCateIdFormProductIdInCategoryProduct(String product_ID) {
         ArrayList<String> listProductCateID = new ArrayList<String>();
@@ -296,6 +310,7 @@ public class QueryDataBase {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }
+
     // oki
     public void setDataFromOrder(Order dataFromOrder) {
         try {
@@ -306,15 +321,15 @@ public class QueryDataBase {
             if (!(rs.next())) {
                 query = "INSERT dbo.order_product ( order_id ,date ,status_paymen ,status_delivery ,total_bill ,total_weight ,fee_delivery ,customer_id ,payment_id )VALUES  ( ? , ?, ? , ? , ? , ? , ? ,  ? , ? )";
                 ps = con.startConnect().prepareCall(query);
-                ps.setString(1,dataFromOrder.getOrderID());
-                  ps.setString(2,dataFromOrder.getDate());
-                ps.setString(3,dataFromOrder.getStatusPaymen());
-                ps.setString(4,dataFromOrder.getStatusDelivery());
-                ps.setDouble(5,dataFromOrder.getTotalBill());
-                ps.setDouble(6,dataFromOrder.getTotalWeight());
-                ps.setDouble(7,dataFromOrder.getFeeDelivery());
-                ps.setString(8,dataFromOrder.getCustomerID());
-                ps.setInt(9,dataFromOrder.getPaymentID());
+                ps.setString(1, dataFromOrder.getOrderID());
+                ps.setString(2, dataFromOrder.getDate());
+                ps.setString(3, dataFromOrder.getStatusPaymen());
+                ps.setString(4, dataFromOrder.getStatusDelivery());
+                ps.setDouble(5, dataFromOrder.getTotalBill());
+                ps.setDouble(6, dataFromOrder.getTotalWeight());
+                ps.setDouble(7, dataFromOrder.getFeeDelivery());
+                ps.setString(8, dataFromOrder.getCustomerID());
+                ps.setInt(9, dataFromOrder.getPaymentID());
 
                 ps.executeUpdate();
             }
@@ -346,7 +361,7 @@ public class QueryDataBase {
 
     public void setDataFromOrderAndProduct(OrderProduct dataFromOrderAndProduct) {
         try {
-                query = "SELECT order_product_id FROM product_order WHERE product_id =? AND order_id=?";
+            query = "SELECT order_product_id FROM product_order WHERE product_id =? AND order_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, dataFromOrderAndProduct.getProductID());
             ps.setString(2, dataFromOrderAndProduct.getOrderID());
@@ -367,7 +382,7 @@ public class QueryDataBase {
     }
     // oki
 
-    public void setDataFromOrderAddress(OrderAddress dataFromOrderAddress){
+    public void setDataFromOrderAddress(OrderAddress dataFromOrderAddress) {
         try {
             query = " SELECT order_address_id FROM dbo.order_address WHERE order_id=?";
             ps = con.startConnect().prepareCall(query);
@@ -418,6 +433,7 @@ public class QueryDataBase {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }
+
     //oki
     public boolean hasCustomerID(String customerID) {
         try {
@@ -434,6 +450,7 @@ public class QueryDataBase {
         }
         return false;
     }
+
     //CustomerAddress
     //oki
     public void setDataCustomerAddress(CustomerAddress objectCustomerAddress) {
@@ -469,6 +486,7 @@ public class QueryDataBase {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }
+
     //oki
     public ArrayList<String> getListCustomerDddIdFormCustomerId(String customer_ID) {
         ArrayList<String> ListCustomerAddiD = new ArrayList<String>();
@@ -522,6 +540,7 @@ public class QueryDataBase {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }
+
     //oki
     public void deleteDataCustomerAddress(String ID) {
         try {
@@ -535,6 +554,7 @@ public class QueryDataBase {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }
+
     //okie
     public ArrayList<CustomerAddress> getListAddressFormCustomerId(String customer_ID) {
         ArrayList<CustomerAddress> loi = new ArrayList<CustomerAddress>();
@@ -544,7 +564,7 @@ public class QueryDataBase {
             ps.setString(1, customer_ID);
             rs = ps.executeQuery();
             while (rs.next()) {
-               // loi.add(new CustomerAddress(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), customer_ID, rs.getString(8), rs.getString(9), rs.getString(10)));
+                // loi.add(new CustomerAddress(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), customer_ID, rs.getString(8), rs.getString(9), rs.getString(10)));
             }
         } catch (ClassNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
@@ -577,9 +597,10 @@ public class QueryDataBase {
 
         return null;
     }
+
     //oki
     public void updateDataCustomersFromObjectCustomer(Customer objectCustomers) {
-        Customer objectCustomers1=objectCustomers;
+        Customer objectCustomers1 = objectCustomers;
         try {
             query = "SELECT *FROM dbo.customer WHERE customer_id=?";
             ps = con.startConnect().prepareCall(query);
@@ -588,10 +609,10 @@ public class QueryDataBase {
             if (rs.next()) {
                 query = "UPDATE dbo.Customer SET full_name=?,email=?,total_bill=? WHERE customer_id=?";
                 ps = con.startConnect().prepareCall(query);
-                ps.setString(1,objectCustomers1.getFullName());
-                ps.setString(2,objectCustomers1.getEmail());
-                ps.setDouble(3,objectCustomers1.getTotalBill());
-                ps.setString(4,objectCustomers1.getId());
+                ps.setString(1, objectCustomers1.getFullName());
+                ps.setString(2, objectCustomers1.getEmail());
+                ps.setDouble(3, objectCustomers1.getTotalBill());
+                ps.setString(4, objectCustomers1.getId());
                 ps.executeUpdate();
             }
         } catch (ClassNotFoundException e) {
@@ -604,24 +625,25 @@ public class QueryDataBase {
     //end update Customer
 
     //order start update
-public  ArrayList<Order> getListDataOrders(){
-    ArrayList<Order> listOrder = new ArrayList<Order>();
-    try {
-        CommonUtil commonUtil=new CommonUtil();
-        query = "SELECT * FROM dbo.order_product";
-        ps = con.startConnect().prepareCall(query);
-        rs = ps.executeQuery();
-        while (rs.next()) {
-            listOrder.add(new Order(rs.getString(1),commonUtil.cutDateSQL(rs.getString(2)),rs.getString(3),rs.getString(4),rs.getDouble(5),rs.getDouble(6),rs.getDouble(7),rs.getString(8),rs.getInt(9)));
+    public ArrayList<Order> getListDataOrders() {
+        ArrayList<Order> listOrder = new ArrayList<Order>();
+        try {
+            CommonUtil commonUtil = new CommonUtil();
+            query = "SELECT * FROM dbo.order_product";
+            ps = con.startConnect().prepareCall(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                listOrder.add(new Order(rs.getString(1), commonUtil.cutDateSQL(rs.getString(2)), rs.getString(3), rs.getString(4), rs.getDouble(5), rs.getDouble(6), rs.getDouble(7), rs.getString(8), rs.getInt(9)));
+            }
+            return listOrder;
+        } catch (ClassNotFoundException e) {
+            logger.log(Level.SEVERE, e.getMessage());
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.getMessage());
         }
         return listOrder;
-    } catch (ClassNotFoundException e) {
-        logger.log(Level.SEVERE, e.getMessage());
-    } catch (SQLException e) {
-        logger.log(Level.SEVERE, e.getMessage());
     }
-    return listOrder;
-}
+
     public void updateDataFromOrder(Order dataFromOrder) {
         try {
             query = "SELECT order_id FROM dbo.order_product WHERE order_id=?";
@@ -632,16 +654,16 @@ public  ArrayList<Order> getListDataOrders(){
                 query = "UPDATE  order_product SET date=?, status_paymen=?,status_delivery=?,total_bill=?,total_weight=?,fee_delivery=?,customer_id=?,payment_id=? WHERE order_id=? AND customer_id=?";
                 ps = con.startConnect().prepareCall(query);
 
-                ps.setString(1,dataFromOrder.getDate());
-                ps.setString(2,dataFromOrder.getStatusPaymen());
-                ps.setString(3,dataFromOrder.getStatusDelivery());
-                ps.setDouble(4,dataFromOrder.getTotalBill());
-                ps.setDouble(5,dataFromOrder.getTotalWeight());
-                ps.setDouble(6,dataFromOrder.getFeeDelivery());
-                ps.setString(7,dataFromOrder.getCustomerID());
-                ps.setInt(8,dataFromOrder.getPaymentID());
-                ps.setString(9,dataFromOrder.getOrderID());
-                ps.setString(10,dataFromOrder.getCustomerID());
+                ps.setString(1, dataFromOrder.getDate());
+                ps.setString(2, dataFromOrder.getStatusPaymen());
+                ps.setString(3, dataFromOrder.getStatusDelivery());
+                ps.setDouble(4, dataFromOrder.getTotalBill());
+                ps.setDouble(5, dataFromOrder.getTotalWeight());
+                ps.setDouble(6, dataFromOrder.getFeeDelivery());
+                ps.setString(7, dataFromOrder.getCustomerID());
+                ps.setInt(8, dataFromOrder.getPaymentID());
+                ps.setString(9, dataFromOrder.getOrderID());
+                ps.setString(10, dataFromOrder.getCustomerID());
                 ps.executeUpdate();
             }
         } catch (ClassNotFoundException e) {
@@ -651,16 +673,16 @@ public  ArrayList<Order> getListDataOrders(){
         }
     }
 
-    public  ArrayList<OrderProduct> getListDataOrderProduct(String id){
+    public ArrayList<OrderProduct> getListDataOrderProduct(String id) {
         ArrayList<OrderProduct> listOrderProduct = new ArrayList<OrderProduct>();
         try {
-            CommonUtil commonUtil=new CommonUtil();
+            CommonUtil commonUtil = new CommonUtil();
             query = "SELECT  quantity,product_id,order_id FROM  product_order WHERE order_id=?";
             ps = con.startConnect().prepareCall(query);
             ps.setString(1, id);
             rs = ps.executeQuery();
             while (rs.next()) {
-                listOrderProduct.add(new OrderProduct(rs.getDouble(2),rs.getString(3),rs.getString(4)));
+                listOrderProduct.add(new OrderProduct(rs.getDouble(2), rs.getString(3), rs.getString(4)));
             }
             return listOrderProduct;
         } catch (ClassNotFoundException e) {
@@ -670,6 +692,7 @@ public  ArrayList<Order> getListDataOrders(){
         }
         return listOrderProduct;
     }
+
     public boolean updateDataFromOrderAndProduct(OrderProduct dataFromOrderAndProduct) {
         try {
             query = "SELECT order_product_id FROM product_order WHERE product_id =? AND order_id=?";
@@ -686,7 +709,7 @@ public  ArrayList<Order> getListDataOrders(){
                 ps.setString(4, dataFromOrderAndProduct.getProductID());
                 ps.setString(5, dataFromOrderAndProduct.getOrderID());
                 ps.executeUpdate();
-            }else {
+            } else {
                 return false;
             }
         } catch (ClassNotFoundException e) {
@@ -697,7 +720,7 @@ public  ArrayList<Order> getListDataOrders(){
         return true;
     }
 
-    public void updateDataFromOrderAddress(OrderAddress dataFromOrderAddress){
+    public void updateDataFromOrderAddress(OrderAddress dataFromOrderAddress) {
         try {
             query = " SELECT order_address_id FROM dbo.order_address WHERE order_id=?";
             ps = con.startConnect().prepareCall(query);
@@ -725,14 +748,14 @@ public  ArrayList<Order> getListDataOrders(){
         }
     }
 
-    public  ArrayList<OrderAddress> getListDataOrderAddress(){
+    public ArrayList<OrderAddress> getListDataOrderAddress() {
         ArrayList<OrderAddress> listOrderAddress = new ArrayList<OrderAddress>();
         try {
             query = "SELECT * FROM order_address";
             ps = con.startConnect().prepareCall(query);
             rs = ps.executeQuery();
             while (rs.next()) {
-                listOrderAddress.add(new OrderAddress(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getString(10),rs.getString(11)));
+                listOrderAddress.add(new OrderAddress(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11)));
             }
             return listOrderAddress;
         } catch (SQLException e) {

@@ -30,17 +30,13 @@ public class GettingOrderData {
     public boolean getDataOrderFromWebSetToDataBase(String get, String cookie) throws IOException {
         CommonUtil commonUtil = new CommonUtil();
         DividePage dividePage=new DividePage();
-
+        String titleURL;
         try {
             QueryDataBase queryDataBase = new QueryDataBase();
             Document getHTML = Jsoup.parse(get);
-            String titleURL = getHTML.title();
-            if (titleURL.equals("Đăng nhập quản trị hệ thống")) {
-                throw new Error("Error cookie");
-
-            }
-            Elements getDataAllCustomer = getHTML.select("div div[class*=t-status-text dataTables_info]");//lấy tất cả links
-            int allOrder = Integer.parseInt(commonUtil.cutID(getDataAllCustomer.text()));
+            dividePage.setCheckDataFromWeb(getHTML);
+            Elements getDataAllOrders=dividePage.getCheckDataFromWeb();
+            int allOrder = Integer.parseInt(commonUtil.cutID(getDataAllOrders.text()));
             dividePage.setPage(allOrder);
             allOrder=dividePage.getPage();
             for (int ii = 1; ii <= allOrder; ii++) {

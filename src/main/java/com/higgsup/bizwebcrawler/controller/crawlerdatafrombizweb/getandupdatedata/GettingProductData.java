@@ -25,21 +25,14 @@ public class GettingProductData {
     public boolean getDataProductFromWeb(String get, String cookie) throws IOException {
         CommonUtil commonUtil = new CommonUtil();
         DividePage dividePage = new DividePage();
+        String titleURL;
         try {
-
             Document getHTML = Jsoup.parse(get);
-            String titleURL = getHTML.title();
-            if (titleURL.equals("Đăng nhập quản trị hệ thống")) {
-                throw new Error("Error cookie");
-            }
-            Elements getDataAllProducts = getHTML.select("div div[class*=t-status-text dataTables_info]");
-            if(getDataAllProducts.text().equalsIgnoreCase("")){
-                throw new Error("Error Id = null!");
-            }
+            dividePage.setCheckDataFromWeb(getHTML);
+            Elements getDataAllProducts=dividePage.getCheckDataFromWeb();
             int allProducts = Integer.parseInt(commonUtil.cutID(getDataAllProducts.text()));
             dividePage.setPage(allProducts);
             allProducts = dividePage.getPage();
-
             for (int ii = 1; ii <= allProducts; ii++) {
                 authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products?page=" + ii, cookie);
                 getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
@@ -62,7 +55,6 @@ public class GettingProductData {
                     }
                     fullDataFromTags[4] = getDataFromPTags.get(1).text();
                     fullDataFromTags[5] = getDataFromPTags.get(2).text();
-//
                     authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products/" + fullDataFromTags[0], cookie);
                     getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                     titleURL = getHTML.title();
@@ -96,7 +88,6 @@ public class GettingProductData {
                     }
                     Elements checkVersionProduct = getHTML.select("div.row a[bind-event-click*=changeOptionNamesModal.show(]");
                     setDataToDB(fullDataFromTags, checkVersionProduct, getDataFromDivRowTag, getDataCategoryProduct);
-
                     TimeUnit.SECONDS.sleep(10);
                 }
             }
@@ -105,16 +96,18 @@ public class GettingProductData {
         }
         return true;
     }
-
     public void setDataToDB(String[] fullDataFromTags, Elements checkVersionProduct, Elements getDataFromDivRowTag, HashMap getDataCategoryProduct) {
         Elements getDataFromTrTags;
         QueryDataBase queryDataBase = new QueryDataBase();
+
         if (queryDataBase.hasProductID(fullDataFromTags[0])) {
             queryDataBase.setDataProducer(fullDataFromTags[5]);
             if (checkVersionProduct.size() >= 1) {
                 fullDataFromTags[7] = "0.0";
                 queryDataBase.setDataProductGroup(fullDataFromTags[4]);
-                queryDataBase.setDataProduct(fullDataFromTags[0], fullDataFromTags[1], fullDataFromTags[7], fullDataFromTags[3], fullDataFromTags[6], fullDataFromTags[2], queryDataBase.getIDProductGroup(fullDataFromTags[4]), queryDataBase.getIDProducer(fullDataFromTags[5]));
+                Product product = new Product(fullDataFromTags[0], fullDataFromTags[1], Double.parseDouble(fullDataFromTags[7]), Integer.parseInt(fullDataFromTags[3]), 0.0, fullDataFromTags[6], fullDataFromTags[2], "null", queryDataBase.getIDProductGroup(fullDataFromTags[4]), queryDataBase.getIDProducer(fullDataFromTags[5]));
+
+                queryDataBase.setDataProduct(product);
             } else {
                 getDataFromTrTags = getDataFromDivRowTag.get(7).select("div.controls input[value] ");
                 fullDataFromTags[7] = getDataFromTrTags.get(0).attr("value");
@@ -122,7 +115,9 @@ public class GettingProductData {
                     fullDataFromTags[7] = "0";
                 }
                 queryDataBase.setDataProductGroup(fullDataFromTags[4]);
-                queryDataBase.setDataProduct(fullDataFromTags[0], fullDataFromTags[1], fullDataFromTags[7], fullDataFromTags[3], fullDataFromTags[6], fullDataFromTags[2], queryDataBase.getIDProductGroup(fullDataFromTags[4]), queryDataBase.getIDProducer(fullDataFromTags[5]));
+                Product product = new Product(fullDataFromTags[0], fullDataFromTags[1], Double.parseDouble(fullDataFromTags[7]), Integer.parseInt(fullDataFromTags[3]), 0.0, fullDataFromTags[6], fullDataFromTags[2], "null", queryDataBase.getIDProductGroup(fullDataFromTags[4]), queryDataBase.getIDProducer(fullDataFromTags[5]));
+
+                queryDataBase.setDataProduct(product);
                 Set set = getDataCategoryProduct.entrySet();
                 Iterator i = set.iterator();
                 while (i.hasNext()) {
@@ -132,8 +127,6 @@ public class GettingProductData {
                 }
             }
         } else {
-            System.out.println("Update");
-
             if (checkVersionProduct.size() >= 1) {
                 fullDataFromTags[7] = "0.0";
                 queryDataBase.setDataProductGroup(fullDataFromTags[4]);
@@ -149,23 +142,18 @@ public class GettingProductData {
             queryDataBase.setDataProducer(fullDataFromTags[5]);
             ArrayList<Product> dataProducerFromProductID = null;
             dataProducerFromProductID = queryDataBase.getDataProductFromProductID(fullDataFromTags[0]);
-
             if (!(dataProducerFromProductID.get(0).getName().equals(fullDataFromTags[1]) && String.valueOf(dataProducerFromProductID.get(0).getPrice()).equals(String.valueOf(Double.parseDouble(fullDataFromTags[7]))) && String.valueOf(dataProducerFromProductID.get(0).getStork()).equals(fullDataFromTags[3]) && dataProducerFromProductID.get(0).getContent().equals(fullDataFromTags[6]) && dataProducerFromProductID.get(0).getImg().equals(fullDataFromTags[2]) && String.valueOf(dataProducerFromProductID.get(0).getProductGroupId()).equals(String.valueOf(queryDataBase.getIDProductGroup(fullDataFromTags[4]))) && String.valueOf(dataProducerFromProductID.get(0).getProducerId()).equals(String.valueOf(queryDataBase.getIDProducer(fullDataFromTags[5]))))) {
-
                 queryDataBase.updateProduct(fullDataFromTags[0], fullDataFromTags[1], Double.parseDouble(fullDataFromTags[7]), Integer.parseInt(fullDataFromTags[3]), 0, fullDataFromTags[6], fullDataFromTags[2], "", queryDataBase.getIDProductGroup(fullDataFromTags[4]), queryDataBase.getIDProducer(fullDataFromTags[5]));
             } else {
                 System.out.println(dataProducerFromProductID.get(0).getName() + " " + fullDataFromTags[1] + " ddđ");
             }
-            Product product = new Product(fullDataFromTags[0], fullDataFromTags[1], Double.parseDouble(fullDataFromTags[7]), Integer.parseInt(fullDataFromTags[3]), 0.0, fullDataFromTags[6], fullDataFromTags[2], "", queryDataBase.getIDProductGroup(fullDataFromTags[4]), queryDataBase.getIDProducer(fullDataFromTags[5]));
             ArrayList<String> listProductCateID = null;
             listProductCateID = queryDataBase.getListProductCateIdFormProductIdInCategoryProduct(fullDataFromTags[0]);
             Set set = getDataCategoryProduct.entrySet();
             Iterator i = set.iterator();
-
             while (i.hasNext()) {
                 Map.Entry mapEntry = (Map.Entry) i.next();
                 queryDataBase.setDataProductCategory((String) mapEntry.getKey(), (String) mapEntry.getValue());
-
                 int indexList = listProductCateID.indexOf((String) mapEntry.getKey());
                 if (indexList >= 0) {
                     listProductCateID.remove(indexList);
@@ -173,8 +161,7 @@ public class GettingProductData {
                     queryDataBase.setDataFromCategoryProductAndProduct((String) mapEntry.getKey(), fullDataFromTags[0]);
                 }
             }
-            for (String productCate_ID : listProductCateID
-                    ) {
+            for (String productCate_ID : listProductCateID) {
                 queryDataBase.remoDataCategoryProductFromCateIdAndProductId(productCate_ID, fullDataFromTags[0]);
             }
             dataProducerFromProductID.clear();

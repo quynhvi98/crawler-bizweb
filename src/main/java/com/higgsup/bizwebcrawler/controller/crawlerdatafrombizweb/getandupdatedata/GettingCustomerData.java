@@ -30,11 +30,8 @@ public class GettingCustomerData {
         try {
             QueryDataBase queryDataBase = new QueryDataBase();
             Document getHTML = Jsoup.parse(get);
-            String titleURL = getHTML.title();
-            if (titleURL.equals("Đăng nhập quản trị hệ thống")) {
-                return false;
-            }
-            Elements getDataAllCustomer = getHTML.select("div div[class*=t-status-text dataTables_info]");//lấy tất cả links
+            dividePage.setCheckDataFromWeb(getHTML);
+            Elements getDataAllCustomer=dividePage.getCheckDataFromWeb();
             int allCustomers = Integer.parseInt(commonUtil.cutID(getDataAllCustomer.text()));
             dividePage.setPage(allCustomers);
             allCustomers=dividePage.getPage();
