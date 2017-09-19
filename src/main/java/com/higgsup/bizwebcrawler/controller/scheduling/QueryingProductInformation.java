@@ -1,8 +1,7 @@
 package com.higgsup.bizwebcrawler.controller.scheduling;
 
-import com.higgsup.bizwebcrawler.controller.authentication.CheckingAuthentication;
 import com.higgsup.bizwebcrawler.controller.authentication.HtmlData;
-import com.higgsup.bizwebcrawler.controller.crawlerdatafrombizweb.getdata.GettingProductData;
+import com.higgsup.bizwebcrawler.controller.crawlerdatafrombizweb.getandupdatedata.GettingProductData;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -26,7 +25,7 @@ abstract class QueryingProductInformation extends StartScheduling implements Run
             HtmlData authenticationGetRequest = new HtmlData();
             authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products", getCookie());
 
-            boolean checkErrorRequest = GetDataWebAndSetToDataBase.getDataProductFromWebAndSetToDataBase(authenticationGetRequest.getHtmlData(), getCookie());
+            boolean checkErrorRequest = GetDataWebAndSetToDataBase.getDataProductFromWeb(authenticationGetRequest.getHtmlData(), getCookie());
             logger.info(checkErrorRequest + " product");
         } catch (Error e) {
             String s = e.getLocalizedMessage();

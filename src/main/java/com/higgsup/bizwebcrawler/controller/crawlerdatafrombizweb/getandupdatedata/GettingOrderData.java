@@ -1,7 +1,8 @@
-package com.higgsup.bizwebcrawler.controller.crawlerdatafrombizweb.getdata;
+package com.higgsup.bizwebcrawler.controller.crawlerdatafrombizweb.getandupdatedata;
 
 import com.higgsup.bizwebcrawler.controller.authentication.HtmlData;
 import com.higgsup.bizwebcrawler.controller.common.CommonUtil;
+import com.higgsup.bizwebcrawler.controller.common.DividePage;
 import com.higgsup.bizwebcrawler.controller.managedatabase.QueryDataBase;
 import com.higgsup.bizwebcrawler.model.order.Order;
 import com.higgsup.bizwebcrawler.model.order.OrderAddress;
@@ -28,6 +29,8 @@ public class GettingOrderData {
     private HtmlData authenticationGetRequest = new HtmlData();
     public boolean getDataOrderFromWebSetToDataBase(String get, String cookie) throws IOException {
         CommonUtil commonUtil = new CommonUtil();
+        DividePage dividePage=new DividePage();
+
         try {
             QueryDataBase queryDataBase = new QueryDataBase();
             Document getHTML = Jsoup.parse(get);
@@ -37,18 +40,10 @@ public class GettingOrderData {
 
             }
             Elements getDataAllCustomer = getHTML.select("div div[class*=t-status-text dataTables_info]");//lấy tất cả links
-            int allCustomers = Integer.parseInt(commonUtil.cutID(getDataAllCustomer.text()));
-            if (allCustomers > 50) {
-                if (allCustomers % 50 == 0) {
-                    System.out.println(allCustomers / 50);
-                    allCustomers = allCustomers / 50;
-                } else {
-                    allCustomers = allCustomers / 50 + 1;
-                }
-            } else {
-                allCustomers = 1;
-            }
-            for (int ii = 1; ii <= allCustomers; ii++) {
+            int allOrder = Integer.parseInt(commonUtil.cutID(getDataAllCustomer.text()));
+            dividePage.setPage(allOrder);
+            allOrder=dividePage.getPage();
+            for (int ii = 1; ii <= allOrder; ii++) {
                 // start
                 authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/orders?page=" + ii, cookie);
                 getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());

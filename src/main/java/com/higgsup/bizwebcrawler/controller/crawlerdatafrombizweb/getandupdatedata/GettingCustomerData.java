@@ -1,7 +1,8 @@
-package com.higgsup.bizwebcrawler.controller.crawlerdatafrombizweb.getdata;
+package com.higgsup.bizwebcrawler.controller.crawlerdatafrombizweb.getandupdatedata;
 
 import com.higgsup.bizwebcrawler.controller.authentication.HtmlData;
 import com.higgsup.bizwebcrawler.controller.common.CommonUtil;
+import com.higgsup.bizwebcrawler.controller.common.DividePage;
 import com.higgsup.bizwebcrawler.controller.managedatabase.QueryDataBase;
 import com.higgsup.bizwebcrawler.model.customer.CustomerAddress;
 import org.jsoup.Jsoup;
@@ -24,6 +25,8 @@ public class GettingCustomerData {
     private HtmlData authenticationGetRequest = new HtmlData();
     public boolean getDataCustomerFromWebSetToDataBase(String get, String cookie) throws IOException {
         CommonUtil commonUtil = new CommonUtil();
+        DividePage dividePage=new DividePage();
+
         try {
             QueryDataBase queryDataBase = new QueryDataBase();
             Document getHTML = Jsoup.parse(get);
@@ -33,16 +36,8 @@ public class GettingCustomerData {
             }
             Elements getDataAllCustomer = getHTML.select("div div[class*=t-status-text dataTables_info]");//lấy tất cả links
             int allCustomers = Integer.parseInt(commonUtil.cutID(getDataAllCustomer.text()));
-            if (allCustomers > 50) {
-                if (allCustomers % 50 == 0) {
-                    System.out.println(allCustomers / 50);
-                    allCustomers = allCustomers / 50;
-                } else {
-                    allCustomers = allCustomers / 50 + 1;
-                }
-            } else {
-                allCustomers = 1;
-            }
+            dividePage.setPage(allCustomers);
+            allCustomers=dividePage.getPage();
             for (int ii = 1; ii <= allCustomers; ii++) {
                 authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/customers?page=" + ii, cookie);
                 getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());

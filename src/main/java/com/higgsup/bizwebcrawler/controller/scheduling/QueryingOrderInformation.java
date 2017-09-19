@@ -1,7 +1,7 @@
 package com.higgsup.bizwebcrawler.controller.scheduling;
 
 import com.higgsup.bizwebcrawler.controller.authentication.HtmlData;
-import com.higgsup.bizwebcrawler.controller.crawlerdatafrombizweb.getdata.GettingOrderData;
+import com.higgsup.bizwebcrawler.controller.crawlerdatafrombizweb.getandupdatedata.GettingOrderData;
 
 import java.io.IOException;
 import java.util.logging.Level;
