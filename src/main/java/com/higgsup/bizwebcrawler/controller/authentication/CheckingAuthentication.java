@@ -2,7 +2,6 @@ package com.higgsup.bizwebcrawler.controller.authentication;
 
 import com.higgsup.bizwebcrawler.controller.common.SendEmail;
 import com.higgsup.bizwebcrawler.controller.managedatabase.ConnectDB;
-import com.higgsup.bizwebcrawler.controller.authentication.AuthCookie;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -31,7 +30,6 @@ public class CheckingAuthentication {
     private String password;
 
     public String doRequestTakeCookie() throws IOException {
-        AuthCookie cookie = new AuthCookie();
         try {
             takeAccountAdminFromDatabase();
             String url = "https://bookweb1.bizwebvietnam.net/admin/authorization/login?Email=" + email + "&Password=" + password;
@@ -40,13 +38,11 @@ public class CheckingAuthentication {
             post.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36");
             HttpResponse response = client.execute(post);
             Header[] allHeaders = response.getAllHeaders();
-            cookie.getCookie();
             if (allHeaders[11].getValue().equalsIgnoreCase("1; mode=block")) {
                 SendEmail.send("smtp.gmail.com", "vi.quynh.31598@gmail.com", "higgsupcompany@gmail.com", "abc123456789", "Thông báo vấn đề tài khoản ", "Xin chào bạn,<br> higgsup thông báo tài khoản truy cập bizweb <br> Email:" + email + "<br> Password:" + password + "<br> bạn cung cấp cho chúng tôi không chính xác ");
                 throw new Error("FalseAccount");
             }
             this.cookie= allHeaders[11].getValue();
-            cookie.setCookie(allHeaders[11].getValue());
             return this.cookie;
 
         } catch (UnknownHostException e) {

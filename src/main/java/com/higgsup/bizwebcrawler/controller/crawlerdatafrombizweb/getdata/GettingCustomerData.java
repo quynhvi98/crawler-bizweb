@@ -3,6 +3,7 @@ package com.higgsup.bizwebcrawler.controller.crawlerdatafrombizweb.getdata;
 import com.higgsup.bizwebcrawler.controller.authentication.HtmlData;
 import com.higgsup.bizwebcrawler.controller.common.CommonUtil;
 import com.higgsup.bizwebcrawler.controller.managedatabase.QueryDataBase;
+import com.higgsup.bizwebcrawler.model.customer.CustomerAddress;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -63,7 +64,6 @@ public class GettingCustomerData {
                         } else {
                             fullDataFromTags[4] = "null";
                         }
-
                         logger.info("ID customer:" + fullDataFromTags[0]);
                         logger.info("Tên khách hàng:" + fullDataFromTags[1]);
                         logger.info("Email:" + fullDataFromTags[3]);
@@ -101,15 +101,12 @@ public class GettingCustomerData {
                             while (m.find()) {
                                 customerAdd_iD += m.group();
                             }
-
                             CutScriptTakeHtml = CutScriptTakeHtml[1].split("</script>");
                             getHTML = Jsoup.parse(CutScriptTakeHtml[0]);
                             Elements getDataInGetDataFromTRTags = getHTML.select("div.row");
                             ArrayList<String> ListCustomerAddress = new ArrayList<String>();
-                            for (Element gettag : getDataInGetDataFromTRTags
-                                    ) {
+                            for (Element gettag : getDataInGetDataFromTRTags) {
                                 Elements getDataInGetDataFromTRTagsInput = gettag.select("input[value]");
-
                                 for (int i = 0; i < getDataInGetDataFromTRTagsInput.size(); i++) {
                                     if (!getDataInGetDataFromTRTagsInput.get(i).attr("value").equals("true") || getDataInGetDataFromTRTagsInput.get(i).attr("value").equals("false")) {
                                         String get1 = getDataInGetDataFromTRTagsInput.get(i).attr("value");
@@ -129,22 +126,15 @@ public class GettingCustomerData {
                                         if (ListCustomerAddress.indexOf(splitTakeValue[0]) < 0) {
                                             ListCustomerAddress.add(splitTakeValue[0]);
                                         }
-
                                     }
                                 }
-
-
                             }
-
-                            //CustomerAddress objectCustomerAddress = new CustomerAddress(customerAdd_iD, ListCustomerAddress.get(4), ListCustomerAddress.get(0) + "," + ListCustomerAddress.get(1), ListCustomerAddress.get(3), ListCustomerAddress.get(2), ListCustomerAddress.get(5), fullDataFromTags[0], ListCustomerAddress.get(6), ListCustomerAddress.get(7), ListCustomerAddress.get(8));
-
-                            //queryDataBase.setDataCustomerAddress(objectCustomerAddress);
+                            CustomerAddress objectCustomerAddress = new CustomerAddress(customerAdd_iD, ListCustomerAddress.get(4), ListCustomerAddress.get(0) + "," + ListCustomerAddress.get(1), ListCustomerAddress.get(3), ListCustomerAddress.get(2), ListCustomerAddress.get(5), fullDataFromTags[0], ListCustomerAddress.get(6), ListCustomerAddress.get(7), ListCustomerAddress.get(8));
+                            queryDataBase.setDataCustomerAddress(objectCustomerAddress);
                         }
                         TimeUnit.SECONDS.sleep(11);
                     }
-
                 }
-
             }
         } catch (Exception e) {
             logger.info("Message error get data set database" + e);

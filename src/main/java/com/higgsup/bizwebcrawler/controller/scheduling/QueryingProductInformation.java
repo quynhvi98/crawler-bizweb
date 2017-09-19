@@ -14,15 +14,18 @@ import java.util.logging.Logger;
 abstract class QueryingProductInformation extends StartScheduling implements Runnable {
 
     private static final Logger logger = Logger.getLogger(QueryingProductInformation.class.getName());
+
     @Override
     public String getCookie() {
         return super.getCookie();
     }
+
     public void run() {
         try {
             GettingProductData GetDataWebAndSetToDataBase = new GettingProductData();
             HtmlData authenticationGetRequest = new HtmlData();
             authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products", getCookie());
+
             boolean checkErrorRequest = GetDataWebAndSetToDataBase.getDataProductFromWebAndSetToDataBase(authenticationGetRequest.getHtmlData(), getCookie());
             logger.info(checkErrorRequest + " product");
         } catch (Error e) {

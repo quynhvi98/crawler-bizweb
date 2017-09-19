@@ -54,13 +54,7 @@ public class StartScheduling extends CheckingAuthentication {
                     super.run();
                 }
             };
-            Runnable updateDataProduct = new UpdatingProductData() {
-                @Override
-                public void run() {
-                    System.out.printf("updateDataProduct");
-                    super.run();
-                }
-            };
+
             Runnable updateDatCustomer = new UpdatingCustomerData() {
                 @Override
                 public void run() {
@@ -78,11 +72,10 @@ public class StartScheduling extends CheckingAuthentication {
                 }
             };
             reLoadTime.scheduleWithFixedDelay(queryProduct, 10, 100, TimeUnit.SECONDS);
-          //  reLoadTime.scheduleWithFixedDelay(queryInfoCustomer, 0, 100, TimeUnit.SECONDS);
-          //  reLoadTime.scheduleWithFixedDelay(queryInfoOrder, 0, 100, TimeUnit.SECONDS);
-           // reLoadTime.scheduleWithFixedDelay(updateDataProduct, 0, 120, TimeUnit.MINUTES);
-           // reLoadTime.scheduleWithFixedDelay(updateDatCustomer, 0, 120, TimeUnit.MINUTES);
-           // reLoadTime.scheduleWithFixedDelay(updatingOrderData, 0, 120, TimeUnit.MINUTES);
+           // reLoadTime.scheduleWithFixedDelay(queryInfoCustomer, 0, 100, TimeUnit.SECONDS);
+            //reLoadTime.scheduleWithFixedDelay(queryInfoOrder, 0, 100, TimeUnit.SECONDS);
+            //reLoadTime.scheduleWithFixedDelay(updateDatCustomer, 0, 120, TimeUnit.MINUTES);
+            //reLoadTime.scheduleWithFixedDelay(updatingOrderData, 0, 120, TimeUnit.MINUTES);
 
         } catch (Error e) {
             String s = e.getLocalizedMessage();

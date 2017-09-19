@@ -129,12 +129,14 @@ public class GettingProductData {
 
                         if (checkVersionProduct.size() >= 1) {
                             fullDataFromTags[7] = "0.0";
+                            queryDataBase.setDataProductGroup(fullDataFromTags[4]);
                         } else {
                             getDataFromTrTags = getDataFromDivRowTag.get(7).select("div.controls input[value]");
                             fullDataFromTags[7] = getDataFromTrTags.get(0).attr("value");
                             if (fullDataFromTags[7] == null) {
                                 fullDataFromTags[7] = "0";
                             }
+                            queryDataBase.setDataProductGroup(fullDataFromTags[4]);
                         }
 
                         //update

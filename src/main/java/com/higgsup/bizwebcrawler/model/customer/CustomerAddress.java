@@ -35,7 +35,7 @@ public class CustomerAddress extends Person{
     private String nation;
     private String city;
     private String district;
-    public CustomerAddress(){}
+    public CustomerAddress(String customerAdd_iD, String s, String s1, String s2, String s3, String s4, String fullDataFromTag, String s5, String s6, String s7){}
     public CustomerAddress(String id, String firstName, String phoneNumber, String email, String passWord, String address, String addressUser, String company, String zipeCode, String customerID, String nation, String city, String district) {
         super(id, firstName, phoneNumber, email, passWord, address);
         this.addressUser = addressUser;
