@@ -16,8 +16,12 @@ public class ConnectDB {
     protected ResultSet rs;
 
     public Connection startConnect() throws ClassNotFoundException {
+        Connection con = null;
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        }catch (ClassNotFoundException e){
+            logger.log(Level.SEVERE, e.getMessage());
+        }try{
             con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=TestWebCrawler;Username=sa;Password =123456");
         } catch (ClassNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
