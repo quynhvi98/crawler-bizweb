@@ -4,7 +4,9 @@ import com.higgsup.bizwebcrawler.controller.authentication.HtmlData;
 import com.higgsup.bizwebcrawler.controller.common.CommonUtil;
 import com.higgsup.bizwebcrawler.controller.common.DividePage;
 import com.higgsup.bizwebcrawler.controller.managedatabase.QueryDataBase;
+import com.higgsup.bizwebcrawler.model.product.Producer;
 import com.higgsup.bizwebcrawler.model.product.Product;
+import com.higgsup.bizwebcrawler.model.product.ProductGroup;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -29,7 +31,7 @@ public class GettingProductData {
         try {
             Document getHTML = Jsoup.parse(get);
             dividePage.setCheckDataFromWeb(getHTML);
-            Elements getDataAllProducts=dividePage.getCheckDataFromWeb();
+            Elements getDataAllProducts = dividePage.getCheckDataFromWeb();
             int allProducts = Integer.parseInt(commonUtil.cutID(getDataAllProducts.text()));
             dividePage.setPage(allProducts);
             allProducts = dividePage.getPage();
@@ -41,21 +43,20 @@ public class GettingProductData {
                 }
                 Elements getDataFromTrTags = getHTML.select("tbody tr");
                 for (Element tags : getDataFromTrTags) {
-                    String[] fullDataFromTags = new String[15];
+                    Product product = new Product();
+                    ProductGroup productGroup = new ProductGroup();
+                    Producer producer = new Producer();
                     HashMap getDataCategoryProduct = new HashMap();//lấy danh mục mới, hot, sale
                     Elements getDataFromAhrefTags = tags.select("td  a[href]");
-                    fullDataFromTags[0] = commonUtil.cutID(getDataFromAhrefTags.get(0).attr("href"));
-                    fullDataFromTags[1] = getDataFromAhrefTags.get(0).text();
+                    product.setProductID(commonUtil.cutID(getDataFromAhrefTags.get(0).attr("href")));
+                    product.setName(getDataFromAhrefTags.get(0).text());
                     Elements getIMGProduct = tags.select("td  img[src]");
-                    fullDataFromTags[2] = "https:" + getIMGProduct.get(0).attr("src");
+                    product.setImg("https:" + getIMGProduct.get(0).attr("src"));
                     Elements getDataFromPTags = tags.select("td p");
-                    fullDataFromTags[3] = commonUtil.cutQuantity(getDataFromPTags.get(0).text());
-                    if (fullDataFromTags[3].equals("")) {
-                        fullDataFromTags[3] = "0";
-                    }
-                    fullDataFromTags[4] = getDataFromPTags.get(1).text();
-                    fullDataFromTags[5] = getDataFromPTags.get(2).text();
-                    authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products/" + fullDataFromTags[0], cookie);
+                    product.setStork(commonUtil.cutQuantity(getDataFromPTags.get(0).text()));
+                    productGroup.setName(getDataFromPTags.get(1).text());
+                    producer.setName(getDataFromPTags.get(2).text());
+                    authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products/" + product.getProductID(), cookie);
                     getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                     titleURL = getHTML.title();
                     if (titleURL.equals("Đăng nhập quản trị hệ thống")) {
@@ -66,7 +67,7 @@ public class GettingProductData {
                         getDataFromTrTags = getDataFromDivRowTag.get(0).select("div.controls textarea[bind*=content]");
 
                     } else {
-                        authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products/" + fullDataFromTags[0], cookie);
+                        authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products/" + product.getProductID(), cookie);
                         getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                         titleURL = getHTML.title();
                         if (titleURL.equals("Đăng nhập quản trị hệ thống")) {
@@ -74,11 +75,11 @@ public class GettingProductData {
                         }
                         getDataFromDivRowTag = getHTML.select("div.row");
                         if (getDataFromDivRowTag.size() < 0) {
-                            throw new Error("False " + fullDataFromTags[0]);
+                            throw new Error("False " + product.getProductID());
                         }
                     }
                     if (getDataFromTrTags.size() > 0) {
-                        fullDataFromTags[6] = getDataFromTrTags.get(0).text();
+                        product.setContent(getDataFromTrTags.get(0).text());
                     }
                     getDataFromTrTags = getDataFromDivRowTag.get(2).select("a[href]");
                     for (int i = 1; i < getDataFromTrTags.size(); i++) {
@@ -87,84 +88,91 @@ public class GettingProductData {
                         }
                     }
                     Elements checkVersionProduct = getHTML.select("div.row a[bind-event-click*=changeOptionNamesModal.show(]");
-                    setDataToDB(fullDataFromTags, checkVersionProduct, getDataFromDivRowTag, getDataCategoryProduct);
+                    saveAndUpdateProductData(product, productGroup, producer, checkVersionProduct, getDataFromDivRowTag, getDataCategoryProduct);
                     TimeUnit.SECONDS.sleep(10);
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
         }
+
         return true;
     }
-    public void setDataToDB(String[] fullDataFromTags, Elements checkVersionProduct, Elements getDataFromDivRowTag, HashMap getDataCategoryProduct) {
-        Elements getDataFromTrTags;
-        QueryDataBase queryDataBase = new QueryDataBase();
 
-        if (queryDataBase.hasProductID(fullDataFromTags[0])) {
-            queryDataBase.setDataProducer(fullDataFromTags[5]);
-            if (checkVersionProduct.size() >= 1) {
-                fullDataFromTags[7] = "0.0";
-                queryDataBase.setDataProductGroup(fullDataFromTags[4]);
-                Product product = new Product(fullDataFromTags[0], fullDataFromTags[1], Double.parseDouble(fullDataFromTags[7]), Integer.parseInt(fullDataFromTags[3]), 0.0, fullDataFromTags[6], fullDataFromTags[2], "null", queryDataBase.getIDProductGroup(fullDataFromTags[4]), queryDataBase.getIDProducer(fullDataFromTags[5]));
+    public void saveAndUpdateProductData(Product product, ProductGroup productGroup, Producer producer, Elements checkVersionProduct, Elements getDataFromDivRowTag, HashMap getDataCategoryProduct) {
+        try {
+            Elements getDataFromTrTags;
+            QueryDataBase queryDataBase = new QueryDataBase();
+            product.setDescription("");
+            product.setWeight(0.0);
+            queryDataBase.setDataProductGroup(productGroup.getName());
+            product.setProductGroupId(queryDataBase.getIDProductGroup(productGroup.getName()));
+            queryDataBase.setDataProducer(producer.getName());
+            product.setProducerId(queryDataBase.getIDProducer(producer.getName()));
+            if (queryDataBase.hasProductID(product.getProductID())) {
+                if (checkVersionProduct.size() >= 1) {
+                    product.setPrice(0.0);
+                    queryDataBase.setDataProduct(product);
+                } else {
+                    getDataFromTrTags = getDataFromDivRowTag.get(7).select("div.controls input[value] ");
+                    String checkGetPrice = getDataFromTrTags.get(0).attr("value");
 
-                queryDataBase.setDataProduct(product);
-            } else {
-                getDataFromTrTags = getDataFromDivRowTag.get(7).select("div.controls input[value] ");
-                fullDataFromTags[7] = getDataFromTrTags.get(0).attr("value");
-                if (fullDataFromTags[7] == null) {
-                    fullDataFromTags[7] = "0";
+                    if (checkGetPrice == null) {
+                        product.setPrice(0.0);
+                    } else {
+                        product.setPrice(Double.parseDouble(checkGetPrice));
+                    }
+                    queryDataBase.setDataProduct(product);
+                    Set set = getDataCategoryProduct.entrySet();
+                    Iterator i = set.iterator();
+                    while (i.hasNext()) {
+                        Map.Entry mapEntry = (Map.Entry) i.next();
+                        queryDataBase.setDataProductCategory((String) mapEntry.getKey(), (String) mapEntry.getValue());
+                        queryDataBase.setDataFromCategoryProductAndProduct((String) mapEntry.getKey(), product.getProductID());
+                    }
                 }
-                queryDataBase.setDataProductGroup(fullDataFromTags[4]);
-                Product product = new Product(fullDataFromTags[0], fullDataFromTags[1], Double.parseDouble(fullDataFromTags[7]), Integer.parseInt(fullDataFromTags[3]), 0.0, fullDataFromTags[6], fullDataFromTags[2], "null", queryDataBase.getIDProductGroup(fullDataFromTags[4]), queryDataBase.getIDProducer(fullDataFromTags[5]));
+            } else {
+                if (checkVersionProduct.size() >= 1) {
+                    product.setPrice(0.0);
 
-                queryDataBase.setDataProduct(product);
+                } else {
+                    getDataFromTrTags = getDataFromDivRowTag.get(7).select("div.controls input[value]");
+                    String checkGetPrice = getDataFromTrTags.get(0).attr("value");
+                    if (checkGetPrice == null) {
+                        product.setPrice(0.0);
+                    } else {
+                        product.setPrice(Double.parseDouble(checkGetPrice));
+                    }
+                    queryDataBase.setDataProductGroup(productGroup.getName());
+                }
+                ArrayList<Product> dataProducerFromProductID = null;
+                dataProducerFromProductID = queryDataBase.getDataProductFromProductID(product.getProductID());
+                if (!(dataProducerFromProductID.get(0).getName().equals(product.getName()) && String.valueOf(dataProducerFromProductID.get(0).getPrice()).equals(String.valueOf(product.getPrice())) && String.valueOf(dataProducerFromProductID.get(0).getStork()).equals(product.getStork()) && dataProducerFromProductID.get(0).getContent().equals(product.getContent()) && dataProducerFromProductID.get(0).getImg().equals(product.getImg()) && String.valueOf(dataProducerFromProductID.get(0).getProductGroupId()).equals(String.valueOf(queryDataBase.getIDProductGroup(productGroup.getName()))) && String.valueOf(dataProducerFromProductID.get(0).getProducerId()).equals(String.valueOf(queryDataBase.getIDProducer(producer.getName()))))) {
+                    queryDataBase.updateProduct(product);
+                } else {
+                    //no update
+                }
+                ArrayList<String> listProductCateID = null;
+                listProductCateID = queryDataBase.getListProductCateIdFormProductIdInCategoryProduct(product.getProductID());
                 Set set = getDataCategoryProduct.entrySet();
                 Iterator i = set.iterator();
                 while (i.hasNext()) {
                     Map.Entry mapEntry = (Map.Entry) i.next();
                     queryDataBase.setDataProductCategory((String) mapEntry.getKey(), (String) mapEntry.getValue());
-                    queryDataBase.setDataFromCategoryProductAndProduct((String) mapEntry.getKey(), fullDataFromTags[0]);
+                    int indexList = listProductCateID.indexOf((String) mapEntry.getKey());
+                    if (indexList >= 0) {
+                        listProductCateID.remove(indexList);
+                    } else {
+                        queryDataBase.setDataFromCategoryProductAndProduct((String) mapEntry.getKey(), product.getProductID());
+                    }
                 }
-            }
-        } else {
-            if (checkVersionProduct.size() >= 1) {
-                fullDataFromTags[7] = "0.0";
-                queryDataBase.setDataProductGroup(fullDataFromTags[4]);
-            } else {
-                getDataFromTrTags = getDataFromDivRowTag.get(7).select("div.controls input[value]");
-                fullDataFromTags[7] = getDataFromTrTags.get(0).attr("value");
-                if (fullDataFromTags[7] == null) {
-                    fullDataFromTags[7] = "0";
+                for (String productCate_ID : listProductCateID) {
+                    queryDataBase.remoDataCategoryProductFromCateIdAndProductId(productCate_ID, product.getProductID());
                 }
-                queryDataBase.setDataProductGroup(fullDataFromTags[4]);
+                dataProducerFromProductID.clear();
             }
-            //update
-            queryDataBase.setDataProducer(fullDataFromTags[5]);
-            ArrayList<Product> dataProducerFromProductID = null;
-            dataProducerFromProductID = queryDataBase.getDataProductFromProductID(fullDataFromTags[0]);
-            if (!(dataProducerFromProductID.get(0).getName().equals(fullDataFromTags[1]) && String.valueOf(dataProducerFromProductID.get(0).getPrice()).equals(String.valueOf(Double.parseDouble(fullDataFromTags[7]))) && String.valueOf(dataProducerFromProductID.get(0).getStork()).equals(fullDataFromTags[3]) && dataProducerFromProductID.get(0).getContent().equals(fullDataFromTags[6]) && dataProducerFromProductID.get(0).getImg().equals(fullDataFromTags[2]) && String.valueOf(dataProducerFromProductID.get(0).getProductGroupId()).equals(String.valueOf(queryDataBase.getIDProductGroup(fullDataFromTags[4]))) && String.valueOf(dataProducerFromProductID.get(0).getProducerId()).equals(String.valueOf(queryDataBase.getIDProducer(fullDataFromTags[5]))))) {
-                queryDataBase.updateProduct(fullDataFromTags[0], fullDataFromTags[1], Double.parseDouble(fullDataFromTags[7]), Integer.parseInt(fullDataFromTags[3]), 0, fullDataFromTags[6], fullDataFromTags[2], "", queryDataBase.getIDProductGroup(fullDataFromTags[4]), queryDataBase.getIDProducer(fullDataFromTags[5]));
-            } else {
-                System.out.println(dataProducerFromProductID.get(0).getName() + " " + fullDataFromTags[1] + " ddđ");
-            }
-            ArrayList<String> listProductCateID = null;
-            listProductCateID = queryDataBase.getListProductCateIdFormProductIdInCategoryProduct(fullDataFromTags[0]);
-            Set set = getDataCategoryProduct.entrySet();
-            Iterator i = set.iterator();
-            while (i.hasNext()) {
-                Map.Entry mapEntry = (Map.Entry) i.next();
-                queryDataBase.setDataProductCategory((String) mapEntry.getKey(), (String) mapEntry.getValue());
-                int indexList = listProductCateID.indexOf((String) mapEntry.getKey());
-                if (indexList >= 0) {
-                    listProductCateID.remove(indexList);
-                } else {
-                    queryDataBase.setDataFromCategoryProductAndProduct((String) mapEntry.getKey(), fullDataFromTags[0]);
-                }
-            }
-            for (String productCate_ID : listProductCateID) {
-                queryDataBase.remoDataCategoryProductFromCateIdAndProductId(productCate_ID, fullDataFromTags[0]);
-            }
-            dataProducerFromProductID.clear();
+        } catch (Exception e) {
+            logger.info(e.getMessage());
         }
     }
 }

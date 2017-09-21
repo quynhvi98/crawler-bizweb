@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
         }
         return strResult;
     }
-    public String cutQuantity(String get) {
+    public int cutQuantity(String get) {
         String strResult = "";
         for (int i = 0; i<get.length(); i++) {
             if (Character.isDigit(get.charAt(i))) {
@@ -32,7 +32,10 @@ import java.util.regex.Pattern;
                 break;
             }
         }
-        return strResult;
+        if(strResult!=""){
+            return  Integer.parseInt(strResult);
+        }
+        return 0;
     }    public String cutNumberToCharStop(String get) {
         String strResult ="";
         for (int i = 0; i<get.length(); i++) {
