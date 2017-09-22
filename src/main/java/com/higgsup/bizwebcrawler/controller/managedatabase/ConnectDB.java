@@ -1,5 +1,6 @@
 
 package com.higgsup.bizwebcrawler.controller.managedatabase;
+
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,6 +14,7 @@ public class ConnectDB {
     protected String query;
     protected PreparedStatement ps;
     protected ResultSet rs;
+
     public Connection startConnect() throws ClassNotFoundException {
         Connection con = null;
         try {
@@ -21,6 +23,8 @@ public class ConnectDB {
             logger.log(Level.SEVERE, e.getMessage());
         }try{
             con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=TestWebCrawler;Username=sa;Password =123456");
+        } catch (ClassNotFoundException e) {
+            logger.log(Level.SEVERE, e.getMessage());
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
         }

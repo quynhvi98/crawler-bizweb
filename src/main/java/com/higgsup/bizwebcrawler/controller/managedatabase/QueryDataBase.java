@@ -235,22 +235,22 @@ public class QueryDataBase extends  ConnectDB {
     }
 
     //oki
-    public void updateProduct(String product_ID, String name, Double price, int stork, double weight, String content, String IMG, String description, int productGroup_iD, int producer_ID) {
+    public void updateProduct(Product product) {
         try {
             query = "UPDATE dbo.product SET name =?,price=?,stork=?,weight=?,content=?,IMG=?,description=?,product_group_id=?,producer_id=? WHERE product_id=?";
             ps = con.prepareCall(query);
-            ps.setString(1, name);
-            ps.setDouble(2, price);
-            ps.setInt(3, stork);
-            ps.setDouble(4, weight);
-            ps.setString(5, content);
-            ps.setString(6, IMG);
-            ps.setString(7, description);
-            ps.setInt(8, productGroup_iD);
-            ps.setInt(9, producer_ID);
-            ps.setString(10, product_ID);
+            ps.setString(1, product.getName());
+            ps.setDouble(2, product.getPrice());
+            ps.setInt(3, product.getStork());
+            ps.setDouble(4, product.getWeight());
+            ps.setString(5, product.getContent());
+            ps.setString(6, product.getImg());
+            ps.setString(7, product.getDescription());
+            ps.setInt(8, product.getProductGroupId());
+            ps.setInt(9, product.getProducerId());
+            ps.setString(10, product.getProductID());
             ps.executeUpdate();
-            System.out.println("update  oki " + name + " ffff");
+            System.out.println("update  oki " + product.getName() );
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
