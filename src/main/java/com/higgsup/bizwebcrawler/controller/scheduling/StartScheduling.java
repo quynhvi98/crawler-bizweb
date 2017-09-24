@@ -55,14 +55,7 @@ public class StartScheduling extends CheckingAuthentication {
                 }
             };
 
-            Runnable updateDatCustomer = new UpdatingCustomerData() {
-                @Override
-                public void run() {
-                    System.out.printf("updateDatCustomer");
 
-                    super.run();
-                }
-            };
             Runnable updatingOrderData = new UpdatingOrderData() {
                 @Override
                 public void run() {
@@ -71,10 +64,9 @@ public class StartScheduling extends CheckingAuthentication {
                     super.run();
                 }
             };
-            reLoadTime.scheduleWithFixedDelay(queryProduct, 10, 100, TimeUnit.SECONDS);
-           // reLoadTime.scheduleWithFixedDelay(queryInfoCustomer, 0, 100, TimeUnit.SECONDS);
+            reLoadTime.scheduleWithFixedDelay(queryProduct, -1, 100, TimeUnit.SECONDS);
+            reLoadTime.scheduleWithFixedDelay(queryInfoCustomer, -1, 100, TimeUnit.SECONDS);
             //reLoadTime.scheduleWithFixedDelay(queryInfoOrder, 0, 100, TimeUnit.SECONDS);
-            //reLoadTime.scheduleWithFixedDelay(updateDatCustomer, 0, 120, TimeUnit.MINUTES);
             //reLoadTime.scheduleWithFixedDelay(updatingOrderData, 0, 120, TimeUnit.MINUTES);
 
         } catch (Error e) {

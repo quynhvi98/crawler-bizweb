@@ -1,7 +1,10 @@
 package com.higgsup.bizwebcrawler.controller.common;
 
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
 
 /**
  * Created by viquy 9:20 AM 9/19/2017
@@ -41,5 +44,17 @@ public class DividePage {
             page = 1;
         }
         this.page = page;
+    }
+
+    public ArrayList<String> GetDataFromTRTagsInputSLe(Elements getDataInGetDataFromTRTagsInputSLe,ArrayList<String> listString){
+        for (Element d : getDataInGetDataFromTRTagsInputSLe
+                ) {
+            String[] splitTakeValue = d.toString().split("\">");
+            splitTakeValue = splitTakeValue[1].split("</option>");
+            if (listString.indexOf(splitTakeValue[0]) < 0) {
+                listString.add(splitTakeValue[0]);
+            }
+        }
+        return listString;
     }
 }
