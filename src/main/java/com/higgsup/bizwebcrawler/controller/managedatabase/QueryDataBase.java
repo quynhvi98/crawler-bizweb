@@ -250,7 +250,6 @@ public class QueryDataBase extends  ConnectDB {
             ps.setInt(9, product.getProducerId());
             ps.setString(10, product.getProductID());
             ps.executeUpdate();
-            System.out.println("update  oki " + product.getName() );
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
@@ -410,19 +409,19 @@ public class QueryDataBase extends  ConnectDB {
 
     //oki
 
-    public void setDataFromCustomer(String customer_ID, String fullName, String email, String totalBill) {
+    public void setDataFromCustomer(Customer customer) {
         try {
             queryy = " SELECT customer_id FROM dbo.customer WHERE customer_id =?";
             pss = conn.startConnect().prepareCall(queryy);
-            pss.setString(1, customer_ID);
+            pss.setString(1, customer.getId());
             rss = pss.executeQuery();
             if (!(rss.next())) {
                 query = "INSERT customer (customer_id, full_name, email, total_bill) VALUES (?,?,?,?)";
                 ps = con.prepareCall(query);
-                ps.setString(1, customer_ID);
-                ps.setString(2, fullName);
-                ps.setString(3, email);
-                ps.setDouble(4, Double.parseDouble(totalBill));
+                ps.setString(1, customer.getId());
+                ps.setString(2, customer.getFullName());
+                ps.setString(3, customer.getEmail());
+                ps.setDouble(4, customer.getTotalBill());
                 ps.executeUpdate();
             }
         } catch (ClassNotFoundException e) {
@@ -551,21 +550,20 @@ public class QueryDataBase extends  ConnectDB {
 
     //okie
     public ArrayList<CustomerAddress> getListAddressFormCustomerId(String customer_ID) {
-        ArrayList<CustomerAddress> loi = new ArrayList<CustomerAddress>();
+        ArrayList<CustomerAddress> customerAddressArrayList = new ArrayList<CustomerAddress>();
         try {
             queryy = "SELECT *FROM dbo.customer_address WHERE customer_id=?";
             pss = conn.startConnect().prepareCall(queryy);
             pss.setString(1, customer_ID);
             rss = pss.executeQuery();
             while (rss.next()) {
-                // loi.add(new CustomerAddress(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), customer_ID, rs.getString(8), rs.getString(9), rs.getString(10)));
-            }
+                customerAddressArrayList.add(new CustomerAddress(rss.getString(1), rss.getString(2), rss.getString(3), rss.getString(4), rss.getString(5), rss.getString(6), customer_ID, rss.getString(8), rss.getString(9), rss.getString(10)));            }
         } catch (ClassNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
-        return loi;
+        return customerAddressArrayList;
     }
 
     // end update del CustomerAddress
@@ -580,8 +578,8 @@ public class QueryDataBase extends  ConnectDB {
             pss.setString(1, customer_ID);
             rss = pss.executeQuery();
             while (rss.next()) {
-                //Customer objectCustomers = new Customer(rs.getString(1), rs.getString(2), rs.getString(3), rs.getDouble(4));
-                //return objectCustomers;
+                Customer objectCustomers = new Customer(rss.getString(1), rss.getString(2), rss.getString(3), rss.getDouble(4));
+                return objectCustomers;
             }
         } catch (ClassNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
@@ -760,5 +758,5 @@ public class QueryDataBase extends  ConnectDB {
 
         return listOrderAddress;
     }
-    //order end get set
+ 
 }

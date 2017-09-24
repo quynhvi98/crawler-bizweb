@@ -33,6 +33,12 @@ public class Customer extends Person{
         super(id,firstName, phoneNumber, email, passWord, address);
         this.totalBill = totalBill;
     }
+    public Customer(String id, String firstName, String email, Double totalBill) {
+        setId(id);
+        setFullName(firstName);
+        setEmail(email);
+        this.totalBill = totalBill;
+    }
     public Customer() {
     }
     public Double getTotalBill() {
