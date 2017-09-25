@@ -21,12 +21,11 @@ import java.util.logging.Logger;
  */
 public class QueryDataBase extends  ConnectDB {
     private String queryy;
-    protected PreparedStatement pss;
+    private PreparedStatement pss;
     private ResultSet rss;
     private ConnectDB conn = new ConnectDB();
     private static final Logger logger = Logger.getLogger("QueryDataBase");
 
-    //oki
     public void setDataProductCategory(String productCate_ID, String name) {
         try {
             queryy = " SELECT product_cate_id FROM product_category WHERE product_cate_id=?";
@@ -47,7 +46,6 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    //oki
     public int getIDProductCategory(String name) {
         try {
             queryy = "SELECT product_cate_id FROM product_category WHERE name=?";
@@ -65,7 +63,6 @@ public class QueryDataBase extends  ConnectDB {
         return 0;
     }
 
-    //oki
     public void setDataProductGroup(String name) {
         try {
             queryy= "SELECT product_group_id FROM product_group WHERE name=?";
@@ -86,7 +83,6 @@ public class QueryDataBase extends  ConnectDB {
 
     }
 
-    //oki
     public int getIDProductGroup(String name) {
         try {
             queryy = "SELECT product_group_id FROM product_group WHERE name=?";
@@ -104,7 +100,6 @@ public class QueryDataBase extends  ConnectDB {
         return 0;
     }
 
-    //oki
     public void setDataProducer(String Name) {
         try {
             queryy = " SELECT producer_ID FROM producer WHERE name=?";
@@ -125,7 +120,6 @@ public class QueryDataBase extends  ConnectDB {
 
     }
 
-    //oki
     public int getIDProducer(String Name) {
         try {
             queryy = "SELECT producer_id FROM producer WHERE name=?";
@@ -143,7 +137,6 @@ public class QueryDataBase extends  ConnectDB {
         return 0;
     }
 
-    ///oki
     public void setDataProduct(Product product) {
         try {
             queryy = "SELECT product_id FROM dbo.product WHERE product_id=?";
@@ -172,7 +165,6 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    ///oki
     public boolean hasProductID(String product_ID) {
         try {
             queryy = "SELECT product_id FROM dbo.product WHERE product_id=?";
@@ -189,7 +181,6 @@ public class QueryDataBase extends  ConnectDB {
         return false;
     }
 
-    //oki
     public void setDataFromCategoryProductAndProduct(String productCate_ID, String product_ID) {//set category và product
         try {
             queryy = "SELECT category_id FROM category_product WHERE product_cate_id =? AND product_id=?";//category_ID khóa chính bảng liên kết thể loại và sản phẩm
@@ -213,7 +204,6 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    //oki
     public ArrayList<Product> getDataProductFromProductID(String product_ID) {
 
         try {
@@ -234,29 +224,26 @@ public class QueryDataBase extends  ConnectDB {
         return null;
     }
 
-    //oki
-    public void updateProduct(String product_ID, String name, Double price, int stork, double weight, String content, String IMG, String description, int productGroup_iD, int producer_ID) {
+    public void updateProduct(Product product) {
         try {
             query = "UPDATE dbo.product SET name =?,price=?,stork=?,weight=?,content=?,IMG=?,description=?,product_group_id=?,producer_id=? WHERE product_id=?";
             ps = con.prepareCall(query);
-            ps.setString(1, name);
-            ps.setDouble(2, price);
-            ps.setInt(3, stork);
-            ps.setDouble(4, weight);
-            ps.setString(5, content);
-            ps.setString(6, IMG);
-            ps.setString(7, description);
-            ps.setInt(8, productGroup_iD);
-            ps.setInt(9, producer_ID);
-            ps.setString(10, product_ID);
+            ps.setString(1, product.getName());
+            ps.setDouble(2, product.getPrice());
+            ps.setInt(3, product.getStork());
+            ps.setDouble(4, product.getWeight());
+            ps.setString(5, product.getContent());
+            ps.setString(6, product.getImg());
+            ps.setString(7, product.getDescription());
+            ps.setInt(8, product.getProductGroupId());
+            ps.setInt(9, product.getProducerId());
+            ps.setString(10, product.getProductID());
             ps.executeUpdate();
-            System.out.println("update  oki " + name + " ffff");
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }
 
-    //oki
     public void remoDataCategoryProductFromCateIdAndProductId(String productCate_ID, String product_ID) {
         try {
             query = "DELETE dbo.category_product WHERE product_cate_id=? AND product_id=?";
@@ -269,7 +256,6 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    //oki
     public ArrayList<String> getListProductCateIdFormProductIdInCategoryProduct(String product_ID) {
         ArrayList<String> listProductCateID = new ArrayList<String>();
         try {
@@ -289,7 +275,6 @@ public class QueryDataBase extends  ConnectDB {
         return listProductCateID;
     }
 
-    // oki
     public void setDataPaymenFromOrder(String content) {
         try {
             queryy = " SELECT payment_id FROM dbo.paymen WHERE content=?";
@@ -309,7 +294,6 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    // oki
     public void setDataFromOrder(Order dataFromOrder) {
         try {
             queryy = "SELECT order_id FROM dbo.order_product WHERE order_id=?";
@@ -338,7 +322,6 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    // oki
     public int getIDPaymentFromContent(String content) {
         try {
             queryy = "SELECT payment_id FROM paymen WHERE content=?";
@@ -355,7 +338,6 @@ public class QueryDataBase extends  ConnectDB {
         }
         return 0;
     }
-    // oki
 
     public void setDataFromOrderAndProduct(OrderProduct dataFromOrderAndProduct) {
         try {
@@ -378,7 +360,6 @@ public class QueryDataBase extends  ConnectDB {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }
-    // oki
 
     public void setDataFromOrderAddress(OrderAddress dataFromOrderAddress) {
         try {
@@ -408,21 +389,19 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    //oki
-
-    public void setDataFromCustomer(String customer_ID, String fullName, String email, String totalBill) {
+    public void setDataFromCustomer(Customer customer) {
         try {
             queryy = " SELECT customer_id FROM dbo.customer WHERE customer_id =?";
             pss = conn.startConnect().prepareCall(queryy);
-            pss.setString(1, customer_ID);
+            pss.setString(1, customer.getId());
             rss = pss.executeQuery();
             if (!(rss.next())) {
                 query = "INSERT customer (customer_id, full_name, email, total_bill) VALUES (?,?,?,?)";
                 ps = con.prepareCall(query);
-                ps.setString(1, customer_ID);
-                ps.setString(2, fullName);
-                ps.setString(3, email);
-                ps.setDouble(4, Double.parseDouble(totalBill));
+                ps.setString(1, customer.getId());
+                ps.setString(2, customer.getFullName());
+                ps.setString(3, customer.getEmail());
+                ps.setDouble(4, customer.getTotalBill());
                 ps.executeUpdate();
             }
         } catch (ClassNotFoundException e) {
@@ -432,7 +411,6 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    //oki
     public boolean hasCustomerID(String customerID) {
         try {
             queryy = "SELECT customer_id FROM dbo.customer WHERE customer_id=?";
@@ -449,8 +427,6 @@ public class QueryDataBase extends  ConnectDB {
         return false;
     }
 
-    //CustomerAddress
-    //oki
     public void setDataCustomerAddress(CustomerAddress objectCustomerAddress) {
         try {
             queryy = "SELECT customer_id FROM dbo.customer_address WHERE customer_id=?";
@@ -472,8 +448,6 @@ public class QueryDataBase extends  ConnectDB {
                 ps.setString(10, objectCustomerAddress.getDistrict());
                 ps.executeUpdate();
             }
-
-
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
 
@@ -483,7 +457,6 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    //oki
     public ArrayList<String> getListCustomerDddIdFormCustomerId(String customer_ID) {
         ArrayList<String> ListCustomerAddiD = new ArrayList<String>();
 
@@ -503,8 +476,6 @@ public class QueryDataBase extends  ConnectDB {
         return ListCustomerAddiD;
     }
 
-    // update del CustomerAddress
-    //oki
     public void updateDataCustomerAddress(CustomerAddress objectCustomerAddress) {
 
         try {
@@ -537,7 +508,6 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    //oki
     public void deleteDataCustomerAddress(String ID) {
         try {
             query = "DELETE dbo.customer_address WHERE customer_add_id=?";
@@ -549,29 +519,23 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    //okie
     public ArrayList<CustomerAddress> getListAddressFormCustomerId(String customer_ID) {
-        ArrayList<CustomerAddress> loi = new ArrayList<CustomerAddress>();
+        ArrayList<CustomerAddress> customerAddressArrayList = new ArrayList<CustomerAddress>();
         try {
             queryy = "SELECT *FROM dbo.customer_address WHERE customer_id=?";
             pss = conn.startConnect().prepareCall(queryy);
             pss.setString(1, customer_ID);
             rss = pss.executeQuery();
             while (rss.next()) {
-                // loi.add(new CustomerAddress(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), customer_ID, rs.getString(8), rs.getString(9), rs.getString(10)));
-            }
+                customerAddressArrayList.add(new CustomerAddress(rss.getString(1), rss.getString(2), rss.getString(3), rss.getString(4), rss.getString(5), rss.getString(6), customer_ID, rss.getString(8), rss.getString(9), rss.getString(10)));            }
         } catch (ClassNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
-        return loi;
+        return customerAddressArrayList;
     }
 
-    // end update del CustomerAddress
-
-    //update Customer
-    //oki
     public Customer getDataCustomersFromCustomerID(String customer_ID) {
 
         try {
@@ -580,8 +544,8 @@ public class QueryDataBase extends  ConnectDB {
             pss.setString(1, customer_ID);
             rss = pss.executeQuery();
             while (rss.next()) {
-                //Customer objectCustomers = new Customer(rs.getString(1), rs.getString(2), rs.getString(3), rs.getDouble(4));
-                //return objectCustomers;
+                Customer objectCustomers = new Customer(rss.getString(1), rss.getString(2), rss.getString(3), rss.getDouble(4));
+                return objectCustomers;
             }
         } catch (ClassNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage());
@@ -592,7 +556,6 @@ public class QueryDataBase extends  ConnectDB {
         return null;
     }
 
-    //oki
     public void updateDataCustomersFromObjectCustomer(Customer objectCustomers) {
         Customer objectCustomers1 = objectCustomers;
         try {
@@ -616,9 +579,6 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    //end update Customer
-
-    //order start update
     public ArrayList<Order> getListDataOrders() {
         ArrayList<Order> listOrder = new ArrayList<Order>();
         try {
@@ -760,5 +720,5 @@ public class QueryDataBase extends  ConnectDB {
 
         return listOrderAddress;
     }
-    //order end get set
+
 }
