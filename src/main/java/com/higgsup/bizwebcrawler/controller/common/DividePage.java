@@ -46,7 +46,7 @@ public class DividePage {
         this.page = page;
     }
 
-    public ArrayList<String> GetDataFromTRTagsInputSLe(Elements getDataInGetDataFromTRTagsInputSLe,ArrayList<String> listString){
+    public ArrayList<String> getDataFromTRTagsInputSLe(Elements getDataInGetDataFromTRTagsInputSLe, ArrayList<String> listString){
         for (Element d : getDataInGetDataFromTRTagsInputSLe
                 ) {
             String[] splitTakeValue = d.toString().split("\">");

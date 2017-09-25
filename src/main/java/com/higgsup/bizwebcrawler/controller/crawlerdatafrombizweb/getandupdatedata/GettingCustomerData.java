@@ -1,5 +1,4 @@
 package com.higgsup.bizwebcrawler.controller.crawlerdatafrombizweb.getandupdatedata;
-
 import com.higgsup.bizwebcrawler.controller.authentication.HtmlData;
 import com.higgsup.bizwebcrawler.controller.common.CommonUtil;
 import com.higgsup.bizwebcrawler.controller.common.DividePage;
@@ -15,7 +14,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 /**
  * Created by viquynh
  */
@@ -28,14 +26,14 @@ public class GettingCustomerData {
     public boolean getDataCustomerFromWebSetToDataBase(String html, String cookie) {
         this.html = html;
         this.cookie = cookie;
-        StartScheduling();
+        startScheduling();
         return true;
     }
-    private void StartScheduling() {
+    private void startScheduling() {
         try {
             getPageCustomer();
             for (int i = 1; i <= page; i++) {
-                GetDataCustomer(i);
+                getDataCustomer(i);
             }
         } catch (Exception e) {
             logger.severe("Message error get data set database: " + e);
@@ -52,7 +50,7 @@ public class GettingCustomerData {
         allPages = dividePage.getPage();
         this.page = allPages;
     }
-    private void GetDataCustomer(int ii) throws InterruptedException {
+    private void getDataCustomer(int ii) throws InterruptedException {
         Document getHTML;
         CommonUtil commonUtil = new CommonUtil();
         authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/customers?page=" + ii, cookie);
@@ -68,17 +66,17 @@ public class GettingCustomerData {
             customer.setFullName(getDataFromAhrefTags.get(0).text());
             customer.setEmail(getDataFromAhrefTags.get(2).text());
             Elements getDataFromTDTags = tags.select("td");
-            Pattern p = Pattern.compile("[\\d]+.[\\d]+,[\\d]+");
-            Matcher m = p.matcher(getDataFromTDTags.get(5).text());
-            String potFullDataFromTags6 = "";
-            while (m.find()) {
-                potFullDataFromTags6 += m.group();
+            Pattern pattern = Pattern.compile("[\\d]+.[\\d]+,[\\d]+");
+            Matcher matcher = pattern.matcher(getDataFromTDTags.get(5).text());
+            String stringTotalBill = "";
+            while (matcher.find()) {
+                stringTotalBill += matcher.group();
             }
-            potFullDataFromTags6 = potFullDataFromTags6.replaceAll(",", "");
-            if (potFullDataFromTags6.length() <= 0) {
-                potFullDataFromTags6 = "0";
+            stringTotalBill = stringTotalBill.replaceAll(",", "");
+            if (stringTotalBill.length() <= 0) {
+                stringTotalBill = "0";
             }
-            customer.setTotalBill(Double.parseDouble(potFullDataFromTags6));
+            customer.setTotalBill(Double.parseDouble(stringTotalBill));
             authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/customers/" + customer.getId(), cookie);
             getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
             if (getHTML.title().equals("Đăng nhập quản trị hệ thống")) {
@@ -95,64 +93,64 @@ public class GettingCustomerData {
     private void getDataCustomerAddress(Element getTagsAddress, Customer customer) {
         Document getHTML;
         DividePage dividePage = new DividePage();
-        String[] CutScriptTakeHtml = getTagsAddress.toString().split("type=\"text/html\">");
-        Pattern p = Pattern.compile("[\\d]+");
-        Matcher m = p.matcher(CutScriptTakeHtml[0]);
+        String[] cutScriptTakeHtml = getTagsAddress.toString().split("type=\"text/html\">");
+        Pattern pattern = Pattern.compile("[\\d]+");
+        Matcher matcher = pattern.matcher(cutScriptTakeHtml[0]);
         String customerAddID = "";
-        while (m.find()) {
-            customerAddID += m.group();
+        while (matcher.find()) {
+            customerAddID += matcher.group();
         }
-        CutScriptTakeHtml = CutScriptTakeHtml[1].split("</script>");
-        getHTML = Jsoup.parse(CutScriptTakeHtml[0]);
+        cutScriptTakeHtml = cutScriptTakeHtml[1].split("</script>");
+        getHTML = Jsoup.parse(cutScriptTakeHtml[0]);
         Elements getDataInGetDataFromTRTags = getHTML.select("div.row");
         ArrayList<String> listCustomerAddress = new ArrayList<String>();
         for (Element gettag : getDataInGetDataFromTRTags) {
             Elements getDataInGetDataFromTRTagsInput = gettag.select("input[value]");
             for (int i = 0; i < getDataInGetDataFromTRTagsInput.size(); i++) {
-                if (!getDataInGetDataFromTRTagsInput.get(i).attr("value").equals("true") || getDataInGetDataFromTRTagsInput.get(i).attr("value").equals("false")) {
-                    String get1 = getDataInGetDataFromTRTagsInput.get(i).attr("value");
-                    if (get1.equals("")) {
+                String dataAddress=getDataInGetDataFromTRTagsInput.get(i).attr("value");
+                if (!dataAddress.equals("true") || dataAddress.equals("false")) {
+                    if (dataAddress.equals("")) {
                         listCustomerAddress.add("null");
                     } else {
-                        listCustomerAddress.add(getDataInGetDataFromTRTagsInput.get(i).attr("value"));
+                        listCustomerAddress.add(dataAddress);
                     }
                 }
             }
             if (listCustomerAddress.size() == 6 || listCustomerAddress.size() == 8) {
                 Elements getDataInGetDataFromTRTagsInputSLe = gettag.select("option[selected*=selected]");
-                listCustomerAddress = dividePage.GetDataFromTRTagsInputSLe(getDataInGetDataFromTRTagsInputSLe, listCustomerAddress);
+                listCustomerAddress = dividePage.getDataFromTRTagsInputSLe(getDataInGetDataFromTRTagsInputSLe, listCustomerAddress);
             }
         }
         listCustomerAddress.add("");
-        CustomerAddress objectCustomerAddress = new CustomerAddress(customerAddID, listCustomerAddress.get(4), listCustomerAddress.get(0) + "," + listCustomerAddress.get(1), listCustomerAddress.get(3), listCustomerAddress.get(2), listCustomerAddress.get(5), customer.getId(), listCustomerAddress.get(6), listCustomerAddress.get(7), listCustomerAddress.get(8));
-        saveAndUpdateCustomerData(customer, objectCustomerAddress);
+        CustomerAddress customerAddress = new CustomerAddress(customerAddID, listCustomerAddress.get(4), listCustomerAddress.get(0) + "," + listCustomerAddress.get(1), listCustomerAddress.get(3), listCustomerAddress.get(2), listCustomerAddress.get(5), customer.getId(), listCustomerAddress.get(6), listCustomerAddress.get(7), listCustomerAddress.get(8));
+        saveAndUpdateCustomerData(customer, customerAddress);
     }
-    private void saveAndUpdateCustomerData(Customer customer, CustomerAddress objectCustomerAddress) {
+    private void saveAndUpdateCustomerData(Customer customer, CustomerAddress customerAddress) {
         QueryDataBase queryDataBase = new QueryDataBase();
         ArrayList<String> listCustomerDddIdFormCustomerId = queryDataBase.getListCustomerDddIdFormCustomerId(customer.getId());
         ArrayList<CustomerAddress> listAddressFormCustomerId = queryDataBase.getListAddressFormCustomerId(customer.getId());
         if (queryDataBase.hasCustomerID(customer.getId())) {
             queryDataBase.setDataFromCustomer(customer);
-            if (objectCustomerAddress != null) {
-                queryDataBase.setDataCustomerAddress(objectCustomerAddress);
+            if (customerAddress != null) {
+                queryDataBase.setDataCustomerAddress(customerAddress);
             }
         } else {
             Customer dataCustomersFromCustomerID = queryDataBase.getDataCustomersFromCustomerID(customer.getId());
             if (!customer.equals(dataCustomersFromCustomerID)) {
                 queryDataBase.updateDataCustomersFromObjectCustomer(customer);
             }
-            int CheckIndix = listCustomerDddIdFormCustomerId.indexOf(objectCustomerAddress.getId());
-            if (CheckIndix >= 0) {
-                if (listAddressFormCustomerId.get(CheckIndix).equals(objectCustomerAddress)) {
-                    listCustomerDddIdFormCustomerId.remove(CheckIndix);
-                    listAddressFormCustomerId.remove(CheckIndix);
+            int checkIndex = listCustomerDddIdFormCustomerId.indexOf(customerAddress.getId());
+            if (checkIndex >= 0) {
+                if (listAddressFormCustomerId.get(checkIndex).equals(customerAddress)) {
+                    listCustomerDddIdFormCustomerId.remove(checkIndex);
+                    listAddressFormCustomerId.remove(checkIndex);
                 } else {
-                    queryDataBase.updateDataCustomerAddress(objectCustomerAddress);
-                    listCustomerDddIdFormCustomerId.remove(CheckIndix);
-                    listAddressFormCustomerId.remove(CheckIndix);
+                    queryDataBase.updateDataCustomerAddress(customerAddress);
+                    listCustomerDddIdFormCustomerId.remove(checkIndex);
+                    listAddressFormCustomerId.remove(checkIndex);
                 }
             } else {
-                queryDataBase.setDataCustomerAddress(objectCustomerAddress);
+                queryDataBase.setDataCustomerAddress(customerAddress);
             }
             for (int i = 0; i < listCustomerDddIdFormCustomerId.size(); i++) {
                 queryDataBase.deleteDataCustomerAddress(listCustomerDddIdFormCustomerId.get(i));
