@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
  */
 public class GettingCustomerData {
     private static final Logger logger = Logger.getLogger(GettingCustomerData.class.getName());
+    private  final String urlWebsite="https://bookweb1.bizwebvietnam.net/admin";
     private HtmlData authenticationGetRequest = new HtmlData();
     private String cookie;
     private String html;
@@ -53,7 +54,7 @@ public class GettingCustomerData {
     private void getDataCustomer(int ii) throws InterruptedException {
         Document getHTML;
         CommonUtil commonUtil = new CommonUtil();
-        authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/customers?page=" + ii, cookie);
+        authenticationGetRequest.connectURLAndTakeHTML(urlWebsite+"/customers?page=" + ii, cookie);
         getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
         if (getHTML.title().equals("Đăng nhập quản trị hệ thống")) {
             throw new Error("Error cookie");
@@ -77,7 +78,7 @@ public class GettingCustomerData {
                 stringTotalBill = "0";
             }
             customer.setTotalBill(Double.parseDouble(stringTotalBill));
-            authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/customers/" + customer.getId(), cookie);
+            authenticationGetRequest.connectURLAndTakeHTML(urlWebsite+"/customers/" + customer.getId(), cookie);
             getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
             if (getHTML.title().equals("Đăng nhập quản trị hệ thống")) {
                 throw new Error("Error cookie");
