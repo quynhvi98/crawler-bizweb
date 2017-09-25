@@ -26,12 +26,12 @@ public class GettingCustomerData {
     public boolean getDataCustomerFromWebSetToDataBase(String get, String cookie) throws IOException {
         CommonUtil commonUtil = new CommonUtil();
         DividePage dividePage=new DividePage();
-        String titleURL;
+
         try {
             QueryDataBase queryDataBase = new QueryDataBase();
             Document getHTML = Jsoup.parse(get);
-            dividePage.setCheckDataFromWeb(getHTML);
-            Elements getDataAllCustomer=dividePage.getCheckDataFromWeb();
+            dividePage.setDataCheckingFromWeb(getHTML);
+            Elements getDataAllCustomer=dividePage.getDataCheckingFromWeb();
             int allCustomers = Integer.parseInt(commonUtil.cutID(getDataAllCustomer.text()));
             dividePage.setPage(allCustomers);
             allCustomers=dividePage.getPage();
@@ -40,6 +40,7 @@ public class GettingCustomerData {
                 getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                 if (getHTML.title().equals("Đăng nhập quản trị hệ thống")) {
                     throw new Error("Error cookie");
+
                 }
                 Elements getDataFromTRTags = getHTML.select("tbody tr");
                 for (Element tags : getDataFromTRTags) {
@@ -75,11 +76,10 @@ public class GettingCustomerData {
                             fullDataFromTags[6] = "0";
                         }
                         logger.info("Tổng chi tiêu: " + fullDataFromTags[6]);
-                        queryDataBase.setDataFromCustomer(fullDataFromTags[0], fullDataFromTags[1], fullDataFromTags[3], fullDataFromTags[6]);
+                        //queryDataBase.setDataFromCustomer(fullDataFromTags[0], fullDataFromTags[1], fullDataFromTags[3], fullDataFromTags[6]);
                         authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/customers/" + fullDataFromTags[0], cookie);
                         getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
-                        titleURL = getHTML.title();
-                        if (titleURL.equals("Đăng nhập quản trị hệ thống")) {
+                        if (getHTML.title().equals("Đăng nhập quản trị hệ thống")) {
                             throw new Error("Error cookie");
 
                         }
@@ -132,8 +132,5 @@ public class GettingCustomerData {
             logger.info("Message error get data set database" + e);
         }
         return true;
-    }
-    public void setDataToDB(){
-
     }
 }
