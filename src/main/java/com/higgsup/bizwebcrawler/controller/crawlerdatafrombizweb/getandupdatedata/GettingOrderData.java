@@ -34,8 +34,8 @@ public class GettingOrderData {
         try {
             QueryDataBase queryDataBase = new QueryDataBase();
             Document getHTML = Jsoup.parse(get);
-            dividePage.setCheckDataFromWeb(getHTML);
-            Elements getDataAllOrders=dividePage.getCheckDataFromWeb();
+            dividePage.setDataCheckingFromWeb(getHTML);
+            Elements getDataAllOrders=dividePage.getDataCheckingFromWeb();
             int allOrder = Integer.parseInt(commonUtil.cutID(getDataAllOrders.text()));
             dividePage.setPage(allOrder);
             allOrder=dividePage.getPage();

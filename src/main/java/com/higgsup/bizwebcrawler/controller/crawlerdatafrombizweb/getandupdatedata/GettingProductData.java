@@ -1,6 +1,7 @@
 package com.higgsup.bizwebcrawler.controller.crawlerdatafrombizweb.getandupdatedata;
 
 import com.higgsup.bizwebcrawler.controller.authentication.HtmlData;
+import com.higgsup.bizwebcrawler.controller.authentication.RequestHeader;
 import com.higgsup.bizwebcrawler.controller.common.CommonUtil;
 import com.higgsup.bizwebcrawler.controller.common.DividePage;
 import com.higgsup.bizwebcrawler.controller.managedatabase.QueryDataBase;
@@ -23,20 +24,20 @@ import java.util.logging.Logger;
 public class GettingProductData {
     private static final Logger logger = Logger.getLogger(GettingProductData.class.getName());
     private HtmlData authenticationGetRequest = new HtmlData();
+    private static final String url = RequestHeader.urlWebsite+"/products?page=";
 
     public boolean getDataProductFromWeb(String get, String cookie) throws IOException {
-        CommonUtil commonUtil = new CommonUtil();
         DividePage dividePage = new DividePage();
         String titleURL;
         try {
             Document getHTML = Jsoup.parse(get);
-            dividePage.setCheckDataFromWeb(getHTML);
-            Elements getDataAllProducts = dividePage.getCheckDataFromWeb();
-            int allProducts = Integer.parseInt(commonUtil.cutID(getDataAllProducts.text()));
+            dividePage.setDataCheckingFromWeb(getHTML);
+            Elements getDataAllProducts = dividePage.getDataCheckingFromWeb();
+            int allProducts = Integer.parseInt(CommonUtil.cutID(getDataAllProducts.text()));
             dividePage.setPage(allProducts);
             allProducts = dividePage.getPage();
-            for (int ii = 1; ii <= allProducts; ii++) {
-                authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products?page=" + ii, cookie);
+            for (int i = 1; i <= allProducts; i++) {
+                authenticationGetRequest.connectURLAndTakeHTML(url + i, cookie);
                 getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                 if (getHTML.title().equals("Đăng nhập quản trị hệ thống")) {
                     throw new Error("Error cookie");
@@ -48,15 +49,15 @@ public class GettingProductData {
                     Producer producer = new Producer();
                     HashMap getDataCategoryProduct = new HashMap();//lấy danh mục mới, hot, sale
                     Elements getDataFromAhrefTags = tags.select("td  a[href]");
-                    product.setProductID(commonUtil.cutID(getDataFromAhrefTags.get(0).attr("href")));
+                    product.setProductID(CommonUtil.cutID(getDataFromAhrefTags.get(0).attr("href")));
                     product.setName(getDataFromAhrefTags.get(0).text());
                     Elements getIMGProduct = tags.select("td  img[src]");
                     product.setImg("https:" + getIMGProduct.get(0).attr("src"));
                     Elements getDataFromPTags = tags.select("td p");
-                    product.setStork(commonUtil.cutQuantity(getDataFromPTags.get(0).text()));
+                    product.setStork(CommonUtil.cutQuantity(getDataFromPTags.get(0).text()));
                     productGroup.setName(getDataFromPTags.get(1).text());
                     producer.setName(getDataFromPTags.get(2).text());
-                    authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products/" + product.getProductID(), cookie);
+                    authenticationGetRequest.connectURLAndTakeHTML(RequestHeader.urlWebsite+"/products/" + product.getProductID(), cookie);
                     getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                     titleURL = getHTML.title();
                     if (titleURL.equals("Đăng nhập quản trị hệ thống")) {
@@ -67,7 +68,7 @@ public class GettingProductData {
                         getDataFromTrTags = getDataFromDivRowTag.get(0).select("div.controls textarea[bind*=content]");
 
                     } else {
-                        authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/products/" + product.getProductID(), cookie);
+                        authenticationGetRequest.connectURLAndTakeHTML(RequestHeader.urlWebsite+"/products/" + product.getProductID(), cookie);
                         getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
                         titleURL = getHTML.title();
                         if (titleURL.equals("Đăng nhập quản trị hệ thống")) {
@@ -82,9 +83,9 @@ public class GettingProductData {
                         product.setContent(getDataFromTrTags.get(0).text());
                     }
                     getDataFromTrTags = getDataFromDivRowTag.get(2).select("a[href]");
-                    for (int i = 1; i < getDataFromTrTags.size(); i++) {
-                        if (getDataFromTrTags.get(i).text().toString().length() > 0) {
-                            getDataCategoryProduct.put(commonUtil.cutID(getDataFromTrTags.get(i).attr("href")), getDataFromTrTags.get(i).text());
+                    for (int j = 1; j < getDataFromTrTags.size(); j++) {
+                        if (getDataFromTrTags.get(j).text().toString().length() > 0) {
+                            getDataCategoryProduct.put(CommonUtil.cutID(getDataFromTrTags.get(j).attr("href")), getDataFromTrTags.get(j).text());
                         }
                     }
                     Elements checkVersionProduct = getHTML.select("div.row a[bind-event-click*=changeOptionNamesModal.show(]");

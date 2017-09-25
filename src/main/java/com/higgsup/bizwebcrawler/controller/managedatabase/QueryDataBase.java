@@ -26,7 +26,6 @@ public class QueryDataBase extends  ConnectDB {
     private ConnectDB conn = new ConnectDB();
     private static final Logger logger = Logger.getLogger("QueryDataBase");
 
-    //oki
     public void setDataProductCategory(String productCate_ID, String name) {
         try {
             queryy = " SELECT product_cate_id FROM product_category WHERE product_cate_id=?";
@@ -47,7 +46,6 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    //oki
     public int getIDProductCategory(String name) {
         try {
             queryy = "SELECT product_cate_id FROM product_category WHERE name=?";
@@ -65,7 +63,6 @@ public class QueryDataBase extends  ConnectDB {
         return 0;
     }
 
-    //oki
     public void setDataProductGroup(String name) {
         try {
             queryy= "SELECT product_group_id FROM product_group WHERE name=?";
@@ -86,7 +83,6 @@ public class QueryDataBase extends  ConnectDB {
 
     }
 
-    //oki
     public int getIDProductGroup(String name) {
         try {
             queryy = "SELECT product_group_id FROM product_group WHERE name=?";
@@ -104,7 +100,6 @@ public class QueryDataBase extends  ConnectDB {
         return 0;
     }
 
-    //oki
     public void setDataProducer(String Name) {
         try {
             queryy = " SELECT producer_ID FROM producer WHERE name=?";
@@ -125,7 +120,6 @@ public class QueryDataBase extends  ConnectDB {
 
     }
 
-    //oki
     public int getIDProducer(String Name) {
         try {
             queryy = "SELECT producer_id FROM producer WHERE name=?";
@@ -143,7 +137,6 @@ public class QueryDataBase extends  ConnectDB {
         return 0;
     }
 
-    ///oki
     public void setDataProduct(Product product) {
         try {
             queryy = "SELECT product_id FROM dbo.product WHERE product_id=?";
@@ -172,7 +165,6 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    ///oki
     public boolean hasProductID(String product_ID) {
         try {
             queryy = "SELECT product_id FROM dbo.product WHERE product_id=?";
@@ -189,7 +181,6 @@ public class QueryDataBase extends  ConnectDB {
         return false;
     }
 
-    //oki
     public void setDataFromCategoryProductAndProduct(String productCate_ID, String product_ID) {//set category và product
         try {
             queryy = "SELECT category_id FROM category_product WHERE product_cate_id =? AND product_id=?";//category_ID khóa chính bảng liên kết thể loại và sản phẩm
@@ -213,7 +204,6 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    //oki
     public ArrayList<Product> getDataProductFromProductID(String product_ID) {
 
         try {
@@ -234,7 +224,6 @@ public class QueryDataBase extends  ConnectDB {
         return null;
     }
 
-    //oki
     public void updateProduct(Product product) {
         try {
             query = "UPDATE dbo.product SET name =?,price=?,stork=?,weight=?,content=?,IMG=?,description=?,product_group_id=?,producer_id=? WHERE product_id=?";
@@ -255,7 +244,6 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    //oki
     public void remoDataCategoryProductFromCateIdAndProductId(String productCate_ID, String product_ID) {
         try {
             query = "DELETE dbo.category_product WHERE product_cate_id=? AND product_id=?";
@@ -268,7 +256,6 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    //oki
     public ArrayList<String> getListProductCateIdFormProductIdInCategoryProduct(String product_ID) {
         ArrayList<String> listProductCateID = new ArrayList<String>();
         try {
@@ -288,7 +275,6 @@ public class QueryDataBase extends  ConnectDB {
         return listProductCateID;
     }
 
-    // oki
     public void setDataPaymenFromOrder(String content) {
         try {
             queryy = " SELECT payment_id FROM dbo.paymen WHERE content=?";
@@ -308,7 +294,6 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    // oki
     public void setDataFromOrder(Order dataFromOrder) {
         try {
             queryy = "SELECT order_id FROM dbo.order_product WHERE order_id=?";
@@ -337,7 +322,6 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    // oki
     public int getIDPaymentFromContent(String content) {
         try {
             queryy = "SELECT payment_id FROM paymen WHERE content=?";
@@ -354,7 +338,6 @@ public class QueryDataBase extends  ConnectDB {
         }
         return 0;
     }
-    // oki
 
     public void setDataFromOrderAndProduct(OrderProduct dataFromOrderAndProduct) {
         try {
@@ -377,7 +360,6 @@ public class QueryDataBase extends  ConnectDB {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }
-    // oki
 
     public void setDataFromOrderAddress(OrderAddress dataFromOrderAddress) {
         try {
@@ -407,8 +389,6 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    //oki
-
     public void setDataFromCustomer(Customer customer) {
         try {
             queryy = " SELECT customer_id FROM dbo.customer WHERE customer_id =?";
@@ -431,7 +411,6 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    //oki
     public boolean hasCustomerID(String customerID) {
         try {
             queryy = "SELECT customer_id FROM dbo.customer WHERE customer_id=?";
@@ -448,8 +427,6 @@ public class QueryDataBase extends  ConnectDB {
         return false;
     }
 
-    //CustomerAddress
-    //oki
     public void setDataCustomerAddress(CustomerAddress objectCustomerAddress) {
         try {
             queryy = "SELECT customer_id FROM dbo.customer_address WHERE customer_id=?";
@@ -471,8 +448,6 @@ public class QueryDataBase extends  ConnectDB {
                 ps.setString(10, objectCustomerAddress.getDistrict());
                 ps.executeUpdate();
             }
-
-
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
 
@@ -482,7 +457,6 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    //oki
     public ArrayList<String> getListCustomerDddIdFormCustomerId(String customer_ID) {
         ArrayList<String> ListCustomerAddiD = new ArrayList<String>();
 
@@ -502,8 +476,6 @@ public class QueryDataBase extends  ConnectDB {
         return ListCustomerAddiD;
     }
 
-    // update del CustomerAddress
-    //oki
     public void updateDataCustomerAddress(CustomerAddress objectCustomerAddress) {
 
         try {
@@ -536,7 +508,6 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    //oki
     public void deleteDataCustomerAddress(String ID) {
         try {
             query = "DELETE dbo.customer_address WHERE customer_add_id=?";
@@ -548,7 +519,6 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    //okie
     public ArrayList<CustomerAddress> getListAddressFormCustomerId(String customer_ID) {
         ArrayList<CustomerAddress> customerAddressArrayList = new ArrayList<CustomerAddress>();
         try {
@@ -566,10 +536,6 @@ public class QueryDataBase extends  ConnectDB {
         return customerAddressArrayList;
     }
 
-    // end update del CustomerAddress
-
-    //update Customer
-    //oki
     public Customer getDataCustomersFromCustomerID(String customer_ID) {
 
         try {
@@ -590,7 +556,6 @@ public class QueryDataBase extends  ConnectDB {
         return null;
     }
 
-    //oki
     public void updateDataCustomersFromObjectCustomer(Customer objectCustomers) {
         Customer objectCustomers1 = objectCustomers;
         try {
@@ -614,9 +579,6 @@ public class QueryDataBase extends  ConnectDB {
         }
     }
 
-    //end update Customer
-
-    //order start update
     public ArrayList<Order> getListDataOrders() {
         ArrayList<Order> listOrder = new ArrayList<Order>();
         try {
@@ -758,5 +720,5 @@ public class QueryDataBase extends  ConnectDB {
 
         return listOrderAddress;
     }
- 
+
 }

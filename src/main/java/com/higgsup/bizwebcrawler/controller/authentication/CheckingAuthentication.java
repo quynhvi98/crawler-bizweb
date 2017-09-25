@@ -1,5 +1,6 @@
 package com.higgsup.bizwebcrawler.controller.authentication;
 
+import com.higgsup.bizwebcrawler.controller.common.FileTemplate;
 import com.higgsup.bizwebcrawler.controller.common.SendEmail;
 import com.higgsup.bizwebcrawler.controller.managedatabase.ConnectDB;
 import org.apache.http.Header;
@@ -21,29 +22,32 @@ import java.util.logging.Logger;
  */
 public class CheckingAuthentication {
     private static final Logger logger = Logger.getLogger(CheckingAuthentication.class.getName());
-    private static   String cookie;
+    private static String cookie;
     private String query;
     private PreparedStatement ps;
     private ResultSet rs;
     private ConnectDB con = new ConnectDB();
     private String email;
     private String password;
+    private static final String url = RequestHeader.urlWebsite+"/authorization/login?Email=%s&Password=%s";
+    final String smtpServer = "smtp.gmail.com";
+    final String username = "vi.quynh.31598@gmail.com";
+    final String psw = "abc123456789";
+    final String gmailCompany ="higgsupcompany@gmail.com";
+    final String subjectEmail ="Thông báo vấn đề tài khoản";
 
-    public String doRequestTakeCookie() throws IOException {
+    public void doRequestTakeCookie() throws IOException {
         try {
-            takeAccountAdminFromDatabase();
-            String url = "https://bookweb1.bizwebvietnam.net/admin/authorization/login?Email=" + email + "&Password=" + password;
             HttpClient client = HttpClientBuilder.create().build();
-            HttpPost post = new HttpPost(url);
-            post.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36");
+            HttpPost post = new HttpPost(String.format(url, email,password));
+            post.setHeader(RequestHeader.RQ_HEADER, RequestHeader.RQ_HEADER_VALUE);
             HttpResponse response = client.execute(post);
             Header[] allHeaders = response.getAllHeaders();
             if (allHeaders[11].getValue().equalsIgnoreCase("1; mode=block")) {
-                SendEmail.send("smtp.gmail.com", "vi.quynh.31598@gmail.com", "higgsupcompany@gmail.com", "abc123456789", "Thông báo vấn đề tài khoản ", "Xin chào bạn,<br> higgsup thông báo tài khoản truy cập bizweb <br> Email:" + email + "<br> Password:" + password + "<br> bạn cung cấp cho chúng tôi không chính xác ");
+                SendEmail.send(smtpServer, username, gmailCompany, psw, subjectEmail, FileTemplate.mailContent(email, password).toString());
                 throw new Error("FalseAccount");
             }
-            this.cookie= allHeaders[11].getValue();
-            return this.cookie;
+            setCookie(allHeaders[11].getValue());
 
         } catch (UnknownHostException e) {
             throw new Error("Not Connect Internet");
@@ -53,11 +57,19 @@ public class CheckingAuthentication {
         }
     }
 
+    public static void setCookie(String cookie) {
+        CheckingAuthentication.cookie = cookie;
+    }
+
     public String getCookie() {
         return this.cookie;
     }
 
-    public void takeAccountAdminFromDatabase() {
+    public CheckingAuthentication() {
+        takeAccountAdminFromDatabase();
+    }
+
+    private void takeAccountAdminFromDatabase() {
         try {
             query = "SELECT email,pass_word FROM administrator WHERE id=?";
             ps = con.startConnect().prepareCall(query);

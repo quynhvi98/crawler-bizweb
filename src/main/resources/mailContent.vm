@@ -1,0 +1,6 @@
+<!DOCTYPE html >
+<html>
+<body>
+<p>"Xin chào bạn,<br> higgsup thông báo tài khoản truy cập bizweb <br> Email:" + $email + "<br> Password:" + $password +
+    "<br> bạn cung cấp cho chúng tôi không chính xác "</p>
+</html>
