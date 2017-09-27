@@ -107,7 +107,18 @@ public class OrderAddress {
         this.paymentAddress = paymentAddress;
         this.orderID = orderID;
     }
-
+    public OrderAddress( String email, String nameCustomer, String phone, String orderAddress, String zipCode, String nation, String city, String district, String paymentAddress, String orderID) {
+        this.email = email;
+        this.nameCustomer = nameCustomer;
+        this.phone = phone;
+        this.orderAddress = orderAddress;
+        this.zipCode = zipCode;
+        this.nation = nation;
+        this.city = city;
+        this.district = district;
+        this.paymentAddress = paymentAddress;
+        this.orderID = orderID;
+    }
     @Override
     public boolean equals(Object o) {
         if(o instanceof OrderAddress){

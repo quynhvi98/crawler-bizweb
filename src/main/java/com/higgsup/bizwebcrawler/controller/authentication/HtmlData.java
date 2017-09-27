@@ -15,7 +15,7 @@ import java.net.UnknownHostException;
  */
 public class HtmlData {
     private String htmlData;
-    public void connectURLAndTakeHTML(String url, String cookie) throws IOException {
+    public void connectURLAndTakeHTML(String url, String cookie) {
         StringBuilder htmlChain = new StringBuilder();
         try {
             HttpClient client = HttpClientBuilder.create().build();
