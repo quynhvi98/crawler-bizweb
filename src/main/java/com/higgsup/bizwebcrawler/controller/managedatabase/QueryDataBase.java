@@ -24,7 +24,7 @@ public class QueryDataBase extends  ConnectDB {
     private PreparedStatement pss;
     private ResultSet rss;
     private ConnectDB conn = new ConnectDB();
-    private static final Logger logger = Logger.getLogger("QueryDataBase");
+    private static final Logger logger = Logger.getLogger(QueryDataBase.class.getName());
 
     public void setDataProductCategory(String productCate_ID, String name) {
         try {
@@ -301,6 +301,7 @@ public class QueryDataBase extends  ConnectDB {
             pss.setString(1, dataFromOrder.getOrderID());
             rss = pss.executeQuery();
             if (!(rss.next())) {
+
                 query = "INSERT dbo.order_product ( order_id ,date ,status_paymen ,status_delivery ,total_bill ,total_weight ,fee_delivery ,customer_id ,payment_id )VALUES  ( ? , ?, ? , ? , ? , ? , ? ,  ? , ? )";
                 ps = con.prepareCall(query);
                 ps.setString(1, dataFromOrder.getOrderID());
@@ -586,7 +587,7 @@ public class QueryDataBase extends  ConnectDB {
             queryy = "SELECT * FROM dbo.order_product";
             pss = conn.startConnect().prepareCall(queryy);
             rss = pss.executeQuery();
-            while (rs.next()) {
+            while (rss.next()) {
                 listOrder.add(new Order(rss.getString(1), commonUtil.cutDateSQL(rss.getString(2)), rss.getString(3), rss.getString(4), rss.getDouble(5), rss.getDouble(6), rss.getDouble(7), rss.getString(8), rss.getInt(9)));
             }
             return listOrder;
@@ -607,7 +608,6 @@ public class QueryDataBase extends  ConnectDB {
             if ((rss.next())) {
                 query = "UPDATE  order_product SET date=?, status_paymen=?,status_delivery=?,total_bill=?,total_weight=?,fee_delivery=?,customer_id=?,payment_id=? WHERE order_id=? AND customer_id=?";
                 ps = con.prepareCall(query);
-
                 ps.setString(1, dataFromOrder.getDate());
                 ps.setString(2, dataFromOrder.getStatusPaymen());
                 ps.setString(3, dataFromOrder.getStatusDelivery());
@@ -626,7 +626,21 @@ public class QueryDataBase extends  ConnectDB {
             logger.log(Level.SEVERE, e.getMessage());
         }
     }
-
+    public boolean hasOrderID(String orderID) {
+        try {
+            queryy = "SELECT order_id FROM dbo.order_product WHERE order_id=?";
+            pss = conn.startConnect().prepareCall(queryy);
+            pss.setString(1, orderID);
+            rss = pss.executeQuery();
+            if (rss.next()) return false;
+            return true;
+        } catch (ClassNotFoundException e) {
+            logger.log(Level.SEVERE, e.getMessage());
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.getMessage());
+        }
+        return false;
+    }
     public ArrayList<OrderProduct> getListDataOrderProduct(String id) {
         ArrayList<OrderProduct> listOrderProduct = new ArrayList<OrderProduct>();
         try {
@@ -636,7 +650,7 @@ public class QueryDataBase extends  ConnectDB {
             pss.setString(1, id);
             rss = pss.executeQuery();
             while (rss.next()) {
-                listOrderProduct.add(new OrderProduct(rss.getDouble(2), rss.getString(3), rss.getString(4)));
+                listOrderProduct.add(new OrderProduct(rss.getDouble(1), rss.getString(2), rss.getString(3)));
             }
             return listOrderProduct;
         } catch (ClassNotFoundException e) {
@@ -707,7 +721,7 @@ public class QueryDataBase extends  ConnectDB {
         try {
             queryy = "SELECT * FROM order_address";
             pss = conn.startConnect().prepareCall(queryy);
-            rss = ps.executeQuery();
+            rss = pss.executeQuery();
             while (rss.next()) {
                 listOrderAddress.add(new OrderAddress(rss.getInt(1), rss.getString(2), rss.getString(3), rss.getString(4), rss.getString(5), rss.getString(6), rss.getString(7), rss.getString(8), rss.getString(9), rss.getString(10), rss.getString(11)));
             }

@@ -1,5 +1,6 @@
 package com.higgsup.bizwebcrawler.controller.crawlerdatafrombizweb.getandupdatedata;
 import com.higgsup.bizwebcrawler.controller.authentication.HtmlData;
+import com.higgsup.bizwebcrawler.controller.authentication.RequestHeader;
 import com.higgsup.bizwebcrawler.controller.common.CommonUtil;
 import com.higgsup.bizwebcrawler.controller.common.DividePage;
 import com.higgsup.bizwebcrawler.controller.managedatabase.QueryDataBase;
@@ -19,7 +20,6 @@ import java.util.regex.Pattern;
  */
 public class GettingCustomerData {
     private static final Logger logger = Logger.getLogger(GettingCustomerData.class.getName());
-    private  final String urlWebsite="https://bookweb1.bizwebvietnam.net/admin";
     private HtmlData authenticationGetRequest = new HtmlData();
     private String cookie;
     private String html;
@@ -44,8 +44,8 @@ public class GettingCustomerData {
         CommonUtil commonUtil = new CommonUtil();
         DividePage dividePage = new DividePage();
         Document getHTML = Jsoup.parse(html);
-        dividePage.setCheckDataFromWeb(getHTML);
-        Elements getDataAllCustomer = dividePage.getCheckDataFromWeb();
+        dividePage.setDataCheckingFromWeb(getHTML);
+        Elements getDataAllCustomer = dividePage.getDataCheckingFromWeb();
         int allPages = Integer.parseInt(commonUtil.cutID(getDataAllCustomer.text()));
         dividePage.setPage(allPages);
         allPages = dividePage.getPage();
@@ -54,7 +54,7 @@ public class GettingCustomerData {
     private void getDataCustomer(int ii) throws InterruptedException {
         Document getHTML;
         CommonUtil commonUtil = new CommonUtil();
-        authenticationGetRequest.connectURLAndTakeHTML(urlWebsite+"/customers?page=" + ii, cookie);
+        authenticationGetRequest.connectURLAndTakeHTML(RequestHeader.urlWebsite+"/customers?page=" + ii, cookie);
         getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
         if (getHTML.title().equals("Đăng nhập quản trị hệ thống")) {
             throw new Error("Error cookie");
@@ -78,7 +78,7 @@ public class GettingCustomerData {
                 stringTotalBill = "0";
             }
             customer.setTotalBill(Double.parseDouble(stringTotalBill));
-            authenticationGetRequest.connectURLAndTakeHTML(urlWebsite+"/customers/" + customer.getId(), cookie);
+            authenticationGetRequest.connectURLAndTakeHTML(RequestHeader.urlWebsite+"/customers/" + customer.getId(), cookie);
             getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
             if (getHTML.title().equals("Đăng nhập quản trị hệ thống")) {
                 throw new Error("Error cookie");

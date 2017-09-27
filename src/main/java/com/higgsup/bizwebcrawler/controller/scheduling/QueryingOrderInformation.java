@@ -1,6 +1,7 @@
 package com.higgsup.bizwebcrawler.controller.scheduling;
 
 import com.higgsup.bizwebcrawler.controller.authentication.HtmlData;
+import com.higgsup.bizwebcrawler.controller.authentication.RequestHeader;
 import com.higgsup.bizwebcrawler.controller.crawlerdatafrombizweb.getandupdatedata.GettingOrderData;
 
 import java.io.IOException;
@@ -16,7 +17,7 @@ abstract class QueryingOrderInformation extends StartScheduling implements Runna
         try {
             GettingOrderData getDataWebAndSetToDataBase = new GettingOrderData();
             HtmlData authenticationGetRequest = new HtmlData();
-            authenticationGetRequest.connectURLAndTakeHTML("https://bookweb1.bizwebvietnam.net/admin/orders", getCookie());
+            authenticationGetRequest.connectURLAndTakeHTML(RequestHeader.urlWebsite+"/orders", getCookie());
             boolean checkErrorRequest = getDataWebAndSetToDataBase.getDataOrderFromWebSetToDataBase(authenticationGetRequest.getHtmlData(), getCookie());
             logger.info(checkErrorRequest + " QueryingOrderInformation");
         } catch (Error e) {

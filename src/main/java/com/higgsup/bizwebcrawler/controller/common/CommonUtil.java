@@ -12,9 +12,10 @@ import java.util.regex.Pattern;
  * Created by viquynh on 26/07/2017.
  */
 public class CommonUtil { //class chứa những hàm xử lí nhỏ
-    public static final String DATE = "dd-MM-yyyy HH:mm";
+    public static final String DATE_DDMMYYYYHHMM = "dd-MM-yyyy HH:mm";
+    public static final String DATE_YYYYMMDDHHMM = "yyyy-MM-dd HH:mm";
 
-    public static  String cutID(String get) {
+    public static String cutID(String get) {
         String strResult = "";
         for (int i = get.length() - 1; 0 <= i; i--) {
             if (Character.isDigit(get.charAt(i))) {
@@ -68,14 +69,13 @@ public class CommonUtil { //class chứa những hàm xử lí nhỏ
     public static String fomatDateSQL(String date) throws ParseException {
         date = date.replaceAll("/", "-");
         date = date.substring(0, 16);
-        SimpleDateFormat formatDateInput = new SimpleDateFormat(DATE);
-        SimpleDateFormat formatDateUot = new SimpleDateFormat(DATE);
+        SimpleDateFormat formatDateInput = new SimpleDateFormat(DATE_DDMMYYYYHHMM);
+        SimpleDateFormat formatDateUot = new SimpleDateFormat(DATE_YYYYMMDDHHMM);
         Date date1 = formatDateInput.parse(date);
         return formatDateUot.format(date1);
     }
 
     public static String cutDateSQL(String date) {
-        System.out.println(date + "  vv");
         date = date.replaceAll("/", "-");
         date = date.substring(0, 16);
         return date;
