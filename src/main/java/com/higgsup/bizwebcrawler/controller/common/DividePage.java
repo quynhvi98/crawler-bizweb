@@ -11,22 +11,22 @@ import java.util.ArrayList;
  */
 public class DividePage {
     private int page;
-    private Elements checkDataFromWeb;
-
-    public Elements getCheckDataFromWeb() {
-        return checkDataFromWeb;
+    private Elements dataCheckingFromWeb;
+    private static  final  String cssQuery="div div[class*=t-status-text dataTables_info]";
+    public Elements getDataCheckingFromWeb() {
+        return dataCheckingFromWeb;
     }
 
-    public void setCheckDataFromWeb(Document getHTML) {
+    public void setDataCheckingFromWeb(Document getHTML) {
         String titleURL = getHTML.title();
         if (titleURL.equals("Đăng nhập quản trị hệ thống")) {
             throw new Error("Error cookie");
         }
-        Elements getDataWeb = getHTML.select("div div[class*=t-status-text dataTables_info]");
+        Elements getDataWeb = getHTML.select(cssQuery);
         if(getDataWeb.text().equalsIgnoreCase("")){
             throw new Error("Error Id = null!");
         }
-        this.checkDataFromWeb =getDataWeb;
+        this.dataCheckingFromWeb = getDataWeb;
     }
 
     public int getPage() {
