@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
@@ -37,7 +36,9 @@
         <property name="jpaProperties">
             <props>
                 <prop key="hibernate.cache.use_second_level_cache">true</prop>
-                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</prop>
+                <prop key="hibernate.cache.region.factory_class">
+                    org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+                </prop>
                 <prop key="hibernate.cache.use_query_cache">true</prop>
                 <prop key="hibernate.generate_statistics">true</prop>
                 <prop key="hibernate.transaction.auto_close_session">true</prop>
@@ -47,8 +48,29 @@
 
     <bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
 
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="jpaDialect" ref="jpaDialect"/>
-        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    <!--<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
++        <property name="jpaDialect" ref="jpaDialect"/>
++        <property name="entityManagerFactory" ref="entityManagerFactory"/>
++    </bean>-->
+    <!--- Person -->
+    <bean id="person" class="com.higgsup.bizwebcrawler.entites.customer.Person"/>
+    <bean id="customer" class="com.higgsup.bizwebcrawler.entites.customer.Customer"/>
+    <!---Product -->
+    <bean id="categoryProduct" class="com.higgsup.bizwebcrawler.entites.product.CategoryProduct"></bean>
+    <bean id="producer" class="com.higgsup.bizwebcrawler.entites.product.Producer"></bean>
+    <bean id="product" class="com.higgsup.bizwebcrawler.entites.product.Product">
+        <property ref="producer" name="producer"></property>
+        <property
+                name="productGroup" ref="productGroup"></property>
     </bean>
+    <bean id="productCategory" class="com.higgsup.bizwebcrawler.entites.product.ProductCategory"/>
+    <bean id="productGroup" class="com.higgsup.bizwebcrawler.entites.product.ProductGroup"/>
+    <!--- -->
+    <!---Order-->
+    <bean id="orderObject" class="com.higgsup.bizwebcrawler.entites.order.Order"></bean>
+    <bean id="orderProductObject" class="com.higgsup.bizwebcrawler.entites.order.OrderAddress"></bean>
+    <bean id="orderAddressObject" class="com.higgsup.bizwebcrawler.entites.order.OrderProduct"></bean>
+    <!--- -->
+    <bean id="scheduling" class="com.higgsup.bizwebcrawler.controller.scheduling.StartScheduling"></bean>
+
 </beans>
