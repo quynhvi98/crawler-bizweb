@@ -1,8 +1,5 @@
 package com.higgsup.bizwebcrawler.entites.customer;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 /*
     By viquynh 09/08/2017
  */

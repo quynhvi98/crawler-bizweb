@@ -14,11 +14,34 @@ public class CategoryProduct {
 
 
     @Column(name = "product_cate_id")
-    @ManyToMany
-    private ProductCategory productCategory;
-    @ManyToMany
+    private String productCategory;
+
+    public int getCategoryID() {
+        return categoryID;
+    }
+
+    public void setCategoryID(int categoryID) {
+        this.categoryID = categoryID;
+    }
+
+    public String getProductCategory() {
+        return productCategory;
+    }
+
+    public void setProductCategory(String productCategory) {
+        this.productCategory = productCategory;
+    }
+
+    public String getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(String product_id) {
+        this.product_id = product_id;
+    }
+
     @Column(name = "product_id")
-    private  Product product;
+    private  String product_id;
 
 
 

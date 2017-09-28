@@ -4,12 +4,13 @@ import javax.persistence.*;
  * Created by viquynh
  */
 @Entity
-@Table(name = "Producer")
+@Table(name = "producer")
 public class Producer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "producer_id")
     private int producerID;
+    @Column(name = "name")
     private String name;
     public Producer() {
     }

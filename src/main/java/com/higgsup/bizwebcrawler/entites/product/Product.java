@@ -15,26 +15,18 @@ public class Product {
     private String productID;
     private String name;
     private Double price;
-    private int stork;
+    private Integer stork;
     private Double weight;
     private String content;
     @Column(name = "IMG")
     private String img;
     private String description;
-    @ManyToOne
-    @JoinColumn(name = "product_group_id")
-    @Autowired
-    private ProductGroup productGroup;
     @Column(name = "product_group_id")
-    private int productGroupId;
-    @ManyToOne
-    @JoinColumn(name = "producer_id")
-    @Autowired
-    private Producer producer;
+    private Integer productGroupId;
     @Column(name = "producer_id")
-    private int producerId;
+    private Integer producerId;
 
-    public Product(String productID, String name, Double price, int stork, Double weight, String content, String img, String description) {
+    public Product(String productID, String name, Double price, Integer stork, Double weight, String content, String img, String description) {
         this.productID = productID;
         this.name = name;
         this.price = price;
@@ -46,29 +38,7 @@ public class Product {
 
     }
 
-    public String getProductID() {
-        return productID;
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "productID='" + productID + '\'' +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", stork=" + stork +
-                ", weight=" + weight +
-                ", content='" + content + '\'' +
-                ", img='" + img + '\'' +
-                ", description='" + description + '\'' +
-                ", productGroup=" + productGroup +
-                ", productGroupId=" + productGroupId +
-                ", producer=" + producer +
-                ", producerId=" + producerId +
-                '}';
-    }
-
-    public Product(String productID, String name, Double price, int stork, Double weight, String content, String img, String description, int productGroupId, int producerId) {
+    public Product(String productID, String name, Double price, Integer stork, Double weight, String content, String img, String description, int productGroupId, int producerId) {
         this.productID = productID;
         this.name = name;
         this.price = price;
@@ -79,6 +49,13 @@ public class Product {
         this.description = description;
         this.productGroupId = productGroupId;
         this.producerId = producerId;
+    }
+
+    public Product() {
+    }
+
+    public String getProductID() {
+        return productID;
     }
 
     public void setProductID(String productID) {
@@ -101,11 +78,11 @@ public class Product {
         this.price = price;
     }
 
-    public int getStork() {
+    public Integer getStork() {
         return stork;
     }
 
-    public void setStork(int stork) {
+    public void setStork(Integer stork) {
         this.stork = stork;
     }
 
@@ -141,39 +118,35 @@ public class Product {
         this.description = description;
     }
 
-    public ProductGroup getProductGroup() {
-        return productGroup;
-    }
-
-    public void setProductGroup(ProductGroup productGroup) {
-        this.productGroup = productGroup;
-    }
-
-    public int getProductGroupId() {
+    public Integer getProductGroupId() {
         return productGroupId;
     }
 
-    public void setProductGroupId(int productGroupId) {
+    public void setProductGroupId(Integer productGroupId) {
         this.productGroupId = productGroupId;
     }
 
-    public Producer getProducer() {
-        return producer;
-    }
-
-    public void setProducer(Producer producer) {
-        this.producer = producer;
-    }
-
-    public int getProducerId() {
+    public Integer getProducerId() {
         return producerId;
     }
 
-    public void setProducerId(int producerId) {
+    public void setProducerId(Integer producerId) {
         this.producerId = producerId;
     }
 
-
-    public Product() {
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productID='" + productID + '\'' +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", stork=" + stork +
+                ", weight=" + weight +
+                ", content='" + content + '\'' +
+                ", img='" + img + '\'' +
+                ", description='" + description + '\'' +
+                ", productGroupId=" + productGroupId +
+                ", producerId=" + producerId +
+                '}';
     }
 }

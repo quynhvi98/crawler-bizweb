@@ -3,11 +3,7 @@ package com.higgsup.bizwebcrawler.entites.order;
     By chicanem 11/08/2017
   */
 
-import org.springframework.data.annotation.Id;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "order_product")//order

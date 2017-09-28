@@ -1,9 +1,7 @@
 package com.higgsup.bizwebcrawler.entites.customer;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 
 /**
  * Created by viquy 9:55 AM 9/7/2017

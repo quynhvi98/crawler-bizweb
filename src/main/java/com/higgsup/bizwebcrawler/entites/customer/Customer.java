@@ -1,10 +1,6 @@
 package com.higgsup.bizwebcrawler.entites.customer;
 
-import org.springframework.data.annotation.Id;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by viquy 9:44 AM 9/7/2017
