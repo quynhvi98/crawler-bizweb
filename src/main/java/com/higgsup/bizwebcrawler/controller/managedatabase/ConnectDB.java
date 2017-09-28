@@ -1,5 +1,5 @@
 
-package com.higgsup.bizwebcrawler.repositories.managedatabase;
+package com.higgsup.bizwebcrawler.controller.managedatabase;
 
 import java.sql.*;
 import java.util.logging.Level;

@@ -1,4 +1,4 @@
-package com.higgsup.bizwebcrawler.repositories.managedatabase;
+package com.higgsup.bizwebcrawler.controller.managedatabase;
 
 /**
  * Created by viquynh

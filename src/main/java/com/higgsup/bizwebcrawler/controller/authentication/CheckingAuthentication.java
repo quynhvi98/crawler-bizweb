@@ -1,8 +1,8 @@
-package com.higgsup.bizwebcrawler.repositories.authentication;
+package com.higgsup.bizwebcrawler.controller.authentication;
 
 import com.higgsup.bizwebcrawler.utils.FileTemplate;
 import com.higgsup.bizwebcrawler.utils.SendEmail;
-import com.higgsup.bizwebcrawler.repositories.managedatabase.ConnectDB;
+import com.higgsup.bizwebcrawler.controller.managedatabase.ConnectDB;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;

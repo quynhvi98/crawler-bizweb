@@ -1,7 +1,7 @@
-package com.higgsup.bizwebcrawler.repositories.scheduling;
+package com.higgsup.bizwebcrawler.controller.scheduling;
 
-import com.higgsup.bizwebcrawler.repositories.authentication.CheckingAuthentication;
-import com.higgsup.bizwebcrawler.repositories.managedatabase.ConnectDB;
+import com.higgsup.bizwebcrawler.controller.authentication.CheckingAuthentication;
+import com.higgsup.bizwebcrawler.controller.managedatabase.ConnectDB;
 
 import java.io.IOException;
 import java.util.concurrent.Executors;

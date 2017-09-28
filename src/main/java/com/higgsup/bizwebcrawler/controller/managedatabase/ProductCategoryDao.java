@@ -1,4 +1,4 @@
-package com.higgsup.bizwebcrawler.repositories.managedatabase;/*
+package com.higgsup.bizwebcrawler.controller.managedatabase;/*
     By chicanem 29/08/2017
     */
 

@@ -1,10 +1,10 @@
-package com.higgsup.bizwebcrawler.repositories.crawlerdatafrombizweb.getandupdatedata;
+package com.higgsup.bizwebcrawler.controller.getandupdatedata;
 
-import com.higgsup.bizwebcrawler.repositories.authentication.HtmlData;
-import com.higgsup.bizwebcrawler.repositories.authentication.RequestHeader;
+import com.higgsup.bizwebcrawler.controller.authentication.HtmlData;
+import com.higgsup.bizwebcrawler.controller.authentication.RequestHeader;
 import com.higgsup.bizwebcrawler.utils.CommonUtil;
 import com.higgsup.bizwebcrawler.utils.DividePage;
-import com.higgsup.bizwebcrawler.repositories.managedatabase.QueryDataBase;
+import com.higgsup.bizwebcrawler.controller.managedatabase.QueryDataBase;
 import com.higgsup.bizwebcrawler.entites.product.Producer;
 import com.higgsup.bizwebcrawler.entites.product.Product;
 import com.higgsup.bizwebcrawler.entites.product.ProductGroup;

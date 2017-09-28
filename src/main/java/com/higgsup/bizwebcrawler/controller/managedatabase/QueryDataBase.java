@@ -1,4 +1,4 @@
-package com.higgsup.bizwebcrawler.repositories.managedatabase;
+package com.higgsup.bizwebcrawler.controller.managedatabase;
 
 import com.higgsup.bizwebcrawler.utils.CommonUtil;
 import com.higgsup.bizwebcrawler.entites.customer.CustomerAddress;

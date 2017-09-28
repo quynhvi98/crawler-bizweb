@@ -1,8 +1,8 @@
-package com.higgsup.bizwebcrawler.repositories.scheduling;
+package com.higgsup.bizwebcrawler.controller.scheduling;
 
-import com.higgsup.bizwebcrawler.repositories.authentication.HtmlData;
-import com.higgsup.bizwebcrawler.repositories.authentication.RequestHeader;
-import com.higgsup.bizwebcrawler.repositories.crawlerdatafrombizweb.getandupdatedata.GettingProductData;
+import com.higgsup.bizwebcrawler.controller.authentication.HtmlData;
+import com.higgsup.bizwebcrawler.controller.authentication.RequestHeader;
+import com.higgsup.bizwebcrawler.controller.getandupdatedata.GettingProductData;
 
 import java.io.IOException;
 import java.util.logging.Level;

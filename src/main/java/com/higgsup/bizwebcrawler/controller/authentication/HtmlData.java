@@ -1,4 +1,4 @@
-package com.higgsup.bizwebcrawler.repositories.authentication;
+package com.higgsup.bizwebcrawler.controller.authentication;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;

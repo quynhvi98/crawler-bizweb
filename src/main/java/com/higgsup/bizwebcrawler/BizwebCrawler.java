@@ -16,11 +16,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class BizwebCrawler {
     public static void main(String[] args) {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("bizwebcrawler-context.xml");
-        ProductServices productServices=applicationContext.getBean(ProductServices.class);
-        Product product=productServices.findById("8179155");
-        if(product!=null){
-            System.out.println(product.toString());
-        }
+
     }
 }
 
