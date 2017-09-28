@@ -1,4 +1,4 @@
-package com.higgsup.bizwebcrawler.controller.common;
+package com.higgsup.bizwebcrawler.utils;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;

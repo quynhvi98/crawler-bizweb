@@ -1,4 +1,4 @@
-package com.higgsup.bizwebcrawler.controller.managedatabase;
+package com.higgsup.bizwebcrawler.repositories.managedatabase;
 
 import com.higgsup.bizwebcrawler.entites.customer.CustomerAddress;
 import org.springframework.jdbc.core.JdbcTemplate;

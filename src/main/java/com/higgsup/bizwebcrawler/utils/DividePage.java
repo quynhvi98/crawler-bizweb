@@ -1,4 +1,4 @@
-package com.higgsup.bizwebcrawler.controller.common;
+package com.higgsup.bizwebcrawler.utils;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

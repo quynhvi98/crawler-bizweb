@@ -1,9 +1,9 @@
-package com.higgsup.bizwebcrawler.controller.crawlerdatafrombizweb.getandupdatedata;
-import com.higgsup.bizwebcrawler.controller.authentication.HtmlData;
-import com.higgsup.bizwebcrawler.controller.authentication.RequestHeader;
-import com.higgsup.bizwebcrawler.controller.common.CommonUtil;
-import com.higgsup.bizwebcrawler.controller.common.DividePage;
-import com.higgsup.bizwebcrawler.controller.managedatabase.QueryDataBase;
+package com.higgsup.bizwebcrawler.repositories.crawlerdatafrombizweb.getandupdatedata;
+import com.higgsup.bizwebcrawler.repositories.authentication.HtmlData;
+import com.higgsup.bizwebcrawler.repositories.authentication.RequestHeader;
+import com.higgsup.bizwebcrawler.utils.CommonUtil;
+import com.higgsup.bizwebcrawler.utils.DividePage;
+import com.higgsup.bizwebcrawler.repositories.managedatabase.QueryDataBase;
 import com.higgsup.bizwebcrawler.entites.customer.Customer;
 import com.higgsup.bizwebcrawler.entites.customer.CustomerAddress;
 import org.jsoup.Jsoup;

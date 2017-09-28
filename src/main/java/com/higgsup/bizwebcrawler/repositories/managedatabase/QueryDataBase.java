@@ -1,6 +1,6 @@
-package com.higgsup.bizwebcrawler.controller.managedatabase;
+package com.higgsup.bizwebcrawler.repositories.managedatabase;
 
-import com.higgsup.bizwebcrawler.controller.common.CommonUtil;
+import com.higgsup.bizwebcrawler.utils.CommonUtil;
 import com.higgsup.bizwebcrawler.entites.customer.CustomerAddress;
 import com.higgsup.bizwebcrawler.entites.customer.Customer;
 import com.higgsup.bizwebcrawler.entites.order.Order;

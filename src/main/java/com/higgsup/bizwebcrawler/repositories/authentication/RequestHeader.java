@@ -1,4 +1,4 @@
-package com.higgsup.bizwebcrawler.controller.authentication;
+package com.higgsup.bizwebcrawler.repositories.authentication;
 
 /**
  * Created by viquy 3:49 PM 9/25/2017
