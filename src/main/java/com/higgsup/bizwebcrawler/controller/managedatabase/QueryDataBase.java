@@ -1,17 +1,16 @@
 package com.higgsup.bizwebcrawler.controller.managedatabase;
 
 import com.higgsup.bizwebcrawler.controller.common.CommonUtil;
-import com.higgsup.bizwebcrawler.model.customer.CustomerAddress;
-import com.higgsup.bizwebcrawler.model.customer.Customer;
-import com.higgsup.bizwebcrawler.model.order.Order;
-import com.higgsup.bizwebcrawler.model.order.OrderAddress;
-import com.higgsup.bizwebcrawler.model.order.OrderProduct;
-import com.higgsup.bizwebcrawler.model.product.Product;
+import com.higgsup.bizwebcrawler.entites.customer.CustomerAddress;
+import com.higgsup.bizwebcrawler.entites.customer.Customer;
+import com.higgsup.bizwebcrawler.entites.order.Order;
+import com.higgsup.bizwebcrawler.entites.order.OrderAddress;
+import com.higgsup.bizwebcrawler.entites.order.OrderProduct;
+import com.higgsup.bizwebcrawler.entites.product.Product;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;

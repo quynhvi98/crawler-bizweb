@@ -1,4 +1,4 @@
-package com.higgsup.bizwebcrawler.model.product;
+package com.higgsup.bizwebcrawler.entites.product;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;

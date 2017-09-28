@@ -1,4 +1,4 @@
-package com.higgsup.bizwebcrawler.model.customer;
+package com.higgsup.bizwebcrawler.entites.customer;
 
 import org.springframework.data.annotation.Id;
 
@@ -18,16 +18,17 @@ public class Customer extends Person{
     public String getId() {
         return super.getId();
     }
-    @Column(name = "full_name")
+    @Column(name = "full_name", nullable = false)
     @Override
     public String getFullName() {
         return super.getFullName();
     }
     @Override
+    @Column(name = "email", nullable = false)
     public String getEmail() {
         return super.getEmail();
     }
-    @Column(name="total_bill")
+    @Column(name="total_bill", nullable = false)
     private Double totalBill;
     public Customer(String id, String firstName, String phoneNumber, String email, String passWord, String address, Double totalBill) {
         super(id,firstName, phoneNumber, email, passWord, address);

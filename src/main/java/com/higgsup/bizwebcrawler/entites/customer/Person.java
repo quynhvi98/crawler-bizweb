@@ -1,4 +1,4 @@
-package com.higgsup.bizwebcrawler.model.customer;
+package com.higgsup.bizwebcrawler.entites.customer;
 
 /**
  * Created by viquy 9:41 AM 9/7/2017

@@ -1,6 +1,6 @@
 package com.higgsup.bizwebcrawler.controller.managedatabase;
 
-import com.higgsup.bizwebcrawler.model.customer.Customer;
+import com.higgsup.bizwebcrawler.entites.customer.Customer;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 

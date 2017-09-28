@@ -1,4 +1,4 @@
-package com.higgsup.bizwebcrawler.model.customer;
+package com.higgsup.bizwebcrawler.entites.customer;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,21 +16,22 @@ public class Administrator extends Person {
     public String getId() {
         return super.getId();
     }
-    @Column(name ="name")
+    @Column(name ="name", nullable = false)
     @Override
     public String getFullName() {
         return super.getFullName();
     }
-    @Column(name="pass_word")
+    @Column(name="pass_word", nullable = false)
     @Override
     public String getPassWord() {
         return super.getPassWord();
     }
-    @Column(name="phone")
+    @Column(name="phone", nullable = false)
     @Override
     public String getPhoneNumber() {
         return super.getPhoneNumber();
     }
+    @Column(name="email", nullable = false)
     @Override
     public String getEmail() {
         return super.getEmail();

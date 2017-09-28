@@ -2,9 +2,9 @@ package com.higgsup.bizwebcrawler.controller.managedatabase;
 /*
     By chicanem 29/08/2017
  */
-import com.higgsup.bizwebcrawler.model.order.Order;
-import com.higgsup.bizwebcrawler.model.order.OrderAddress;
-import com.higgsup.bizwebcrawler.model.order.OrderProduct;
+import com.higgsup.bizwebcrawler.entites.order.Order;
+import com.higgsup.bizwebcrawler.entites.order.OrderAddress;
+import com.higgsup.bizwebcrawler.entites.order.OrderProduct;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 

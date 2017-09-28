@@ -1,4 +1,4 @@
-package com.higgsup.bizwebcrawler.model.order;
+package com.higgsup.bizwebcrawler.entites.order;
 
 import javax.persistence.*;
 
