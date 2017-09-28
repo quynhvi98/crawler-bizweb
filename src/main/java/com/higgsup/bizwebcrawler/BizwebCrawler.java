@@ -4,7 +4,7 @@ package com.higgsup.bizwebcrawler;
  * Created by viquynh.
  */
 
-import com.higgsup.bizwebcrawler.controller.scheduling.StartScheduling;
+import com.higgsup.bizwebcrawler.repositories.scheduling.StartScheduling;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

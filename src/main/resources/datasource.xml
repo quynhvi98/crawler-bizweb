@@ -71,6 +71,6 @@
     <bean id="orderProductObject" class="com.higgsup.bizwebcrawler.entites.order.OrderAddress"></bean>
     <bean id="orderAddressObject" class="com.higgsup.bizwebcrawler.entites.order.OrderProduct"></bean>
     <!--- -->
-    <bean id="scheduling" class="com.higgsup.bizwebcrawler.controller.scheduling.StartScheduling"></bean>
+    <bean id="scheduling" class="com.higgsup.bizwebcrawler.repositories.scheduling.StartScheduling"></bean>
 
 </beans>

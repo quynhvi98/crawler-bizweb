@@ -1,12 +1,9 @@
-package com.higgsup.bizwebcrawler.controller.common;
+package com.higgsup.bizwebcrawler.utils;
 
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by viquynh on 26/07/2017.

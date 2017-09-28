@@ -1,13 +1,12 @@
-package com.higgsup.bizwebcrawler.controller.scheduling;
+package com.higgsup.bizwebcrawler.repositories.scheduling;
 
-import com.higgsup.bizwebcrawler.controller.authentication.CheckingAuthentication;
-import com.higgsup.bizwebcrawler.controller.managedatabase.ConnectDB;
+import com.higgsup.bizwebcrawler.repositories.authentication.CheckingAuthentication;
+import com.higgsup.bizwebcrawler.repositories.managedatabase.ConnectDB;
 
 import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /*
