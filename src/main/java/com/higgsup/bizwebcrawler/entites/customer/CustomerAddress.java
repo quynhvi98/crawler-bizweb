@@ -1,4 +1,4 @@
-package com.higgsup.bizwebcrawler.model.customer;
+package com.higgsup.bizwebcrawler.entites.customer;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -30,7 +30,7 @@ public class CustomerAddress extends Person{
     private String company;
     @Column(name = "zipe_code")
     private String zipeCode;
-    @Column (name = "customer_id")
+    @Column (name = "customer_id", nullable = false)
     private String customerID;
     private String nation;
     private String city;

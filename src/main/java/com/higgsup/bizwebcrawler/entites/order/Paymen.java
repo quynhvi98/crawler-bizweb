@@ -1,4 +1,4 @@
-package com.higgsup.bizwebcrawler.model.order;
+package com.higgsup.bizwebcrawler.entites.order;
 /*
     By chicanem 29/08/2017
    */

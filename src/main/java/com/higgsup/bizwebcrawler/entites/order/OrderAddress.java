@@ -1,4 +1,4 @@
-package com.higgsup.bizwebcrawler.model.order;
+package com.higgsup.bizwebcrawler.entites.order;
 /*
     By chicanem 15/08/2017
   */
@@ -13,11 +13,11 @@ public class OrderAddress {
     @Column(name = "order_address_id")
     private int orderAddressID;
     private String email;
-    @Column(name = "namecustomer")
+    @Column(name = "namecustomer", nullable = false)
     private String nameCustomer;
     @Column(name = "phone")
     private String phone;
-    @Column(name = "order_address")
+    @Column(name = "order_address", nullable = false)
     private String orderAddress;
     @Column(name = "zipcode")
     private String zipCode;

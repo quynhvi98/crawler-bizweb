@@ -1,4 +1,4 @@
-package com.higgsup.bizwebcrawler.model.product;
+package com.higgsup.bizwebcrawler.entites.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
