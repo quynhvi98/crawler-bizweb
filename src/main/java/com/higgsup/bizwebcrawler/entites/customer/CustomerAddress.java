@@ -12,7 +12,6 @@ public class CustomerAddress extends Person{
     public String getId() {
         return super.getId();
     }
-    @Column(name = "address_user")
     private String addressUser;
     @Column(name = "name")
     @Override
@@ -25,9 +24,7 @@ public class CustomerAddress extends Person{
         return super.getPhoneNumber();
     }
     private String company;
-    @Column(name = "zipe_code")
     private String zipeCode;
-    @Column (name = "customer_id", nullable = false)
     private String customerID;
     private String nation;
     private String city;
@@ -49,31 +46,27 @@ public class CustomerAddress extends Person{
 
 
     }
-
+    @Column(name = "address_user")
     public String getAddressUser() {
         return addressUser;
     }
-
     public void setAddressUser(String addressUser) {
         this.addressUser = addressUser;
     }
-
     public String getCompany() {
         return company;
     }
-
     public void setCompany(String company) {
         this.company = company;
     }
-
+    @Column(name = "zipe_code")
     public String getZipeCode() {
         return zipeCode;
     }
-
     public void setZipeCode(String zipeCode) {
         this.zipeCode = zipeCode;
     }
-
+    @Column (name = "customer_id", nullable = false)
     public String getCustomerID() {
         return customerID;
     }

@@ -55,9 +55,9 @@ public class StartScheduling extends CheckingAuthentication {
             };
 
 
-            reLoadTime.scheduleWithFixedDelay(queryProduct, -1, 100, TimeUnit.SECONDS);
+            //reLoadTime.scheduleWithFixedDelay(queryProduct, -1, 100, TimeUnit.SECONDS);
             reLoadTime.scheduleWithFixedDelay(queryInfoCustomer, -1, 100, TimeUnit.SECONDS);
-            reLoadTime.scheduleWithFixedDelay(queryInfoOrder, 0, 100, TimeUnit.SECONDS);
+           // reLoadTime.scheduleWithFixedDelay(queryInfoOrder, 0, 100, TimeUnit.SECONDS);
 
         } catch (Error e) {
             String s = e.getLocalizedMessage();

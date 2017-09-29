@@ -1,6 +1,9 @@
 package com.higgsup.bizwebcrawler.controller.getandupdatedata;
+
+import com.higgsup.bizwebcrawler.BizwebCrawler;
 import com.higgsup.bizwebcrawler.controller.authentication.HtmlData;
 import com.higgsup.bizwebcrawler.controller.authentication.RequestHeader;
+import com.higgsup.bizwebcrawler.repositories.CustomerRepo;
 import com.higgsup.bizwebcrawler.utils.CommonUtil;
 import com.higgsup.bizwebcrawler.utils.DividePage;
 import com.higgsup.bizwebcrawler.controller.managedatabase.QueryDataBase;
@@ -10,11 +13,14 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 /**
  * Created by viquynh
  */
@@ -24,12 +30,14 @@ public class GettingCustomerData {
     private String cookie;
     private String html;
     private int page;
+
     public boolean getDataCustomerFromWebSetToDataBase(String html, String cookie) {
         this.html = html;
         this.cookie = cookie;
         startScheduling();
         return true;
     }
+
     private void startScheduling() {
         try {
             getPageCustomer();
@@ -40,6 +48,7 @@ public class GettingCustomerData {
             logger.severe("Message error get data set database: " + e);
         }
     }
+
     private void getPageCustomer() {
         CommonUtil commonUtil = new CommonUtil();
         DividePage dividePage = new DividePage();
@@ -51,10 +60,11 @@ public class GettingCustomerData {
         allPages = dividePage.getPage();
         this.page = allPages;
     }
+
     private void getDataCustomer(int ii) throws InterruptedException {
         Document getHTML;
         CommonUtil commonUtil = new CommonUtil();
-        authenticationGetRequest.connectURLAndTakeHTML(RequestHeader.urlWebsite+"/customers?page=" + ii, cookie);
+        authenticationGetRequest.connectURLAndTakeHTML(RequestHeader.urlWebsite + "/customers?page=" + ii, cookie);
         getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
         if (getHTML.title().equals("Đăng nhập quản trị hệ thống")) {
             throw new Error("Error cookie");
@@ -78,7 +88,7 @@ public class GettingCustomerData {
                 stringTotalBill = "0";
             }
             customer.setTotalBill(Double.parseDouble(stringTotalBill));
-            authenticationGetRequest.connectURLAndTakeHTML(RequestHeader.urlWebsite+"/customers/" + customer.getId(), cookie);
+            authenticationGetRequest.connectURLAndTakeHTML(RequestHeader.urlWebsite + "/customers/" + customer.getId(), cookie);
             getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
             if (getHTML.title().equals("Đăng nhập quản trị hệ thống")) {
                 throw new Error("Error cookie");
@@ -91,6 +101,7 @@ public class GettingCustomerData {
             TimeUnit.SECONDS.sleep(11);
         }
     }
+
     private void getDataCustomerAddress(Element getTagsAddress, Customer customer) {
         Document getHTML;
         DividePage dividePage = new DividePage();
@@ -108,7 +119,7 @@ public class GettingCustomerData {
         for (Element gettag : getDataInGetDataFromTRTags) {
             Elements getDataInGetDataFromTRTagsInput = gettag.select("input[value]");
             for (int i = 0; i < getDataInGetDataFromTRTagsInput.size(); i++) {
-                String dataAddress=getDataInGetDataFromTRTagsInput.get(i).attr("value");
+                String dataAddress = getDataInGetDataFromTRTagsInput.get(i).attr("value");
                 if (!dataAddress.equals("true") || dataAddress.equals("false")) {
                     if (dataAddress.equals("")) {
                         listCustomerAddress.add("null");
@@ -126,19 +137,21 @@ public class GettingCustomerData {
         CustomerAddress customerAddress = new CustomerAddress(customerAddID, listCustomerAddress.get(4), listCustomerAddress.get(0) + "," + listCustomerAddress.get(1), listCustomerAddress.get(3), listCustomerAddress.get(2), listCustomerAddress.get(5), customer.getId(), listCustomerAddress.get(6), listCustomerAddress.get(7), listCustomerAddress.get(8));
         saveAndUpdateCustomerData(customer, customerAddress);
     }
+
     private void saveAndUpdateCustomerData(Customer customer, CustomerAddress customerAddress) {
         QueryDataBase queryDataBase = new QueryDataBase();
-        ArrayList<String> listCustomerDddIdFormCustomerId = queryDataBase.getListCustomerDddIdFormCustomerId(customer.getId());
-        ArrayList<CustomerAddress> listAddressFormCustomerId = queryDataBase.getListAddressFormCustomerId(customer.getId());
-        if (queryDataBase.hasCustomerID(customer.getId())) {
-            queryDataBase.setDataFromCustomer(customer);
-            if (customerAddress != null) {
-                queryDataBase.setDataCustomerAddress(customerAddress);
+        CustomerRepo customerRepo = BizwebCrawler.applicationContext.getBean(CustomerRepo.class);
+        List<String> listCustomerDddIdFormCustomerId = customerRepo.getListCustomerDddIdFormCustomerId(customer.getId());
+        List<CustomerAddress> listAddressFormCustomerId = customerRepo.getListAddressFormCustomerId(customer.getId());
+        if (customerRepo.hasCustomerID(customer.getId())) {
+            boolean isSetDataFromCustomer = customerRepo.setDataFromCustomer(customer);
+            if (isSetDataFromCustomer && customerAddress != null) {
+                customerRepo.setDataCustomerAddress(customerAddress);
             }
         } else {
-            Customer dataCustomersFromCustomerID = queryDataBase.getDataCustomersFromCustomerID(customer.getId());
+            Customer dataCustomersFromCustomerID = customerRepo.getDataCustomersFromCustomerID(customer.getId());
             if (!customer.equals(dataCustomersFromCustomerID)) {
-                queryDataBase.updateDataCustomersFromObjectCustomer(customer);
+                customerRepo.updateDataCustomersFromObjectCustomer(customer);
             }
             int checkIndex = listCustomerDddIdFormCustomerId.indexOf(customerAddress.getId());
             if (checkIndex >= 0) {
@@ -146,12 +159,12 @@ public class GettingCustomerData {
                     listCustomerDddIdFormCustomerId.remove(checkIndex);
                     listAddressFormCustomerId.remove(checkIndex);
                 } else {
-                    queryDataBase.updateDataCustomerAddress(customerAddress);
+                    customerRepo.updateDataCustomerAddress(customerAddress);
                     listCustomerDddIdFormCustomerId.remove(checkIndex);
                     listAddressFormCustomerId.remove(checkIndex);
                 }
             } else {
-                queryDataBase.setDataCustomerAddress(customerAddress);
+                customerRepo.setDataCustomerAddress(customerAddress);
             }
             for (int i = 0; i < listCustomerDddIdFormCustomerId.size(); i++) {
                 queryDataBase.deleteDataCustomerAddress(listCustomerDddIdFormCustomerId.get(i));

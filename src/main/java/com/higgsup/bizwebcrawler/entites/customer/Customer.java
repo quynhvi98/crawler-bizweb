@@ -24,7 +24,7 @@ public class Customer extends Person{
     public String getEmail() {
         return super.getEmail();
     }
-    @Column(name="total_bill", nullable = false)
+
     private Double totalBill;
     public Customer(String id, String firstName, String phoneNumber, String email, String passWord, String address, Double totalBill) {
         super(id,firstName, phoneNumber, email, passWord, address);
@@ -38,6 +38,7 @@ public class Customer extends Person{
     }
     public Customer() {
     }
+    @Column(name="total_bill", nullable = false)
     public Double getTotalBill() {
         return totalBill;
     }

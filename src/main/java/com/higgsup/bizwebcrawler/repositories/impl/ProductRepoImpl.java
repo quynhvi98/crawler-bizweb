@@ -4,9 +4,11 @@ package com.higgsup.bizwebcrawler.repositories.impl;/*
 
 import com.higgsup.bizwebcrawler.entites.product.Product;
 import com.higgsup.bizwebcrawler.repositories.ProductRepoCustom;
+import com.higgsup.bizwebcrawler.utils.JpaResultConverter;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 
 public class ProductRepoImpl implements ProductRepoCustom {
@@ -14,7 +16,8 @@ public class ProductRepoImpl implements ProductRepoCustom {
     private EntityManager em;
     @Override
     public List<Product> getProduct() {
-        return null;
+        Query query = em.createQuery("SELECT a FROM Product as a");
+        return query.getResultList();
     }
 
     @Override
