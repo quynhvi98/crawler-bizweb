@@ -38,6 +38,13 @@ public class Customer extends Person{
     }
     public Customer() {
     }
+
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
     @Column(name="total_bill", nullable = false)
     public Double getTotalBill() {
         return totalBill;

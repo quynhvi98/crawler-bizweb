@@ -6,7 +6,6 @@ import com.higgsup.bizwebcrawler.controller.authentication.RequestHeader;
 import com.higgsup.bizwebcrawler.repositories.CustomerRepo;
 import com.higgsup.bizwebcrawler.utils.CommonUtil;
 import com.higgsup.bizwebcrawler.utils.DividePage;
-import com.higgsup.bizwebcrawler.controller.managedatabase.QueryDataBase;
 import com.higgsup.bizwebcrawler.entites.customer.Customer;
 import com.higgsup.bizwebcrawler.entites.customer.CustomerAddress;
 import org.jsoup.Jsoup;
@@ -30,6 +29,7 @@ public class GettingCustomerData {
     private String cookie;
     private String html;
     private int page;
+    private final CustomerRepo customerRepo = BizwebCrawler.applicationContext.getBean(CustomerRepo.class);
 
     public boolean getDataCustomerFromWebSetToDataBase(String html, String cookie) {
         this.html = html;
@@ -50,12 +50,11 @@ public class GettingCustomerData {
     }
 
     private void getPageCustomer() {
-        CommonUtil commonUtil = new CommonUtil();
         DividePage dividePage = new DividePage();
         Document getHTML = Jsoup.parse(html);
         dividePage.setDataCheckingFromWeb(getHTML);
         Elements getDataAllCustomer = dividePage.getDataCheckingFromWeb();
-        int allPages = Integer.parseInt(commonUtil.cutID(getDataAllCustomer.text()));
+        int allPages = Integer.parseInt(CommonUtil.cutID(getDataAllCustomer.text()));
         dividePage.setPage(allPages);
         allPages = dividePage.getPage();
         this.page = allPages;
@@ -139,8 +138,6 @@ public class GettingCustomerData {
     }
 
     private void saveAndUpdateCustomerData(Customer customer, CustomerAddress customerAddress) {
-        QueryDataBase queryDataBase = new QueryDataBase();
-        CustomerRepo customerRepo = BizwebCrawler.applicationContext.getBean(CustomerRepo.class);
         List<String> listCustomerDddIdFormCustomerId = customerRepo.getListCustomerDddIdFormCustomerId(customer.getId());
         List<CustomerAddress> listAddressFormCustomerId = customerRepo.getListAddressFormCustomerId(customer.getId());
         if (customerRepo.hasCustomerID(customer.getId())) {
@@ -167,7 +164,7 @@ public class GettingCustomerData {
                 customerRepo.setDataCustomerAddress(customerAddress);
             }
             for (int i = 0; i < listCustomerDddIdFormCustomerId.size(); i++) {
-                queryDataBase.deleteDataCustomerAddress(listCustomerDddIdFormCustomerId.get(i));
+                customerRepo.deleteDataCustomerAddress(listCustomerDddIdFormCustomerId.get(i));
             }
         }
     }

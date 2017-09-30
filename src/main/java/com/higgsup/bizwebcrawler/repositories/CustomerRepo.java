@@ -5,7 +5,6 @@ package com.higgsup.bizwebcrawler.repositories;/*
 import com.higgsup.bizwebcrawler.entites.customer.Customer;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

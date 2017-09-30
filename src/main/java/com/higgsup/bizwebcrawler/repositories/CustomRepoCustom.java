@@ -5,8 +5,6 @@ package com.higgsup.bizwebcrawler.repositories;/*
 import com.higgsup.bizwebcrawler.entites.customer.Customer;
 import com.higgsup.bizwebcrawler.entites.customer.CustomerAddress;
 import org.springframework.stereotype.Repository;
-
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,11 +18,13 @@ public interface CustomRepoCustom {
 
     boolean setDataFromCustomer(Customer customer);
 
-    boolean setDataCustomerAddress(CustomerAddress objectCustomerAddress);
+    void setDataCustomerAddress(CustomerAddress objectCustomerAddress);
 
     Customer getDataCustomersFromCustomerID(String customer_ID);
 
-    boolean updateDataCustomersFromObjectCustomer(Customer objectCustomers);
-    boolean updateDataCustomerAddress(CustomerAddress objectCustomerAddress);
+    void updateDataCustomersFromObjectCustomer(Customer objectCustomers);
 
+    void updateDataCustomerAddress(CustomerAddress objectCustomerAddress);
+
+    void deleteDataCustomerAddress(String ID);
 }

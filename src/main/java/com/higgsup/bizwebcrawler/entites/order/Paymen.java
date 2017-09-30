@@ -26,4 +26,7 @@ public class Paymen {
     public Paymen(String content) {
         this.content = content;
     }
+
+    public Paymen() {
+    }
 }

@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 /*
     By chicanem 10/08/2017
     */
+
 public class StartScheduling extends CheckingAuthentication {
     private static final Logger logger = Logger.getLogger(StartScheduling.class.getName());
 
@@ -23,7 +24,6 @@ public class StartScheduling extends CheckingAuthentication {
     public StartScheduling() {
 
     }
-
     public void startScheduling() {//bắt đầu chương trình
         final ScheduledExecutorService reLoadTime = Executors.newSingleThreadScheduledExecutor();
         try {

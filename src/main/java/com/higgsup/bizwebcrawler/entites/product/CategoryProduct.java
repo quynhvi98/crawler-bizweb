@@ -43,7 +43,6 @@ public class CategoryProduct {
     @Column(name = "product_id")
     private  String product_id;
 
-
-
-
+    public CategoryProduct() {
+    }
 }

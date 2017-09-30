@@ -18,16 +18,16 @@ public class CustomerRepoImpl implements CustomRepoCustom {
 
     @Override
     public List<String> getListCustomerDddIdFormCustomerId(String customer_ID) {
-        Query query = em.createNativeQuery("SELECT customer_add_id FROM customer_address WHERE customer_id=:customer_id");
-        query.setParameter("customer_id", customer_ID);
-        return query.getResultList();
+        Query query = em.createNativeQuery("SELECT customer_add_id FROM customer_address WHERE customer_id=:customerId");
+        query.setParameter("customerId", customer_ID);
+        return (List<String>) query.getResultList();
 
     }
 
     @Override
     public List<CustomerAddress> getListAddressFormCustomerId(String customer_ID) {
-        Query query = em.createQuery("SELECT cta FROM CustomerAddress as  cta WHERE cta.customerID =:customer_ID ");
-        query.setParameter("customer_ID", customer_ID);
+        Query query = em.createQuery("SELECT cta FROM CustomerAddress as  cta WHERE cta.customerID =:customerId ");
+        query.setParameter("customerId", customer_ID);
         return query.getResultList();
     }
 
@@ -51,7 +51,7 @@ public class CustomerRepoImpl implements CustomRepoCustom {
 
     @Transactional
     @Override
-    public boolean setDataCustomerAddress(CustomerAddress objectCustomerAddress) {
+    public void setDataCustomerAddress(CustomerAddress objectCustomerAddress) {
         Query query = em.createQuery("select  custadd.id FROM  CustomerAddress as custadd where custadd.customerID=:customerID");
         query.setParameter("customerID", objectCustomerAddress.getCustomerID());
         if (query.getMaxResults() > 0) {
@@ -66,10 +66,8 @@ public class CustomerRepoImpl implements CustomRepoCustom {
             query.setParameter("nation", objectCustomerAddress.getNation());
             query.setParameter("city", objectCustomerAddress.getCity());
             query.setParameter("district", objectCustomerAddress.getDistrict());
-            return query.executeUpdate() > 0;
+            query.executeUpdate();
         }
-        return false;
-
     }
 
     @Override
@@ -81,41 +79,53 @@ public class CustomerRepoImpl implements CustomRepoCustom {
 
     @Transactional
     @Override
-    public boolean updateDataCustomersFromObjectCustomer(Customer objectCustomers) {
-        Query query = em.createQuery("SELECT customer FROM Customer as customer WHERE customer.id=:customer_id");
-        query.setParameter("customer_id", objectCustomers.getId());
+    public void updateDataCustomersFromObjectCustomer(Customer objectCustomers) {
+        Query query = em.createQuery("SELECT customer FROM Customer as customer WHERE customer.id=:customerId");
+        query.setParameter("customerId", objectCustomers.getId());
         if (query.getMaxResults() > 0) {
-            query = em.createNativeQuery("UPDATE Customer SET full_name=:full_name,email=:email,total_bill=:total_bill WHERE customer_id=:customer_id");
-            query.setParameter("full_name", objectCustomers.getFullName());
+            query = em.createQuery("UPDATE Customer as customer SET customer.fullName=:fullName,customer.email=:email," +
+                    "customer.totalBill=:totalBill" +
+                    " WHERE customer.id=:customerId");
+            query.setParameter("fullName", objectCustomers.getFullName());
             query.setParameter("email", objectCustomers.getEmail());
-            query.setParameter("total_bill", objectCustomers.getTotalBill());
-            query.setParameter("customer_id", objectCustomers.getId());
-            return query.executeUpdate() > 0;
+            query.setParameter("totalBill", objectCustomers.getTotalBill());
+            query.setParameter("customerId", objectCustomers.getId());
+            query.executeUpdate();
         }
-        return false;
     }
 
     @Transactional
     @Override
-    public boolean updateDataCustomerAddress(CustomerAddress objectCustomerAddress) {
-        Query query = em.createQuery("SELECT customerAddress FROM CustomerAddress as customerAddress WHERE customerAddress.id=:customerAddressId AND customerAddress.customerID=:customerID");
+    public void updateDataCustomerAddress(CustomerAddress objectCustomerAddress) {
+        Query query = em.createQuery("SELECT customerAddress FROM CustomerAddress as customerAddress " +
+                "WHERE customerAddress.id=:customerAddressId AND customerAddress.customerID=:customerID");
         query.setParameter("customerAddressId", objectCustomerAddress.getId());
         query.setParameter("customerID", objectCustomerAddress.getCustomerID());
         if (query.getMaxResults() > 0) {
-            query = em.createNativeQuery("UPDATE customer_address SET address_user=:address_user,name=:name,phone=:phone,company=:company,zipe_code=:zipe_code,nation=:nation,city=:city,district=:district WHERE customer_add_id=:customer_add_id AND customer_id=:customer_id");
-            query.setParameter("address_user", objectCustomerAddress.getAddressUser());
+            query = em.createQuery("update  CustomerAddress as customerAddress set customerAddress.addressUser=:addressUser," +
+                    "customerAddress.fullName=:name,customerAddress.phoneNumber=:phone,customerAddress.company=:company," +
+                    "customerAddress.zipeCode=:zipeCode,customerAddress.nation=:nation,customerAddress.city=:city," +
+                    "customerAddress.district=:district  " +
+                    "where customerAddress.id=:id and  customerAddress.customerID=:customerId");
+            query.setParameter("addressUser", objectCustomerAddress.getAddressUser());
             query.setParameter("name", objectCustomerAddress.getFullName());
             query.setParameter("phone", objectCustomerAddress.getPhoneNumber());
             query.setParameter("company", objectCustomerAddress.getCompany());
-            query.setParameter("zipe_code", objectCustomerAddress.getZipeCode());
+            query.setParameter("zipeCode", objectCustomerAddress.getZipeCode());
             query.setParameter("nation", objectCustomerAddress.getNation());
             query.setParameter("city", objectCustomerAddress.getCity());
             query.setParameter("district", objectCustomerAddress.getDistrict());
-            query.setParameter("customer_add_id", objectCustomerAddress.getId());
-            query.setParameter("customer_id", objectCustomerAddress.getCustomerID());
-            return query.executeUpdate() > 0;
+            query.setParameter("id", objectCustomerAddress.getId());
+            query.setParameter("customerId", objectCustomerAddress.getCustomerID());
+            query.executeUpdate();
         }
-        return false;
     }
 
+    @Transactional
+    @Override
+    public void deleteDataCustomerAddress(String ID) {
+        Query query = em.createQuery("DELETE from CustomerAddress WHERE id=:ID");
+        query.setParameter("ID", ID);
+        query.executeUpdate();
+    }
 }
