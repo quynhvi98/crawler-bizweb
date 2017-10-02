@@ -1,10 +1,12 @@
 package com.higgsup.bizwebcrawler.controller.getandupdatedata;
 
+import com.higgsup.bizwebcrawler.BizwebCrawler;
 import com.higgsup.bizwebcrawler.controller.authentication.HtmlData;
 import com.higgsup.bizwebcrawler.controller.authentication.RequestHeader;
+import com.higgsup.bizwebcrawler.repositories.OrderRepo;
+import com.higgsup.bizwebcrawler.services.OrderServices;
 import com.higgsup.bizwebcrawler.utils.CommonUtil;
 import com.higgsup.bizwebcrawler.utils.DividePage;
-import com.higgsup.bizwebcrawler.controller.managedatabase.QueryDataBase;
 import com.higgsup.bizwebcrawler.entites.order.Order;
 import com.higgsup.bizwebcrawler.entites.order.OrderAddress;
 import com.higgsup.bizwebcrawler.entites.order.OrderProduct;
@@ -15,10 +17,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,7 +30,7 @@ public class GettingOrderData {
     private HtmlData authenticationGetRequest = new HtmlData();
     private Order order;
     private OrderAddress objectOrderAddress;
-    private QueryDataBase queryDataBase = new QueryDataBase();
+    private  final OrderServices orderServices = BizwebCrawler.applicationContext.getBean(OrderServices.class);
     private Set states;
     private OrderProduct orderProduct;
     private Document getHTML;
@@ -156,9 +155,9 @@ public class GettingOrderData {
             getDataFromTRTags = getDataFromTRTags.select("h2[class]");
             if (getDataFromTRTags.size() > 0) {
                 namePayOrder = getDataFromTRTags.get(0).text();
-                queryDataBase.setDataPaymenFromOrder(namePayOrder);
+                orderServices.setDataPaymenFromOrder(namePayOrder);
             } else {
-                queryDataBase.setDataPaymenFromOrder(namePayOrder);
+                orderServices.setDataPaymenFromOrder(namePayOrder);
             }
             getDataFromTRTags = getHTML.select("div[class*=panel panel-default panel-full] div");
             String emailDonHang = getDataFromTRTags.get(5).text();
@@ -194,7 +193,7 @@ public class GettingOrderData {
                     i = 5;
                 }
             }
-            order.setPaymentID(queryDataBase.getIDPaymentFromContent(namePayOrder));
+            order.setPaymentID(orderServices.getIDPaymentFromContent(namePayOrder));
             objectOrderAddress = new OrderAddress(emailDonHang, listSaveShippingAddress.get(0), listSaveShippingAddress.get(1), listSaveShippingAddress.get(2), listSaveShippingAddress.get(3), listSaveShippingAddress.get(4), listSaveShippingAddress.get(5), listSaveShippingAddress.get(6), billingAddress, order.getOrderID());
             states = ListProductOfOrder.keySet();
             Iterator itr = states.iterator();
@@ -206,33 +205,33 @@ public class GettingOrderData {
     }
 
     private void saveAndUpdateOrderData() {
-        if (queryDataBase.hasOrderID(order.getOrderID())) {
-            queryDataBase.setDataFromOrder(order);
-            queryDataBase.setDataFromOrderAndProduct(orderProduct);
-            queryDataBase.setDataFromOrderAddress(objectOrderAddress);
+        if (orderServices.hasOrderId(order.getOrderID())) {
+            orderServices.setDataFromOrder(order);
+            orderServices.setDataFromOrderAndProduct(orderProduct);
+            orderServices.setDataFromOrderAddress(objectOrderAddress);
         } else {
-            ArrayList<Order> listDataOrders = queryDataBase.getListDataOrders();
-            ArrayList<OrderAddress> listOrderAddress = queryDataBase.getListDataOrderAddress();
+            List<Order> listDataOrders = orderServices.getListDataOrders();
+            List<OrderAddress> listOrderAddress = orderServices.getListDataOrderAddress();
             int indexorder = listDataOrders.indexOf(order);
             if (listDataOrders.get(indexorder).getDate().equals(order.getDate()) && listDataOrders.get(indexorder).getStatusPaymen().equals(order.getStatusPaymen()) && listDataOrders.get(indexorder).getStatusDelivery().equals(order.getStatusDelivery()) && listDataOrders.get(indexorder).getTotalBill().equals(order.getTotalBill()) && listDataOrders.get(indexorder).getTotalWeight().equals(order.getTotalWeight()) && listDataOrders.get(indexorder).getFeeDelivery().equals(order.getFeeDelivery()) && listDataOrders.get(indexorder).getCustomerID().equals(order.getCustomerID()) && listDataOrders.get(indexorder).getPaymentID() == order.getPaymentID()) {
             } else {
-                queryDataBase.updateDataFromOrder(order);
+                orderServices.updateDataFromOrder(order);
             }
-            queryDataBase.setDataFromOrderAndProduct(orderProduct);
-            ArrayList<OrderProduct> listOrderProduct = queryDataBase.getListDataOrderProduct(order.getOrderID());
+            orderServices.setDataFromOrderAndProduct(orderProduct);
+            List<OrderProduct> listOrderProduct = orderServices.getListDataOrderProduct(order.getOrderID());
             if (listOrderProduct.indexOf(orderProduct) < 0) {
-                boolean checkquery = queryDataBase.updateDataFromOrderAndProduct(orderProduct);
+                boolean checkquery = orderServices.updateDataFromOrderAndProduct(orderProduct);
                 if (checkquery == false) {
-                    queryDataBase.setDataFromOrderAndProduct(orderProduct);
+                    orderServices.setDataFromOrderAndProduct(orderProduct);
                 }
             }
             int index = listOrderAddress.indexOf(objectOrderAddress);
             if (listOrderAddress.get(index).getEmail().equals(objectOrderAddress.getEmail()) && listOrderAddress.get(index).getNameCustomer().equals(objectOrderAddress.getNameCustomer()) && listOrderAddress.get(index).getPhone().equals(objectOrderAddress.getPhone()) && listOrderAddress.get(index).getOrderAddress().equals(objectOrderAddress.getOrderAddress()) && listOrderAddress.get(index).getZipCode().equals(objectOrderAddress.getZipCode()) && listOrderAddress.get(index).getNation().equals(objectOrderAddress.getNation()) && listOrderAddress.get(index).getCity().equals(objectOrderAddress.getCity()) && listOrderAddress.get(index).getDistrict().equals(objectOrderAddress.getDistrict()) && listOrderAddress.get(index).getPaymentAddress().equals(objectOrderAddress.getPaymentAddress()) && listOrderAddress.get(index).getOrderID().equals(objectOrderAddress.getOrderID())) {
             } else {
-                queryDataBase.updateDataFromOrderAddress(objectOrderAddress);
+                orderServices.updateDataFromOrderAddress(objectOrderAddress);
             }
             if (index < 0) {
-                queryDataBase.setDataFromOrderAddress(objectOrderAddress);
+                orderServices.setDataFromOrderAddress(objectOrderAddress);
             }
         }
     }

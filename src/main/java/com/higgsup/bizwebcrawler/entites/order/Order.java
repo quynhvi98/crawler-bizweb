@@ -8,24 +8,14 @@ import javax.persistence.*;
 @Entity
 @Table(name = "order_product")//order
 public class Order {
-    @Id
-    @Column(name = "order_id")
     private String orderID;
-    @Column(name = "date", nullable = false)
     private String date;
-    @Column(name = "status_paymen", nullable = false)
     private String statusPaymen;
-    @Column(name = "status_delivery", nullable = false)
     private String statusDelivery;
-    @Column(name = "total_bill", nullable = false)
     private Double totalBill;
-    @Column(name = "total_weight")
     private Double totalWeight;
-    @Column(name = "fee_delivery")
     private Double feeDelivery;
-    @Column(name = "customer_id", nullable = false)
     private String customerID;
-    @Column(name = "payment_id", nullable = false)
     private int paymentID;
 
     public Order(String orderID, String date, String statusPaymen, String statusDelivery, Double totalBill, Double totalWeight, Double feeDelivery, String customerID, int paymentID) {
@@ -40,6 +30,8 @@ public class Order {
         this.paymentID = paymentID;
     }
 
+    @Id
+    @Column(name = "order_id")
     public String getOrderID() {
         return orderID;
     }
@@ -48,6 +40,7 @@ public class Order {
         this.orderID = orderID;
     }
 
+    @Column(name = "date", nullable = false)
     public String getDate() {
         return date;
     }
@@ -56,6 +49,7 @@ public class Order {
         this.date = date;
     }
 
+    @Column(name = "status_paymen", nullable = false)
     public String getStatusPaymen() {
         return statusPaymen;
     }
@@ -64,6 +58,7 @@ public class Order {
         this.statusPaymen = statusPaymen;
     }
 
+    @Column(name = "status_delivery", nullable = false)
     public String getStatusDelivery() {
         return statusDelivery;
     }
@@ -72,6 +67,7 @@ public class Order {
         this.statusDelivery = statusDelivery;
     }
 
+    @Column(name = "total_bill", nullable = false)
     public Double getTotalBill() {
         return totalBill;
     }
@@ -80,6 +76,7 @@ public class Order {
         this.totalBill = totalBill;
     }
 
+    @Column(name = "total_weight")
     public Double getTotalWeight() {
         return totalWeight;
     }
@@ -88,6 +85,7 @@ public class Order {
         this.totalWeight = totalWeight;
     }
 
+    @Column(name = "fee_delivery")
     public Double getFeeDelivery() {
         return feeDelivery;
     }
@@ -96,6 +94,7 @@ public class Order {
         this.feeDelivery = feeDelivery;
     }
 
+    @Column(name = "customer_id", nullable = false)
     public String getCustomerID() {
         return customerID;
     }
@@ -104,6 +103,7 @@ public class Order {
         this.customerID = customerID;
     }
 
+    @Column(name = "payment_id", nullable = false)
     public int getPaymentID() {
         return paymentID;
     }
@@ -112,12 +112,14 @@ public class Order {
         this.paymentID = paymentID;
     }
 
+
+
     public Order() {
     }
 
     @Override
     public int hashCode() {
-        return  orderID.hashCode()+date.hashCode()+statusPaymen.hashCode()-statusDelivery.hashCode()-totalBill.hashCode()-totalWeight.hashCode()+feeDelivery.hashCode()+customerID.hashCode()+paymentID;
+        return orderID.hashCode() + date.hashCode() + statusPaymen.hashCode() - statusDelivery.hashCode() - totalBill.hashCode() - totalWeight.hashCode() + feeDelivery.hashCode() + customerID.hashCode() + paymentID;
 
     }
 
