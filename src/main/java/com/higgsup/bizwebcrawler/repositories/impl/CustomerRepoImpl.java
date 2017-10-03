@@ -55,18 +55,7 @@ public class CustomerRepoImpl implements CustomRepoCustom {
         Query query = em.createQuery("select  custadd.id FROM  CustomerAddress as custadd where custadd.customerID=:customerID");
         query.setParameter("customerID", objectCustomerAddress.getCustomerID());
         if (query.getMaxResults() > 0) {
-            query = em.createNativeQuery("INSERT customer_address(customer_add_id,address_user ,name ,phone ,company ,zipe_code ,customer_id ,nation ,city ,district)VALUES(:customer_add_id,:address_user,:name,:phone,:company,:zipe_code,:customer_id,:nation,:city,:district)");
-            query.setParameter("customer_add_id", objectCustomerAddress.getId());
-            query.setParameter("address_user", objectCustomerAddress.getAddressUser());
-            query.setParameter("name", objectCustomerAddress.getFullName());
-            query.setParameter("phone", objectCustomerAddress.getPhoneNumber());
-            query.setParameter("company", objectCustomerAddress.getCompany());
-            query.setParameter("zipe_code", objectCustomerAddress.getZipeCode());
-            query.setParameter("customer_id", objectCustomerAddress.getCustomerID());
-            query.setParameter("nation", objectCustomerAddress.getNation());
-            query.setParameter("city", objectCustomerAddress.getCity());
-            query.setParameter("district", objectCustomerAddress.getDistrict());
-            query.executeUpdate();
+                em.merge(objectCustomerAddress);
         }
     }
 
@@ -83,14 +72,7 @@ public class CustomerRepoImpl implements CustomRepoCustom {
         Query query = em.createQuery("SELECT customer FROM Customer as customer WHERE customer.id=:customerId");
         query.setParameter("customerId", objectCustomers.getId());
         if (query.getMaxResults() > 0) {
-            query = em.createQuery("UPDATE Customer as customer SET customer.fullName=:fullName,customer.email=:email," +
-                    "customer.totalBill=:totalBill" +
-                    " WHERE customer.id=:customerId");
-            query.setParameter("fullName", objectCustomers.getFullName());
-            query.setParameter("email", objectCustomers.getEmail());
-            query.setParameter("totalBill", objectCustomers.getTotalBill());
-            query.setParameter("customerId", objectCustomers.getId());
-            query.executeUpdate();
+        em.merge(objectCustomers);
         }
     }
 
@@ -102,22 +84,7 @@ public class CustomerRepoImpl implements CustomRepoCustom {
         query.setParameter("customerAddressId", objectCustomerAddress.getId());
         query.setParameter("customerID", objectCustomerAddress.getCustomerID());
         if (query.getMaxResults() > 0) {
-            query = em.createQuery("update  CustomerAddress as customerAddress set customerAddress.addressUser=:addressUser," +
-                    "customerAddress.fullName=:name,customerAddress.phoneNumber=:phone,customerAddress.company=:company," +
-                    "customerAddress.zipeCode=:zipeCode,customerAddress.nation=:nation,customerAddress.city=:city," +
-                    "customerAddress.district=:district  " +
-                    "where customerAddress.id=:id and  customerAddress.customerID=:customerId");
-            query.setParameter("addressUser", objectCustomerAddress.getAddressUser());
-            query.setParameter("name", objectCustomerAddress.getFullName());
-            query.setParameter("phone", objectCustomerAddress.getPhoneNumber());
-            query.setParameter("company", objectCustomerAddress.getCompany());
-            query.setParameter("zipeCode", objectCustomerAddress.getZipeCode());
-            query.setParameter("nation", objectCustomerAddress.getNation());
-            query.setParameter("city", objectCustomerAddress.getCity());
-            query.setParameter("district", objectCustomerAddress.getDistrict());
-            query.setParameter("id", objectCustomerAddress.getId());
-            query.setParameter("customerId", objectCustomerAddress.getCustomerID());
-            query.executeUpdate();
+          em.merge(objectCustomerAddress);
         }
     }
 

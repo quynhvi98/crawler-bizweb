@@ -13,11 +13,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @Configuration
 @EnableJpaRepositories("com.higgsup.bizwebcrawler.repositories")
 public class BizwebCrawler {
-   public final static ApplicationContext applicationContext = new ClassPathXmlApplicationContext("bizwebcrawler-context.xml");
-
+    private final static ApplicationContext applicationContext = new ClassPathXmlApplicationContext("bizwebcrawler-context.xml");
     public static void main(String[] args) {
-        StartScheduling startScheduling= (StartScheduling) applicationContext.getBean("scheduling");
+        StartScheduling startScheduling=applicationContext.getBean(StartScheduling.class);
         startScheduling.startScheduling();
+    }
+
+    public static ApplicationContext getApplicationContext() {
+        return applicationContext;
     }
 }
 

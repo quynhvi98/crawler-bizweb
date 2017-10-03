@@ -30,7 +30,7 @@ public class GettingCustomerData {
     private String cookie;
     private String html;
     private int page;
-    private final CustomerServices customerServices = BizwebCrawler.applicationContext.getBean(CustomerServices.class);
+    private final CustomerServices customerServices = BizwebCrawler.getApplicationContext().getBean(CustomerServices.class);
 
     public boolean getDataCustomerFromWebSetToDataBase(String html, String cookie) {
         this.html = html;

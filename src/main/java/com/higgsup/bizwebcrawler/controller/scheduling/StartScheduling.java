@@ -2,6 +2,7 @@ package com.higgsup.bizwebcrawler.controller.scheduling;
 
 import com.higgsup.bizwebcrawler.controller.authentication.CheckingAuthentication;
 import com.higgsup.bizwebcrawler.controller.managedatabase.ConnectDB;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.concurrent.Executors;
@@ -12,7 +13,7 @@ import java.util.logging.Logger;
 /*
     By chicanem 10/08/2017
     */
-
+@Component
 public class StartScheduling extends CheckingAuthentication {
     private static final Logger logger = Logger.getLogger(StartScheduling.class.getName());
 
@@ -24,6 +25,7 @@ public class StartScheduling extends CheckingAuthentication {
     public StartScheduling() {
 
     }
+
     public void startScheduling() {//bắt đầu chương trình
         final ScheduledExecutorService reLoadTime = Executors.newSingleThreadScheduledExecutor();
         try {
@@ -57,7 +59,7 @@ public class StartScheduling extends CheckingAuthentication {
 
             //reLoadTime.scheduleWithFixedDelay(queryProduct, -1, 100, TimeUnit.SECONDS);
             reLoadTime.scheduleWithFixedDelay(queryInfoCustomer, -1, 100, TimeUnit.SECONDS);
-           // reLoadTime.scheduleWithFixedDelay(queryInfoOrder, 0, 100, TimeUnit.SECONDS);
+            reLoadTime.scheduleWithFixedDelay(queryInfoOrder, 0, 100, TimeUnit.SECONDS);
 
         } catch (Error e) {
             String s = e.getLocalizedMessage();
