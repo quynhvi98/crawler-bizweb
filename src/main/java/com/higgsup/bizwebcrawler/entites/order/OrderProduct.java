@@ -8,14 +8,12 @@ import javax.persistence.*;
 @Entity
 @Table(name = "product_order")//table product reference table order
 public class OrderProduct {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "order_product_id")
+
     private int orderProductID;
     private Double quantity;
-    @Column(name = "product_id")
+
     private String productID;
-    @Column(name = "order_id")
+
     private String orderID;
 
 
@@ -24,7 +22,9 @@ public class OrderProduct {
         this.productID = productID;
         this.orderID = orderID;
     }
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "order_product_id")
     public int getOrderProductID() {
         return orderProductID;
     }
@@ -40,7 +40,7 @@ public class OrderProduct {
     public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
-
+    @Column(name = "product_id")
     public String getProductID() {
         return productID;
     }
@@ -48,7 +48,7 @@ public class OrderProduct {
     public void setProductID(String productID) {
         this.productID = productID;
     }
-
+    @Column(name = "order_id")
     public String getOrderID() {
         return orderID;
     }

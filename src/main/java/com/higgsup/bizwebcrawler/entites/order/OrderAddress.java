@@ -6,86 +6,97 @@ import javax.persistence.*;
 @Entity
 @Table(name = "order_address")
 public class OrderAddress {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "order_address_id")
+
     private int orderAddressID;
     private String email;
-    @Column(name = "namecustomer", nullable = false)
+
     private String nameCustomer;
-    @Column(name = "phone")
+
     private String phone;
-    @Column(name = "order_address", nullable = false)
+
     private String orderAddress;
-    @Column(name = "zipcode")
+
     private String zipCode;
     private String nation;
     private String city;
     private String district;
-    @Column(name = "payment_address")
+
     private String paymentAddress;
-    @Column(name = "order_id")
+
     private String orderID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "order_address_id")
     public int getOrderAddressID() {
         return orderAddressID;
     }
     public void setOrderAddressID(int orderAddressID) {
         this.orderAddressID = orderAddressID;
     }
+    @Column(name = "email")
     public String getEmail() {
         return email;
     }
     public void setEmail(String email) {
         this.email = email;
     }
+    @Column(name = "namecustomer", nullable = false)
     public String getNameCustomer() {
         return nameCustomer;
     }
     public void setNameCustomer(String nameCustomer) {
         this.nameCustomer = nameCustomer;
     }
+    @Column(name = "phone")
     public String getPhone() {
         return phone;
     }
     public void setPhone(String phone) {
         this.phone = phone;
     }
+    @Column(name = "order_address_content", nullable = false)
     public String getOrderAddress() {
         return orderAddress;
     }
     public void setOrderAddress(String orderAddress) {
         this.orderAddress = orderAddress;
     }
+    @Column(name = "zipcode")
     public String getZipCode() {
         return zipCode;
     }
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
     }
+    @Column(name = "nation")
     public String getNation() {
         return nation;
     }
     public void setNation(String nation) {
         this.nation = nation;
     }
+    @Column(name = "city")
     public String getCity() {
         return city;
     }
     public void setCity(String city) {
         this.city = city;
     }
+    @Column(name = "district")
     public String getDistrict() {
         return district;
     }
     public void setDistrict(String district) {
         this.district = district;
     }
+    @Column(name = "payment_address")
     public String getPaymentAddress() {
         return paymentAddress;
     }
     public void setPaymentAddress(String paymentAddress) {
         this.paymentAddress = paymentAddress;
     }
+    @Column(name = "order_id")
     public String getOrderID() {
         return orderID;
     }
@@ -117,6 +128,24 @@ public class OrderAddress {
         this.paymentAddress = paymentAddress;
         this.orderID = orderID;
     }
+
+    @Override
+    public String toString() {
+        return "OrderAddress{" +
+                "orderAddressID=" + orderAddressID +
+                ", email='" + email + '\'' +
+                ", nameCustomer='" + nameCustomer + '\'' +
+                ", phone='" + phone + '\'' +
+                ", orderAddress='" + orderAddress + '\'' +
+                ", zipCode='" + zipCode + '\'' +
+                ", nation='" + nation + '\'' +
+                ", city='" + city + '\'' +
+                ", district='" + district + '\'' +
+                ", paymentAddress='" + paymentAddress + '\'' +
+                ", orderID='" + orderID + '\'' +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if(o instanceof OrderAddress){
