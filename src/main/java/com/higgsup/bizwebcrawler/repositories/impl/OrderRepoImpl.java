@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.List;
 
 public class OrderRepoImpl implements OrderRepoCustom {
     @PersistenceContext
@@ -62,32 +63,37 @@ public class OrderRepoImpl implements OrderRepoCustom {
     @Transactional
     @Override
     public void updateDataFromOrder(Order dataFromOrder) {
-        Query query=em.createQuery("SELECT o.orderID FROM Order as o WHERE o.orderID=:orderID");
+        Query query=em.createQuery("SELECT o FROM Order as o WHERE o.orderID=:orderID");
         query.setParameter("orderID", dataFromOrder.getOrderID());
-        if (query.getResultList().size() >0) {
+        List<Order> orderList=query.getResultList();
+        if (orderList.size() >0) {
+            dataFromOrder.setOrderID(orderList.get(0).getOrderID());
             em.merge(dataFromOrder);
         }
     }
     @Transactional
     @Override
     public boolean updateDataFromOrderAndProduct(OrderProduct dataFromOrderAndProduct) {
-        Query query=em.createQuery("SELECT op.orderProductID FROM OrderProduct as op WHERE op.productID =:ProductID AND op.orderID=:OrderID");
+        Query query=em.createQuery("SELECT op FROM OrderProduct as op WHERE op.productID =:ProductID AND op.orderID=:OrderID");
         query.setParameter("ProductID", dataFromOrderAndProduct.getProductID());
         query.setParameter("OrderID", dataFromOrderAndProduct.getOrderID());
-        if(query.getResultList().size()>0){
+        List<OrderProduct> orderProductList =query.getResultList();
+        if(orderProductList.size()>0){
+            dataFromOrderAndProduct.setOrderProductID(orderProductList.get(0).getOrderProductID());
             em.merge(dataFromOrderAndProduct);
             return true;
         }else {
             return false;
         }
-
     }
     @Transactional
     @Override
     public void updateDataFromOrderAddress(OrderAddress dataFromOrderAddress) {
-        Query query=em.createQuery("SELECT oad.orderAddressID FROM OrderAddress as oad WHERE oad.orderID=:orderID");
+        Query query=em.createQuery("SELECT oad FROM OrderAddress as oad WHERE oad.orderID=:orderID");
         query.setParameter("orderID",dataFromOrderAddress.getOrderID());
-        if(query.getResultList().size()>0){
+        List<OrderAddress> orderAddressList=query.getResultList();
+        if(orderAddressList.size()>0){
+            dataFromOrderAddress.setOrderAddressID(orderAddressList.get(0).getOrderAddressID());
             em.merge(dataFromOrderAddress);
         }
     }
