@@ -31,7 +31,7 @@ public class GettingOrderData {
     private HtmlData authenticationGetRequest = new HtmlData();
     private Order order;
     private OrderAddress objectOrderAddress;
-    private  final OrderServices orderServices = BizwebCrawler.applicationContext.getBean(OrderServices.class);
+    private  final OrderServices orderServices =BizwebCrawler.getApplicationContext().getBean(OrderServices.class);
     private Set states;
     private OrderProduct orderProduct;
     private Document getHTML;
