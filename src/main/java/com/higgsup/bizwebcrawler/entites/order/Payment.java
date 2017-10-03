@@ -4,8 +4,8 @@ package com.higgsup.bizwebcrawler.entites.order;
    */
 import javax.persistence.*;
 @Entity
-@Table(name ="paymen")
-public class Paymen {
+@Table(name ="payment")
+public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "payment_id")
@@ -23,10 +23,10 @@ public class Paymen {
     public void setContent(String content) {
         this.content = content;
     }
-    public Paymen(String content) {
+    public Payment(String content) {
         this.content = content;
     }
 
-    public Paymen() {
+    public Payment() {
     }
 }

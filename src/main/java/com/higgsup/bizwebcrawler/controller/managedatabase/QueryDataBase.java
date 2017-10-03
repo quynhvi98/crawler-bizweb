@@ -305,7 +305,7 @@ public class QueryDataBase extends  ConnectDB {
                 ps = con.prepareCall(query);
                 ps.setString(1, dataFromOrder.getOrderID());
                 ps.setString(2, dataFromOrder.getDate());
-                ps.setString(3, dataFromOrder.getStatusPaymen());
+                ps.setString(3, dataFromOrder.getStatusPayment());
                 ps.setString(4, dataFromOrder.getStatusDelivery());
                 ps.setDouble(5, dataFromOrder.getTotalBill());
                 ps.setDouble(6, dataFromOrder.getTotalWeight());
@@ -608,7 +608,7 @@ public class QueryDataBase extends  ConnectDB {
                 query = "UPDATE  order_product SET date=?, status_paymen=?,status_delivery=?,total_bill=?,total_weight=?,fee_delivery=?,customer_id=?,payment_id=? WHERE order_id=? AND customer_id=?";
                 ps = con.prepareCall(query);
                 ps.setString(1, dataFromOrder.getDate());
-                ps.setString(2, dataFromOrder.getStatusPaymen());
+                ps.setString(2, dataFromOrder.getStatusPayment());
                 ps.setString(3, dataFromOrder.getStatusDelivery());
                 ps.setDouble(4, dataFromOrder.getTotalBill());
                 ps.setDouble(5, dataFromOrder.getTotalWeight());

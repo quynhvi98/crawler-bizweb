@@ -63,7 +63,6 @@ public class GettingCustomerData {
 
     private void getDataCustomer(int ii) throws InterruptedException {
         Document getHTML;
-        CommonUtil commonUtil = new CommonUtil();
         authenticationGetRequest.connectURLAndTakeHTML(RequestHeader.urlWebsite + "/customers?page=" + ii, cookie);
         getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
         if (getHTML.title().equals("Đăng nhập quản trị hệ thống")) {
@@ -73,7 +72,7 @@ public class GettingCustomerData {
         for (Element tags : getDataFromTRTags) {
             Customer customer = new Customer();
             Elements getDataFromAhrefTags = tags.select("td  a[href]");
-            customer.setId(commonUtil.cutID(getDataFromAhrefTags.get(0).attr("id")));
+            customer.setId(CommonUtil.cutID(getDataFromAhrefTags.get(0).attr("id")));
             customer.setFullName(getDataFromAhrefTags.get(0).text());
             customer.setEmail(getDataFromAhrefTags.get(2).text());
             Elements getDataFromTDTags = tags.select("td");

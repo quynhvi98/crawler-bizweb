@@ -18,11 +18,11 @@ public class OrderRepoImpl implements OrderRepoCustom {
     private EntityManager em;
     @Transactional
     @Override
-    public void setDataPaymenFromOrder(String content) {
-        Query query = em.createQuery("SELECT  p.content  from Paymen as p where p.content=:content");
+    public void setDataPaymentFromOrder(String content) {
+        Query query = em.createQuery("SELECT  p.content  from Payment as p where p.content=:content");
         query.setParameter("content", content);
         if (query.getResultList().size() <=0) {
-            query = em.createNativeQuery("INSERT paymen (content) VALUES (:content)");
+            query = em.createNativeQuery("INSERT payment (content) VALUES (:content)");
             query.setParameter("content", content);
             query.executeUpdate();
         }

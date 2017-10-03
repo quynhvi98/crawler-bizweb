@@ -14,7 +14,7 @@ import java.util.List;
 
 @Repository
 public interface OrderRepo extends PagingAndSortingRepository<Order,String>,OrderRepoCustom {
-    @Query(value = "SELECT paymen.paymentID FROM Paymen AS paymen WHERE paymen.content=:content")
+    @Query(value = "SELECT payment.paymentID FROM Payment AS payment WHERE payment.content=:content")
     int getIDPaymentFromContent(@Param("content") String content);
     @Query(value = "SELECT o FROM Order as o")
     List<Order> getListDataOrders();

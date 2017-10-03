@@ -7,7 +7,7 @@ import com.higgsup.bizwebcrawler.entites.order.OrderAddress;
 import com.higgsup.bizwebcrawler.entites.order.OrderProduct;
 
 public interface OrderRepoCustom {
-    void setDataPaymenFromOrder(String content);
+    void setDataPaymentFromOrder(String content);
     boolean hasOrderId(String orderID);
     void setDataFromOrder(Order dataFromOrder);
     void setDataFromOrderAndProduct(OrderProduct dataFromOrderAndProduct);

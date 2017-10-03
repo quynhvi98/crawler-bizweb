@@ -6,23 +6,16 @@ import javax.persistence.*;
 @Entity
 @Table(name = "order_address")
 public class OrderAddress {
-
     private int orderAddressID;
     private String email;
-
     private String nameCustomer;
-
     private String phone;
-
     private String orderAddress;
-
     private String zipCode;
     private String nation;
     private String city;
     private String district;
-
     private String paymentAddress;
-
     private String orderID;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

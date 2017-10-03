@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 public interface OrderServices {
-    void setDataPaymenFromOrder(String content);
+    void setDataPaymentFromOrder(String content);
     boolean hasOrderId(String orderID);
     void setDataFromOrder(Order dataFromOrder);
     void setDataFromOrderAndProduct(OrderProduct dataFromOrderAndProduct);

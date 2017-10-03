@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class Order {
     private String orderID;
     private String date;
-    private String statusPaymen;
+    private String statusPayment;
     private String statusDelivery;
     private Double totalBill;
     private Double totalWeight;
@@ -18,10 +18,10 @@ public class Order {
     private String customerID;
     private int paymentID;
 
-    public Order(String orderID, String date, String statusPaymen, String statusDelivery, Double totalBill, Double totalWeight, Double feeDelivery, String customerID, int paymentID) {
+    public Order(String orderID, String date, String statusPayment, String statusDelivery, Double totalBill, Double totalWeight, Double feeDelivery, String customerID, int paymentID) {
         this.orderID = orderID;
         this.date = date;
-        this.statusPaymen = statusPaymen;
+        this.statusPayment = statusPayment;
         this.statusDelivery = statusDelivery;
         this.totalBill = totalBill;
         this.totalWeight = totalWeight;
@@ -49,13 +49,13 @@ public class Order {
         this.date = date;
     }
 
-    @Column(name = "status_paymen", nullable = false)
-    public String getStatusPaymen() {
-        return statusPaymen;
+    @Column(name = "status_payment", nullable = false)
+    public String getStatusPayment() {
+        return statusPayment;
     }
 
-    public void setStatusPaymen(String statusPaymen) {
-        this.statusPaymen = statusPaymen;
+    public void setStatusPayment(String statusPayment) {
+        this.statusPayment = statusPayment;
     }
 
     @Column(name = "status_delivery", nullable = false)
@@ -119,7 +119,7 @@ public class Order {
 
     @Override
     public int hashCode() {
-        return orderID.hashCode() + date.hashCode() + statusPaymen.hashCode() - statusDelivery.hashCode() - totalBill.hashCode() - totalWeight.hashCode() + feeDelivery.hashCode() + customerID.hashCode() + paymentID;
+        return orderID.hashCode() + date.hashCode() + statusPayment.hashCode() - statusDelivery.hashCode() - totalBill.hashCode() - totalWeight.hashCode() + feeDelivery.hashCode() + customerID.hashCode() + paymentID;
 
     }
 
@@ -138,7 +138,7 @@ public class Order {
         return "Order{" +
                 "orderID='" + orderID + '\'' +
                 ", date='" + date + '\'' +
-                ", statusPaymen='" + statusPaymen + '\'' +
+                ", statusPaymen='" + statusPayment + '\'' +
                 ", statusDelivery='" + statusDelivery + '\'' +
                 ", totalBill=" + totalBill +
                 ", totalWeight=" + totalWeight +

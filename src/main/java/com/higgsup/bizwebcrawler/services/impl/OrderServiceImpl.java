@@ -19,8 +19,8 @@ public class OrderServiceImpl implements OrderServices {
     @Autowired
     OrderRepo orderRepo;
     @Override
-    public void setDataPaymenFromOrder(String content) {
-        orderRepo.setDataPaymenFromOrder(content);
+    public void setDataPaymentFromOrder(String content) {
+        orderRepo.setDataPaymentFromOrder(content);
     }
 
     @Override

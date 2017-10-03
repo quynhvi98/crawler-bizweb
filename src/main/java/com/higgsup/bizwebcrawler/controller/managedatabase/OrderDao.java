@@ -39,7 +39,7 @@ public class OrderDao {
                 query = "INSERT dbo.order_product ( order_id ,date ,status_paymen ,status_delivery ,total_bill ,total_weight ,fee_delivery ,customer_id ,payment_id )VALUES  ( ? , GETDATE(), ? , ? , ? , ? , ? ,  ? , ? )";
                 ps = con.startConnect().prepareCall(query);
                 ps.setString(1,dataFromOrder.getOrderID());
-                ps.setString(2,dataFromOrder.getStatusPaymen());
+                ps.setString(2,dataFromOrder.getStatusPayment());
                 ps.setString(3,dataFromOrder.getStatusDelivery());
                 ps.setDouble(4,dataFromOrder.getTotalBill());
                 ps.setDouble(5,dataFromOrder.getTotalWeight());
