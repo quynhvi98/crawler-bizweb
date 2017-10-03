@@ -5,7 +5,6 @@ package com.higgsup.bizwebcrawler.services;/*
 import com.higgsup.bizwebcrawler.entites.order.Order;
 import com.higgsup.bizwebcrawler.entites.order.OrderAddress;
 import com.higgsup.bizwebcrawler.entites.order.OrderProduct;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,9 +19,9 @@ public interface OrderServices {
     void updateDataFromOrder(Order dataFromOrder);
     boolean updateDataFromOrderAndProduct(OrderProduct dataFromOrderAndProduct);
     void updateDataFromOrderAddress(OrderAddress dataFromOrderAddress);
-    List<OrderProduct> getListDataOrderProduct(@Param("orderID")String id);
+    List<OrderProduct> getListDataOrderProduct(String id);
     List<OrderAddress> getListDataOrderAddress();
     List<Order> getListDataOrders();
-    int getIDPaymentFromContent(@Param("content") String content);
+    int getIDPaymentFromContent(String content);
 
 }
