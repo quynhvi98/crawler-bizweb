@@ -16,10 +16,10 @@ import java.util.List;
 public interface OrderRepo extends PagingAndSortingRepository<Order,String>,OrderRepoCustom {
     @Query(value = "SELECT paymen.paymentID FROM Paymen AS paymen WHERE paymen.content=:content")
     int getIDPaymentFromContent(@Param("content") String content);
-    @Query(value = "SELECT O FROM Order as O")
+    @Query(value = "SELECT o FROM Order as o")
     List<Order> getListDataOrders();
-    @Query(value = "SELECT OA FROM OrderAddress  as OA")
+    @Query(value = "SELECT oa FROM OrderAddress  as oa")
     List<OrderAddress> getListDataOrderAddress();
-    @Query(value = "SELECT  OP FROM  OrderProduct as OP WHERE OP.orderID=:orderID")
+    @Query(value = "SELECT  op FROM  OrderProduct as op WHERE op.orderID=:orderID")
     List<OrderProduct> getListDataOrderProduct(@Param("orderID")String id);
 }
