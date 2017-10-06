@@ -1,9 +1,8 @@
-package com.higgsup.bizwebcrawler.controller.scheduling;
+package com.higgsup.bizwebcrawler.services.scheduling;
 
-import com.higgsup.bizwebcrawler.controller.authentication.CheckingAuthentication;
 import com.higgsup.bizwebcrawler.controller.managedatabase.ConnectDB;
 import org.springframework.stereotype.Component;
-
+import com.higgsup.bizwebcrawler.services.authentication.CheckingAuthentication;
 import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -32,34 +31,8 @@ public class StartScheduling extends CheckingAuthentication {
             ConnectDB con = new ConnectDB();
             con.startConnect();
             doRequestTakeCookie();
-            Runnable queryProduct = new QueryingProductInformation() {
-                @Override
-                public void run() {
-                    System.out.printf("queryProduct");
-                    super.run();
-                }
-            };
-            Runnable queryInfoCustomer = new QueryingCustomerInformation() {
-                @Override
-                public void run() {
-                    System.out.printf("queryInfoCustomer");
-
-                    super.run();
-                }
-            };
-            Runnable queryInfoOrder = new QueryingOrderInformation() {
-                @Override
-                public void run() {
-                    System.out.printf("queryInfoOrder");
-
-                    super.run();
-                }
-            };
 
 
-            //reLoadTime.scheduleWithFixedDelay(queryProduct, -1, 100, TimeUnit.SECONDS);
-            reLoadTime.scheduleWithFixedDelay(queryInfoCustomer, -1, 100, TimeUnit.SECONDS);
-            reLoadTime.scheduleWithFixedDelay(queryInfoOrder, 0, 100, TimeUnit.SECONDS);
 
         } catch (Error e) {
             String s = e.getLocalizedMessage();

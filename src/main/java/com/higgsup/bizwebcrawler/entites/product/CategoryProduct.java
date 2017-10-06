@@ -1,18 +1,18 @@
 package com.higgsup.bizwebcrawler.entites.product;
 import javax.persistence.*;
+import java.io.Serializable;
+
 /**
  * Created by viquynh
  */
 /*Product reference category: hot, new*/
 @Entity
 @Table(name = "category_product")
-public class CategoryProduct {
+public class CategoryProduct  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "category_id")
     private int categoryID;
-
-
     @Column(name = "product_cate_id")
     private String productCategory;
 
@@ -37,6 +37,11 @@ public class CategoryProduct {
     }
 
     public void setProduct_id(String product_id) {
+        this.product_id = product_id;
+    }
+
+    public CategoryProduct(String productCategory, String product_id) {
+        this.productCategory = productCategory;
         this.product_id = product_id;
     }
 

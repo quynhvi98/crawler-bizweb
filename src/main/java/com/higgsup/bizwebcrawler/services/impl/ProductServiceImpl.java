@@ -16,6 +16,6 @@ public class ProductServiceImpl implements ProductServices {
     private ProductRepo productRepo;
     @Override
     public Product findById(String poId) {
-        return productRepo.findById(poId);
+        return new Product();
     }
 }

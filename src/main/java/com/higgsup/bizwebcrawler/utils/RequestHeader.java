@@ -1,10 +1,10 @@
-package com.higgsup.bizwebcrawler.controller.authentication;
+package com.higgsup.bizwebcrawler.utils;
 
 /**
  * Created by viquy 3:49 PM 9/25/2017
  */
 public class RequestHeader {
-    public static final String urlWebsite = "https://bookweb1.bizwebvietnam.net/admin";
+    public static final String urlWebsite = "https://bookweb2.bizwebvietnam.net/admin";
 
     public static final String RQ_HEADER = "User-Agent";
     public static final String RQ_HEADER_VALUE = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36";

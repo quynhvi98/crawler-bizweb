@@ -42,7 +42,7 @@ public class CustomerAddress extends Person{
         this.customerID = customerID;
         this.nation = nation;
         this.city = city;
-            this.district = district;
+        this.district = district;
 
 
     }

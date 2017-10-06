@@ -1,18 +1,19 @@
-package com.higgsup.bizwebcrawler.controller.getandupdatedata;
+package com.higgsup.bizwebcrawler.services.getandupdatedata;
 
 import com.higgsup.bizwebcrawler.BizwebCrawler;
-import com.higgsup.bizwebcrawler.controller.authentication.HtmlData;
-import com.higgsup.bizwebcrawler.controller.authentication.RequestHeader;
-import com.higgsup.bizwebcrawler.repositories.CustomerRepo;
-import com.higgsup.bizwebcrawler.services.CustomerServices;
-import com.higgsup.bizwebcrawler.utils.CommonUtil;
-import com.higgsup.bizwebcrawler.utils.DividePage;
 import com.higgsup.bizwebcrawler.entites.customer.Customer;
 import com.higgsup.bizwebcrawler.entites.customer.CustomerAddress;
+import com.higgsup.bizwebcrawler.services.CustomerServices;
+import com.higgsup.bizwebcrawler.services.authentication.HtmlData;
+import com.higgsup.bizwebcrawler.utils.CommonUtil;
+import com.higgsup.bizwebcrawler.utils.DividePage;
+import com.higgsup.bizwebcrawler.utils.RequestHeader;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +25,18 @@ import java.util.regex.Pattern;
 /**
  * Created by viquynh
  */
+@Component
 public class GettingCustomerData {
     private static final Logger logger = Logger.getLogger(GettingCustomerData.class.getName());
-    private HtmlData authenticationGetRequest = new HtmlData();
+    @Autowired
+    private HtmlData authenticationGetRequest;
+    @Autowired
+    private  DividePage dividePage;
     private String cookie;
     private String html;
     private int page;
-    private final CustomerServices customerServices = BizwebCrawler.getApplicationContext().getBean(CustomerServices.class);
-
+    @Autowired
+    private  CustomerServices customerServices;
     public boolean getDataCustomerFromWebSetToDataBase(String html, String cookie) {
         this.html = html;
         this.cookie = cookie;
@@ -51,7 +56,7 @@ public class GettingCustomerData {
     }
 
     private void getPageCustomer() {
-        DividePage dividePage = new DividePage();
+
         Document getHTML = Jsoup.parse(html);
         dividePage.setDataCheckingFromWeb(getHTML);
         Elements getDataAllCustomer = dividePage.getDataCheckingFromWeb();
@@ -103,7 +108,6 @@ public class GettingCustomerData {
 
     private void getDataCustomerAddress(Element getTagsAddress, Customer customer) {
         Document getHTML;
-        DividePage dividePage = new DividePage();
         String[] cutScriptTakeHtml = getTagsAddress.toString().split("type=\"text/html\">");
         Pattern pattern = Pattern.compile("[\\d]+");
         Matcher matcher = pattern.matcher(cutScriptTakeHtml[0]);

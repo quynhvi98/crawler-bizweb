@@ -1,9 +1,12 @@
-package com.higgsup.bizwebcrawler.controller.authentication;
+package com.higgsup.bizwebcrawler.services.authentication;
 
+import com.higgsup.bizwebcrawler.utils.RequestHeader;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.stereotype.Component;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.UnknownHostException;
@@ -12,6 +15,7 @@ import java.net.UnknownHostException;
  * Created by viquynh on 26/07/2017.
  * Send request from client --> server --> receive html data from web
  */
+@Component
 public class HtmlData {
     private String htmlData;
     public void connectURLAndTakeHTML(String url, String cookie) {

@@ -1,8 +1,11 @@
-package com.higgsup.bizwebcrawler.controller.scheduling;
+package com.higgsup.bizwebcrawler.services.scheduling;
 
-import com.higgsup.bizwebcrawler.controller.authentication.HtmlData;
-import com.higgsup.bizwebcrawler.controller.authentication.RequestHeader;
-import com.higgsup.bizwebcrawler.controller.getandupdatedata.GettingProductData;
+import com.higgsup.bizwebcrawler.services.authentication.CheckingAuthentication;
+import com.higgsup.bizwebcrawler.services.authentication.HtmlData;
+import com.higgsup.bizwebcrawler.services.getandupdatedata.GettingProductData;
+import com.higgsup.bizwebcrawler.utils.RequestHeader;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -11,8 +14,12 @@ import java.util.logging.Logger;
 /**
  * Created by viquy 2:24 PM 9/12/2017
  */
-abstract class QueryingProductInformation extends StartScheduling implements Runnable {
-
+@Component
+public class QueryingProductInformation extends CheckingAuthentication {
+    @Autowired
+    GettingProductData getDataWebAndSetToDataBase;
+    @Autowired
+    HtmlData authenticationGetRequest;
     private static final Logger logger = Logger.getLogger(QueryingProductInformation.class.getName());
     private static final String url = RequestHeader.urlWebsite+"/products";
     @Override
@@ -20,13 +27,10 @@ abstract class QueryingProductInformation extends StartScheduling implements Run
         return super.getCookie();
     }
 
-    public void run() {
+    public void startScheduling() {
         try {
-            GettingProductData GetDataWebAndSetToDataBase = new GettingProductData();
-            HtmlData authenticationGetRequest = new HtmlData();
             authenticationGetRequest.connectURLAndTakeHTML(url, getCookie());
-
-            boolean checkErrorRequest = GetDataWebAndSetToDataBase.getDataProductFromWeb(authenticationGetRequest.getHtmlData(), getCookie());
+            boolean checkErrorRequest = getDataWebAndSetToDataBase.getDataProductFromWeb(authenticationGetRequest.getHtmlData(), getCookie());
             logger.info(checkErrorRequest + " Product");
         } catch (Error e) {
             String s = e.getLocalizedMessage();

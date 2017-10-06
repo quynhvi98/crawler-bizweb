@@ -3,6 +3,7 @@ package com.higgsup.bizwebcrawler.entites.product;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
+import java.util.HashMap;
 
 /**
  * Created by viquynh
@@ -148,5 +149,24 @@ public class Product {
                 ", productGroupId=" + productGroupId +
                 ", producerId=" + producerId +
                 '}';
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Product){
+            if(((Product) obj).productID.equals(this.productID)&&
+                    ((Product) obj).name.equals(this.name)&&
+                    ((Product) obj).price==this.price&&
+                    ((Product) obj).stork==this.stork&&
+                    ((Product) obj).weight==this.weight&&
+                    ((Product) obj).content.equals(this.content)&&
+                    ((Product) obj).img.equals(this.img)&&
+                    ((Product) obj).description.equals(this.description)&&
+                    ((Product) obj).productGroupId==this.productGroupId&&
+                    ((Product) obj).producerId==this.producerId){
+                return true;
+
+            }
+        }
+        return false;
     }
 }

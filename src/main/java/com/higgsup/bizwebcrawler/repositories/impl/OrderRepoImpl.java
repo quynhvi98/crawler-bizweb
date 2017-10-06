@@ -80,6 +80,7 @@ public class OrderRepoImpl implements OrderRepoCustom {
         List<OrderProduct> orderProductList =query.getResultList();
         if(orderProductList.size()>0){
             dataFromOrderAndProduct.setOrderProductID(orderProductList.get(0).getOrderProductID());
+            System.out.println(dataFromOrderAndProduct.getProductID());
             em.merge(dataFromOrderAndProduct);
             return true;
         }else {

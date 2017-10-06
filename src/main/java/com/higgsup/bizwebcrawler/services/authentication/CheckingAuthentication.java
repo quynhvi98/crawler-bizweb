@@ -1,6 +1,7 @@
-package com.higgsup.bizwebcrawler.controller.authentication;
+package com.higgsup.bizwebcrawler.services.authentication;
 
 import com.higgsup.bizwebcrawler.utils.FileTemplate;
+import com.higgsup.bizwebcrawler.utils.RequestHeader;
 import com.higgsup.bizwebcrawler.utils.SendEmail;
 import com.higgsup.bizwebcrawler.controller.managedatabase.ConnectDB;
 import org.apache.http.Header;
@@ -27,8 +28,8 @@ public class CheckingAuthentication {
     private PreparedStatement ps;
     private ResultSet rs;
     private ConnectDB con = new ConnectDB();
-    private String email;
-    private String password;
+    private static String email;
+    private static String password;
     private static final String url = RequestHeader.urlWebsite+"/authorization/login?Email=%s&Password=%s";
     final String smtpServer = "smtp.gmail.com";
     final String username = "vi.quynh.31598@gmail.com";
@@ -45,7 +46,6 @@ public class CheckingAuthentication {
             Header[] allHeaders = response.getAllHeaders();
             if (allHeaders[11].getValue().equalsIgnoreCase("1; mode=block")) {
                 SendEmail.send(smtpServer, username, gmailCompany, psw, subjectEmail, FileTemplate.mailContent(email, password).toString());
-                throw new Error("FalseAccount");
             }
             setCookie(allHeaders[11].getValue());
 
@@ -67,6 +67,11 @@ public class CheckingAuthentication {
 
     public CheckingAuthentication() {
         takeAccountAdminFromDatabase();
+        try {
+            doRequestTakeCookie();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void takeAccountAdminFromDatabase() {
