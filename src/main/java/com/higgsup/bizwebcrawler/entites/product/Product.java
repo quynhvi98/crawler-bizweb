@@ -1,9 +1,7 @@
 package com.higgsup.bizwebcrawler.entites.product;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.*;
-import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * Created by viquynh
@@ -155,8 +153,8 @@ public class Product {
         if(obj instanceof Product){
             if(((Product) obj).productID.equals(this.productID)&&
                     ((Product) obj).name.equals(this.name)&&
-                    ((Product) obj).price==this.price&&
-                    ((Product) obj).stork==this.stork&&
+                    Objects.equals(((Product) obj).price, this.price) &&
+                    Objects.equals(((Product) obj).stork, this.stork) &&
                     ((Product) obj).weight==this.weight&&
                     ((Product) obj).content.equals(this.content)&&
                     ((Product) obj).img.equals(this.img)&&

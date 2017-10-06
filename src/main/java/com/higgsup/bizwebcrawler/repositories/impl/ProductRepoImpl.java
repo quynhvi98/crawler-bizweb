@@ -4,7 +4,6 @@ package com.higgsup.bizwebcrawler.repositories.impl;/*
 
 import com.higgsup.bizwebcrawler.entites.product.Product;
 import com.higgsup.bizwebcrawler.repositories.ProductRepoCustom;
-import com.higgsup.bizwebcrawler.utils.JpaResultConverter;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

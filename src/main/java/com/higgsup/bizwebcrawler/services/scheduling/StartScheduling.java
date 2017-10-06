@@ -1,37 +1,37 @@
 package com.higgsup.bizwebcrawler.services.scheduling;
 
-import com.higgsup.bizwebcrawler.controller.managedatabase.ConnectDB;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.higgsup.bizwebcrawler.services.authentication.CheckingAuthentication;
+
 import java.io.IOException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 /*
     By chicanem 10/08/2017
     */
 @Component
-public class StartScheduling extends CheckingAuthentication {
+public class StartScheduling {
+
     private static final Logger logger = Logger.getLogger(StartScheduling.class.getName());
-
-    @Override
-    public String getCookie() {
-        return super.getCookie();
-    }
-
+    @Autowired
+    CheckingAuthentication checkingAuthentication;
+    @Autowired
+    QueryingProductInformation queryingProductInformation;
+    @Autowired
+    QueryingCustomerInformation queryingCustomerInformation;
+    @Autowired
+    QueryingOrderInformation queryingOrderInformation;
     public StartScheduling() {
 
     }
 
-    public void startScheduling() {//bắt đầu chương trình
-        final ScheduledExecutorService reLoadTime = Executors.newSingleThreadScheduledExecutor();
+    public void startScheduling() {
         try {
-            ConnectDB con = new ConnectDB();
-            con.startConnect();
-            doRequestTakeCookie();
-
+            checkingAuthentication.doRequestTakeCookie();
+            queryingProductInformation.startScheduling();
+            queryingCustomerInformation.startScheduling();
+            queryingOrderInformation.startScheduling();
 
 
         } catch (Error e) {
@@ -42,8 +42,6 @@ public class StartScheduling extends CheckingAuthentication {
             if (s.equals("Not Connect Internet")) {
                 System.out.println("mất mạng");
             }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -11,6 +11,7 @@ import javax.persistence.*;
 public class Administrator extends Person {
     @Id
     @Override
+    @Column(name ="id", nullable = false)
     public String getId() {
         return super.getId();
     }
@@ -24,7 +25,7 @@ public class Administrator extends Person {
     public String getPassWord() {
         return super.getPassWord();
     }
-    @Column(name="phone", nullable = false)
+    @Column(name="phone")
     @Override
     public String getPhoneNumber() {
         return super.getPhoneNumber();
@@ -40,22 +41,14 @@ public class Administrator extends Person {
     private String infoNote;
     public Administrator() {
     }
-    public Administrator(String id, String firstName, String phoneNumber, String email, String passWord, String address, String adminLink, String infoNote) {
-        super(id, firstName, phoneNumber, email, passWord, address);
-        this.adminLink = adminLink;
-        this.infoNote = infoNote;
-    }
 
-    public String getAdminLink() {
-        return adminLink;
-    }
-    public void setAdminLink(String adminLink) {
-        this.adminLink = adminLink;
-    }
-    public String getInfoNote() {
-        return infoNote;
-    }
-    public void setInfoNote(String infoNote) {
+    public Administrator(String id,String name,String password,String phone,String email,String adminLink, String infoNote) {
+       setId(id);
+       setFullName(name);
+       setPassWord(password);
+       setPhoneNumber(phone);
+       setEmail(email);
+         this.adminLink = adminLink;
         this.infoNote = infoNote;
     }
 }

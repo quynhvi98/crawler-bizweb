@@ -15,25 +15,26 @@ import java.util.logging.Logger;
  * Created by viquy 3:12 PM 9/12/2017
  */
 @Component
-public class QueryingOrderInformation extends CheckingAuthentication {
+public class QueryingOrderInformation extends StartScheduling {
     @Autowired
     GettingOrderData getDataWebAndSetToDataBase;
     @Autowired
     HtmlData authenticationGetRequest;
-
+    @Autowired
+    CheckingAuthentication checkingAuthentication;
     private static final Logger logger = Logger.getLogger(QueryingOrderInformation.class.getName());
 
     public void startScheduling() {
         try {
-            authenticationGetRequest.connectURLAndTakeHTML(RequestHeader.urlWebsite + "/orders", getCookie());
-            boolean checkErrorRequest = getDataWebAndSetToDataBase.getDataOrderFromWebSetToDataBase(authenticationGetRequest.getHtmlData(), getCookie());
+            authenticationGetRequest.connectURLAndTakeHTML(RequestHeader.urlWebsite + "/orders", checkingAuthentication.getCookie());
+            boolean checkErrorRequest = getDataWebAndSetToDataBase.getDataOrderFromWebSetToDataBase(authenticationGetRequest.getHtmlData(), checkingAuthentication.getCookie());
             logger.info(checkErrorRequest + " QueryingOrderInformation");
         } catch (Error e) {
             String s = e.getLocalizedMessage();
             if (s.equals("Error cookie")) {
                 try {
                     System.out.println("lỗi cookie");
-                    doRequestTakeCookie();
+                    checkingAuthentication.doRequestTakeCookie();
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }

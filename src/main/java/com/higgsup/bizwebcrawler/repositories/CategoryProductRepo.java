@@ -3,14 +3,11 @@ package com.higgsup.bizwebcrawler.repositories;/*
  */
 
 import com.higgsup.bizwebcrawler.entites.product.CategoryProduct;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
+@Repository
 public interface CategoryProductRepo extends PagingAndSortingRepository<CategoryProduct,Integer>,CategoryProductRepoCustom {
-    @Query(value = "SELECT cp.categoryID FROM CategoryProduct as cp WHERE cp.product_id=:id")
-    List<String> getListProductCateIdFormProductIdInCategoryProduct(@Param("id")String id);
+
 
 }

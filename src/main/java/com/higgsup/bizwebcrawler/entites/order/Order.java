@@ -94,7 +94,7 @@ public class Order {
         this.feeDelivery = feeDelivery;
     }
 
-    @Column(name = "customer_id", nullable = false)
+    @Column(name = "customer_id", nullable = true)
     public String getCustomerID() {
         return customerID;
     }

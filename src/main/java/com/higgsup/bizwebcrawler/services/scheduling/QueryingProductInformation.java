@@ -15,29 +15,27 @@ import java.util.logging.Logger;
  * Created by viquy 2:24 PM 9/12/2017
  */
 @Component
-public class QueryingProductInformation extends CheckingAuthentication {
+public class QueryingProductInformation {
     @Autowired
     GettingProductData getDataWebAndSetToDataBase;
     @Autowired
     HtmlData authenticationGetRequest;
+    @Autowired
+    CheckingAuthentication checkingAuthentication;
     private static final Logger logger = Logger.getLogger(QueryingProductInformation.class.getName());
     private static final String url = RequestHeader.urlWebsite+"/products";
-    @Override
-    public String getCookie() {
-        return super.getCookie();
-    }
 
     public void startScheduling() {
         try {
-            authenticationGetRequest.connectURLAndTakeHTML(url, getCookie());
-            boolean checkErrorRequest = getDataWebAndSetToDataBase.getDataProductFromWeb(authenticationGetRequest.getHtmlData(), getCookie());
+            authenticationGetRequest.connectURLAndTakeHTML(url, checkingAuthentication.getCookie());
+            boolean checkErrorRequest = getDataWebAndSetToDataBase.getDataProductFromWeb(authenticationGetRequest.getHtmlData(),checkingAuthentication.getCookie());
             logger.info(checkErrorRequest + " Product");
         } catch (Error e) {
             String s = e.getLocalizedMessage();
             if (s.equals("Error cookie")) {
                 try {
                     System.out.println("lỗi cookie");
-                    doRequestTakeCookie();
+                    checkingAuthentication.doRequestTakeCookie();
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }

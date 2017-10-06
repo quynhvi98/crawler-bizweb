@@ -6,25 +6,25 @@ import com.higgsup.bizwebcrawler.services.authentication.HtmlData;
 import com.higgsup.bizwebcrawler.utils.RequestHeader;
 import com.higgsup.bizwebcrawler.utils.CommonUtil;
 import com.higgsup.bizwebcrawler.utils.DividePage;
-import com.higgsup.bizwebcrawler.controller.managedatabase.QueryDataBase;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 /**
  * Created by viquynh
  */
 @Component
 public class GettingProductData {
-    private static final Logger logger = Logger.getLogger(GettingProductData.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(GettingProductData.class);
     private HtmlData authenticationGetRequest = new HtmlData();
     private static final String url = RequestHeader.urlWebsite + "/products?page=";
     private String htmlData;
@@ -43,7 +43,7 @@ public class GettingProductData {
     private Product product;
     private ProductGroup productGroup;
     private Producer producer;
-    private final int TIME_SLEEP =3;
+    private final int TIME_SLEEP =8;
     public boolean getDataProductFromWeb(String htmlData, String cookie) throws IOException {
         this.cookie = cookie;
         this.htmlData = htmlData;
@@ -123,9 +123,7 @@ public class GettingProductData {
                 throw new Error("Error cookie");
             }
             getDataFromDivRowTag = getHTML.select("div.row");
-            if (getDataFromDivRowTag.size() < 0) {
-                throw new Error("False " + product.getProductID());
-            }
+
         }
         if (getDataFromTrTags.size() > 0) {
             product.setContent(getDataFromTrTags.get(0).text());
@@ -141,7 +139,6 @@ public class GettingProductData {
     }
     public void saveAndUpdateProductData( Elements checkVersionProduct, Elements getDataFromDivRowTag, HashMap getDataCategoryProduct) {
         try {
-            QueryDataBase queryDataBase = new QueryDataBase();
             product.setDescription("");
             product.setWeight(0.0);
             if(productGroupRepo.getIDProductGroup(productGroup.getName()) ==null){
@@ -154,14 +151,13 @@ public class GettingProductData {
             }
             product.setProducerId(producerRepo.getIdProducerByName(producer.getName()));
             if (productRepo.findById(product.getProductID())==null) {
-                System.out.println(product.getProductID());
-                setProductToDB(checkVersionProduct,getDataFromDivRowTag,getDataCategoryProduct,queryDataBase);
+                setProductToDB(checkVersionProduct,getDataFromDivRowTag,getDataCategoryProduct);
             } else {
-                System.out.println(product.getProductID()+" up data");
                updateProductToDB(checkVersionProduct,getDataFromDivRowTag,getDataCategoryProduct);
             }
         } catch (Exception e) {
-            logger.info(e.getMessage());
+            e.printStackTrace();
+            logger.error("saveAndUpdateProductData error ", e);
         }
     }
     private void updateProductToDB(Elements checkVersionProduct, Elements getDataFromDivRowTag, HashMap getDataCategoryProduct){
@@ -188,20 +184,21 @@ public class GettingProductData {
         Iterator i = set.iterator();
         while (i.hasNext()) {
             Map.Entry mapEntry = (Map.Entry) i.next();
-            ProductCategory productCategory=new ProductCategory((String) mapEntry.getKey(),(String) mapEntry.getValue());
-            productCategoryRepo.save(productCategory);
-            int indexList = listProductCateID.indexOf((String) mapEntry.getKey());
-            if (indexList >= 0) {
+            ProductCategory productCategory=new ProductCategory(String.valueOf(mapEntry.getKey()),String.valueOf( mapEntry.getValue()));
+           productCategoryRepo.save(productCategory);
+           int indexList = listProductCateID.indexOf(mapEntry.getKey());
+             if (indexList >= 0) {
                 listProductCateID.remove(indexList);
             } else {
-                categoryProductRepo.save(new CategoryProduct((String) mapEntry.getKey(),product.getProductID()));
+              categoryProductRepo.save(new CategoryProduct((String) mapEntry.getKey(),product.getProductID()));
             }
         }
-        for (String productCate_ID : listProductCateID) {
-            categoryProductRepo.delete(new CategoryProduct(productCate_ID, product.getProductID()));
+         for (String productCateID : listProductCateID) {
+            categoryProductRepo.deleteCategoryProduct(productCateID,product.getProductID());
         }
+
     }
-    private void setProductToDB(Elements checkVersionProduct, Elements getDataFromDivRowTag, HashMap getDataCategoryProduct,QueryDataBase queryDataBase ){
+    private void setProductToDB(Elements checkVersionProduct, Elements getDataFromDivRowTag, HashMap getDataCategoryProduct){
         if (checkVersionProduct.size() >= 1) {
             product.setPrice(0.0);
             productRepo.save(product);

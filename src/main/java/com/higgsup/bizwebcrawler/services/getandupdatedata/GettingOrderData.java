@@ -1,6 +1,6 @@
 package com.higgsup.bizwebcrawler.services.getandupdatedata;
 
-import com.higgsup.bizwebcrawler.BizwebCrawler;
+import com.higgsup.bizwebcrawler.repositories.OrderRepo;
 import com.higgsup.bizwebcrawler.services.authentication.HtmlData;
 import com.higgsup.bizwebcrawler.utils.RequestHeader;
 import com.higgsup.bizwebcrawler.services.OrderServices;
@@ -37,6 +37,8 @@ public class GettingOrderData {
     private OrderServices orderServices;
     @Autowired
     DividePage dividePage;
+    @Autowired
+    OrderRepo orderRepo;
     private Set states;
     private List<OrderProduct> orderProductList;
     private Document getHTML;
@@ -76,20 +78,26 @@ public class GettingOrderData {
 
     private void getDataOrder(int page) throws InterruptedException, ParseException {
         try{
-            order = new Order();
+
             authenticationGetRequest.connectURLAndTakeHTML(RequestHeader.urlWebsite+"/orders?page=" + page, cookie);
             getHTML = Jsoup.parse(authenticationGetRequest.getHtmlData());
             if (getHTML.title().equals("Đăng nhập quản trị hệ thống")) {
                 throw new Error("Error cookie");
             }
             Elements getDataFromTRTags = getHTML.select("tbody tr[id*=parent-quick-view-]");
+            order = new Order();
             for (Element tags : getDataFromTRTags) {
                 Elements getDataFromAhrefTags = tags.select("td");
                 Elements getIdOrder = getDataFromAhrefTags.select("input[value]");
                 order.setOrderID(getIdOrder.get(0).attr("value"));
                 order.setDate(CommonUtil.fomatDateSQL(getDataFromAhrefTags.get(2).text()));//Thời Gian Order
                 Elements getIdCa = getDataFromAhrefTags.select("td a[href]");
-                order.setCustomerID(CommonUtil.cutID(getIdCa.get(2).attr("href")));
+                try{
+                    order.setCustomerID(CommonUtil.cutID(getIdCa.get(2).attr("href")));
+
+                }catch (Exception e){
+                    order.setCustomerID(null);
+                }
                 order.setStatusPayment(getDataFromAhrefTags.get(4).text());
                 order.setStatusDelivery(getDataFromAhrefTags.get(5).text());
                 String totalBill = CommonUtil.takeMoneyInString(getDataFromAhrefTags.get(6).text());//Tổng tiền
@@ -135,7 +143,7 @@ public class GettingOrderData {
                     fullDataFromTagsAddress[0] = getthanhtoan.get(getthanhtoan.size() - 3).select("p").text();//tên
                     fullDataFromTagsAddress[1] = getthanhtoan.get(getthanhtoan.size() - 2).select("p").text();
                     getthanhtoan = getthanhtoan.get(getthanhtoan.size() - 6).select("p");
-                    ArrayList<String> lisNamePhoneDistrictCityNotionBillingaddress = new ArrayList<String>();
+                    ArrayList<String> lisNamePhoneDistrictCityNotionBillingaddress = new ArrayList<>();
                     for (Element element : getthanhtoan
                             ) {
                         lisNamePhoneDistrictCityNotionBillingaddress.add(element.text());
@@ -169,24 +177,24 @@ public class GettingOrderData {
                 getDataFromTRTags = getHTML.select("div[class*=panel panel-default panel-full] div");
                 String emailDonHang = getDataFromTRTags.get(5).text();
                 getDataFromTRTags = getHTML.select("script.modal_source#modal-edit-shipping-address[define*={editShippingAddressModal]");
-                getShippingAddress(emailDonHang, getDataFromTRTags, getDataFromAhrefTags, fullDataFromTagsAddress, namePayOrder);
+                getShippingAddress(emailDonHang, getDataFromTRTags, fullDataFromTagsAddress, namePayOrder);
                 saveAndUpdateOrderData();
                 TimeUnit.SECONDS.sleep(5);
             }
         }catch (Exception e){
-
+            e.printStackTrace();
         }
 
     }
 
-    private void getShippingAddress(String emailDonHang, Elements getDataFromTRTags, Elements getDataFromAhrefTags, String[] fullDataFromTagsAddress, String namePayOrder) {
+    private void getShippingAddress(String emailDonHang, Elements getDataFromTRTags, String[] fullDataFromTagsAddress, String namePayOrder) {
         for (Element getTags : getDataFromTRTags
                 ) {
-            ArrayList<String> listSaveShippingAddress = new ArrayList<String>();
+            ArrayList<String> listSaveShippingAddress = new ArrayList<>();
             String[] cutscript = getTags.toString().split("type=\"text/html\">");
             cutscript = cutscript[1].split("</script>");
             getHTML = Jsoup.parse(cutscript[0]);
-            getDataFromAhrefTags = getHTML.select("div.modal-body div.row");
+            Elements getDataFromAhrefTags = getHTML.select("div.modal-body div.row");
             Elements getIdCa = getDataFromAhrefTags.select("input[value]");
             listSaveShippingAddress.add(getIdCa.get(0).attr("value"));
             listSaveShippingAddress.add(getIdCa.get(1).attr("value"));
@@ -203,6 +211,9 @@ public class GettingOrderData {
                     i = 5;
                 }
             }
+            for (int i = listSaveShippingAddress.size(); i <7 ; i++) {
+                    listSaveShippingAddress.add("");
+            }
             order.setPaymentID(orderServices.getIDPaymentFromContent(namePayOrder));
             objectOrderAddress = new OrderAddress(emailDonHang, listSaveShippingAddress.get(0), listSaveShippingAddress.get(1), listSaveShippingAddress.get(2), listSaveShippingAddress.get(3), listSaveShippingAddress.get(4), listSaveShippingAddress.get(5), listSaveShippingAddress.get(6), billingAddress, order.getOrderID());
             states = ListProductOfOrder.keySet();
@@ -217,7 +228,7 @@ public class GettingOrderData {
 
     private void saveAndUpdateOrderData() {
         if (orderServices.hasOrderId(order.getOrderID())) {
-            orderServices.setDataFromOrder(order);
+            orderRepo.save(order);
             for (OrderProduct orderProduct:orderProductList
                  ) {
                 orderServices.setDataFromOrderAndProduct(orderProduct);

@@ -1,6 +1,5 @@
 package com.higgsup.bizwebcrawler.services.getandupdatedata;
 
-import com.higgsup.bizwebcrawler.BizwebCrawler;
 import com.higgsup.bizwebcrawler.entites.customer.Customer;
 import com.higgsup.bizwebcrawler.entites.customer.CustomerAddress;
 import com.higgsup.bizwebcrawler.services.CustomerServices;
@@ -118,7 +117,7 @@ public class GettingCustomerData {
         cutScriptTakeHtml = cutScriptTakeHtml[1].split("</script>");
         getHTML = Jsoup.parse(cutScriptTakeHtml[0]);
         Elements getDataInGetDataFromTRTags = getHTML.select("div.row");
-        ArrayList<String> listCustomerAddress = new ArrayList<String>();
+        ArrayList<String> listCustomerAddress = new ArrayList<>();
         for (Element gettag : getDataInGetDataFromTRTags) {
             Elements getDataInGetDataFromTRTagsInput = gettag.select("input[value]");
             for (int i = 0; i < getDataInGetDataFromTRTagsInput.size(); i++) {

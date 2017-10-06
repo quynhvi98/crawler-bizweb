@@ -3,6 +3,7 @@ package com.higgsup.bizwebcrawler.repositories.impl;/*
  */
 
 import com.higgsup.bizwebcrawler.repositories.CategoryProductRepoCustom;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,5 +24,20 @@ public class CategoryProductRepoImpl implements CategoryProductRepoCustom {
             return integer;
         }
         return -1;
+    }
+
+    @Override
+    public List<String> getListProductCateIdFormProductIdInCategoryProduct(String id) {
+       Query query=em.createNativeQuery("SELECT product_cate_id FROM category_product WHERE product_id=:id");
+       query.setParameter("id",id);
+      return query.getResultList();
+    }
+    @Transactional
+    @Override
+    public void deleteCategoryProduct(String productCateId, String productId) {
+    Query query=em.createNativeQuery("DELETE FROM category_product WHERE product_id=:productId AND  product_cate_id=:productCateId");
+        query.setParameter("productCateId",productCateId);
+        query.setParameter("productId",productId);
+        query.executeUpdate();
     }
 }

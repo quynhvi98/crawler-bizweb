@@ -26,7 +26,7 @@
     </bean>
 
     <bean id="simpleJobProduct" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref="queryingProductInformation" />
+        <property name="targetObject" ref="startScheduling" />
         <property name="targetMethod" value="startScheduling" />
     </bean>
     <bean id="simpleTriggerProduct"  class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
