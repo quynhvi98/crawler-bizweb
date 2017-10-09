@@ -26,7 +26,7 @@ public class CustomerRepoImpl implements CustomRepoCustom {
 
     @Override
     public List<CustomerAddress> getListAddressFormCustomerId(String customer_ID) {
-        Query query = em.createQuery("SELECT cta FROM CustomerAddress as  cta WHERE cta.customerID =:customerId ");
+        Query query = em.createQuery("SELECT cta FROM CustomerAddress as  cta WHERE cta.customer.id =:customerId ");
         query.setParameter("customerId", customer_ID);
         return query.getResultList();
     }
@@ -52,8 +52,8 @@ public class CustomerRepoImpl implements CustomRepoCustom {
     @Transactional
     @Override
     public void setDataCustomerAddress(CustomerAddress objectCustomerAddress) {
-        Query query = em.createQuery("select  custadd.id FROM  CustomerAddress as custadd where custadd.customerID=:customerID");
-        query.setParameter("customerID", objectCustomerAddress.getCustomerID());
+        Query query = em.createQuery("select  custadd.id FROM  CustomerAddress as custadd where custadd.customer.id=:customerID");
+        query.setParameter("customerID", objectCustomerAddress.getCustomer().getId());
         if (query.getMaxResults() > 0) {
                 em.merge(objectCustomerAddress);
         }
@@ -80,9 +80,9 @@ public class CustomerRepoImpl implements CustomRepoCustom {
     @Override
     public void updateDataCustomerAddress(CustomerAddress objectCustomerAddress) {
         Query query = em.createQuery("SELECT customerAddress FROM CustomerAddress as customerAddress " +
-                "WHERE customerAddress.id=:customerAddressId AND customerAddress.customerID=:customerID");
+                "WHERE customerAddress.id=:customerAddressId AND customerAddress.customer.id=:customerID");
         query.setParameter("customerAddressId", objectCustomerAddress.getId());
-        query.setParameter("customerID", objectCustomerAddress.getCustomerID());
+        query.setParameter("customerID", objectCustomerAddress.getCustomer().getId());
         if (query.getMaxResults() > 0) {
           em.merge(objectCustomerAddress);
         }

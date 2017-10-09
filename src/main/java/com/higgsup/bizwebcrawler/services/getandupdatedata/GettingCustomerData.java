@@ -57,7 +57,7 @@ public class GettingCustomerData {
                 getDataCustomer(i);
             }
         } catch (Exception e) {
-            logger.severe("Message error get data set database: " + e);
+            e.printStackTrace();
         }
     }
 
@@ -111,6 +111,9 @@ public class GettingCustomerData {
                 getDataCustomerAddress(getTagsAddress, customer);
             }
             TimeUnit.SECONDS.sleep(11);
+            for (int i = 0; i < listCustomerDddIdFormCustomerId.size(); i++) {
+                customerAddressRepo.delete(listCustomerDddIdFormCustomerId.get(i));
+            }
         }
     }
 
@@ -145,7 +148,7 @@ public class GettingCustomerData {
             }
         }
         listCustomerAddress.add("");
-        CustomerAddress customerAddress = new CustomerAddress(customerAddID, listCustomerAddress.get(4), listCustomerAddress.get(0) + "," + listCustomerAddress.get(1), listCustomerAddress.get(3), listCustomerAddress.get(2), listCustomerAddress.get(5), customer.getId(), listCustomerAddress.get(6), listCustomerAddress.get(7), listCustomerAddress.get(8));
+        CustomerAddress customerAddress = new CustomerAddress(customerAddID, listCustomerAddress.get(4), listCustomerAddress.get(0) + "," + listCustomerAddress.get(1), listCustomerAddress.get(3), listCustomerAddress.get(2), listCustomerAddress.get(5), customer, listCustomerAddress.get(6), listCustomerAddress.get(7), listCustomerAddress.get(8));
         saveAndUpdateCustomerData(customer, customerAddress);
     }
 
@@ -172,9 +175,7 @@ public class GettingCustomerData {
             } else {
                 customerAddressRepo.save(customerAddress);
             }
-            for (int i = 0; i < listCustomerDddIdFormCustomerId.size(); i++) {
-              customerAddressRepo.delete(listCustomerDddIdFormCustomerId.get(i));
-            }
+
         }
     }
 }

@@ -1,6 +1,8 @@
 package com.higgsup.bizwebcrawler.entites.customer;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * Created by viquy 9:44 AM 9/7/2017
@@ -26,6 +28,10 @@ public class Customer extends Person{
     }
 
     private Double totalBill;
+
+    private Set<CustomerAddress> customerAddress;
+    public Customer() {
+    }
     public Customer(String id, String firstName, String phoneNumber, String email, String passWord, String address, Double totalBill) {
         super(id,firstName, phoneNumber, email, passWord, address);
         this.totalBill = totalBill;
@@ -36,15 +42,15 @@ public class Customer extends Person{
         setEmail(email);
         this.totalBill = totalBill;
     }
-    public Customer() {
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    public Set<CustomerAddress> getCustomerAddress() {
+        return customerAddress;
     }
 
-
-    @Override
-    public String toString() {
-        return super.toString();
+    public void setCustomerAddress(Set<CustomerAddress> customerAddress) {
+        this.customerAddress = customerAddress;
     }
-
     @Column(name="total_bill", nullable = false)
     public Double getTotalBill() {
         return totalBill;
@@ -55,15 +61,12 @@ public class Customer extends Person{
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Customer) {
-            if (((Customer) obj).getId().equals(this.getId()) &&((Customer) obj).getFullName().equals(this.getFullName())&& ((Customer) obj).getFullName().equals(this.getFullName()) && ((Customer) obj).getEmail().equals(this.getEmail()) && ((Customer) obj).totalBill.equals(this.totalBill))
+            if (((Customer) obj).getId().equals(this.getId()) &&((Customer) obj).getFullName().equals(this.getFullName())&& ((Customer) obj).getEmail().equals(this.getEmail())
+                    && ((Customer) obj).getEmail().equals(this.getEmail()) && ((Customer) obj).totalBill.equals(this.totalBill))
                 return true;
         } else {
             return false;
         }
         return false;
     }
-
-
-
-
 }

@@ -12,6 +12,7 @@ public class CustomerAddress extends Person{
     public String getId() {
         return super.getId();
     }
+    @Column(name = "address_user")
     private String addressUser;
     @Column(name = "name")
     @Override
@@ -24,31 +25,34 @@ public class CustomerAddress extends Person{
         return super.getPhoneNumber();
     }
     private String company;
+    @Column(name = "zipe_code")
     private String zipeCode;
-    private String customerID;
-    private String nation;
-    private String city;
-    private String district;
-    public CustomerAddress() {
-
-    }
-    public CustomerAddress(String id, String addressUser, String firstName, String phoneNumber, String company, String zipeCode, String customerID, String nation, String city, String district) {
-        setId(id);
-        this.addressUser = addressUser;
-        setFullName(firstName);
-        setPhoneNumber(phoneNumber);
-        this.company = company;
-        this.zipeCode = zipeCode;
-        this.customerID = customerID;
-        this.nation = nation;
-        this.city = city;
-        this.district = district;
-
-
+    @Column(name = "zipe_code")
+    public String getZipeCode() {
+        return zipeCode;
     }
     @Column(name = "address_user")
     public String getAddressUser() {
         return addressUser;
+    }
+
+    private String nation;
+    private String city;
+    private String district;
+
+    private Customer customer;
+    public CustomerAddress() {
+
+    }
+
+    @ManyToOne
+    @JoinColumn(name="customer_id",insertable=false, updatable=false ,referencedColumnName = "customer_id", nullable = true)
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
     public void setAddressUser(String addressUser) {
         this.addressUser = addressUser;
@@ -59,21 +63,25 @@ public class CustomerAddress extends Person{
     public void setCompany(String company) {
         this.company = company;
     }
-    @Column(name = "zipe_code")
-    public String getZipeCode() {
-        return zipeCode;
-    }
     public void setZipeCode(String zipeCode) {
         this.zipeCode = zipeCode;
     }
-    @Column (name = "customer_id", nullable = false)
-    public String getCustomerID() {
-        return customerID;
+    public CustomerAddress(String id, String addressUser, String firstName, String phoneNumber, String company, String zipeCode, Customer customer, String nation, String city, String district) {
+        setId(id);
+        this.addressUser = addressUser;
+        setFullName(firstName);
+        setPhoneNumber(phoneNumber);
+        this.company = company;
+        this.zipeCode = zipeCode;
+        this.customer = customer;
+        this.nation = nation;
+        this.city = city;
+        this.district = district;
+
+
     }
 
-    public void setCustomerID(String customerID) {
-        this.customerID = customerID;
-    }
+
 
     public String getNation() {
         return nation;
@@ -102,7 +110,7 @@ public class CustomerAddress extends Person{
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof CustomerAddress) {
-            if (((CustomerAddress) obj).getId().equals(this.getId()) &&((CustomerAddress) obj).addressUser.equals(this.addressUser)&& ((CustomerAddress) obj).getFullName().equals(this.getFullName()) && ((CustomerAddress) obj).getPhoneNumber().equals(this.getPhoneNumber()) && ((CustomerAddress) obj).company.equals(this.company) && ((CustomerAddress) obj).zipeCode.equals(this.zipeCode) && ((CustomerAddress) obj).customerID.equals(this.customerID) && ((CustomerAddress) obj).nation.equals(this.nation) && ((CustomerAddress) obj).city.equals(this.city) && ((CustomerAddress) obj).district.equals(this.district))
+            if (((CustomerAddress) obj).getId().equals(this.getId()) &&((CustomerAddress) obj).addressUser.equals(this.addressUser)&&((CustomerAddress) obj).customer.equals(this.customer)&& ((CustomerAddress) obj).getFullName().equals(this.getFullName()) && ((CustomerAddress) obj).getPhoneNumber().equals(this.getPhoneNumber()) && ((CustomerAddress) obj).company.equals(this.company) && ((CustomerAddress) obj).zipeCode.equals(this.zipeCode) && ((CustomerAddress) obj).nation.equals(this.nation) && ((CustomerAddress) obj).city.equals(this.city) && ((CustomerAddress) obj).district.equals(this.district))
                 return true;
         } else {
             return false;
