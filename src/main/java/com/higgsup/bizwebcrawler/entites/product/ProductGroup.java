@@ -1,5 +1,7 @@
 package com.higgsup.bizwebcrawler.entites.product;
 import javax.persistence.*;
+import java.util.Set;
+
 /**
  * Created by viquynh
  */
@@ -11,6 +13,8 @@ public class ProductGroup {
     @Column(name = "product_group_id")
     private int productGroupID;
     private String name;
+    @OneToMany(mappedBy = "productGroup", cascade = CascadeType.ALL)
+    private Set<ProductGroup>  productGroup;
     public int getProductGroupID() {
         return productGroupID;
     }
