@@ -1,12 +1,10 @@
 package com.higgsup.bizwebcrawler.services.getandupdatedata;
 
+import com.higgsup.bizwebcrawler.entites.customer.Customer;
 import com.higgsup.bizwebcrawler.entites.order.Payment;
-import com.higgsup.bizwebcrawler.services.OrderAddressServices;
-import com.higgsup.bizwebcrawler.services.OrderProductServices;
-import com.higgsup.bizwebcrawler.services.PaymentServices;
+import com.higgsup.bizwebcrawler.services.*;
 import com.higgsup.bizwebcrawler.services.authentication.HtmlData;
 import com.higgsup.bizwebcrawler.utils.RequestHeader;
-import com.higgsup.bizwebcrawler.services.OrderServices;
 import com.higgsup.bizwebcrawler.utils.CommonUtil;
 import com.higgsup.bizwebcrawler.utils.DividePage;
 import com.higgsup.bizwebcrawler.entites.order.Order;
@@ -32,6 +30,8 @@ import java.util.logging.Logger;
 @Component
 public class GettingOrderData {
     private static final Logger logger = Logger.getLogger(GettingOrderData.class.getName());
+    @Autowired
+    CustomerServices customerServices;
     @Autowired
     private HtmlData authenticationGetRequest;
     @Autowired
@@ -103,10 +103,11 @@ public class GettingOrderData {
                 order.setDate(CommonUtil.fomatDateSQL(getDataFromAhrefTags.get(2).text()));//Thời Gian Order
                 Elements getIdCa = getDataFromAhrefTags.select("td a[href]");
                 try {
-                    order.setCustomerID(CommonUtil.cutID(getIdCa.get(2).attr("href")));
+                    Customer customer=customerServices.getDataCustomersFromCustomerID(CommonUtil.cutID(getIdCa.get(2).attr("href")));
+                    order.setCustomer(customer);
 
                 } catch (Exception e) {
-                    order.setCustomerID(null);
+                    order.setCustomer(null);
                 }
                 order.setStatusPayment(getDataFromAhrefTags.get(4).text());
                 order.setStatusDelivery(getDataFromAhrefTags.get(5).text());
@@ -256,7 +257,7 @@ public class GettingOrderData {
             List<Order> listDataOrders = orderServices.getListDataOrders();
             List<OrderAddress> listOrderAddress = orderAddressServices.getListDataOrderAddress();
             int indexorder = listDataOrders.indexOf(order);
-            if (listDataOrders.get(indexorder).getDate().equals(order.getDate()) && listDataOrders.get(indexorder).getStatusPayment().equals(order.getStatusPayment()) && listDataOrders.get(indexorder).getStatusDelivery().equals(order.getStatusDelivery()) && listDataOrders.get(indexorder).getTotalBill().equals(order.getTotalBill()) && listDataOrders.get(indexorder).getTotalWeight().equals(order.getTotalWeight()) && listDataOrders.get(indexorder).getFeeDelivery().equals(order.getFeeDelivery()) && listDataOrders.get(indexorder).getCustomerID().equals(order.getCustomerID()) && listDataOrders.get(indexorder).getPayment().getPaymentID() == order.getPayment().getPaymentID()) {
+            if (listDataOrders.get(indexorder).getDate().equals(order.getDate()) && listDataOrders.get(indexorder).getStatusPayment().equals(order.getStatusPayment()) && listDataOrders.get(indexorder).getStatusDelivery().equals(order.getStatusDelivery()) && listDataOrders.get(indexorder).getTotalBill().equals(order.getTotalBill()) && listDataOrders.get(indexorder).getTotalWeight().equals(order.getTotalWeight()) && listDataOrders.get(indexorder).getFeeDelivery().equals(order.getFeeDelivery()) && listDataOrders.get(indexorder).getCustomer().getId().equals(order.getCustomer().getId()) && listDataOrders.get(indexorder).getPayment().getPaymentID() == order.getPayment().getPaymentID()) {
             } else {
                 orderServices.save(order);
             }

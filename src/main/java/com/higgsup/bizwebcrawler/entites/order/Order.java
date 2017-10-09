@@ -3,6 +3,8 @@ package com.higgsup.bizwebcrawler.entites.order;
     By chicanem 11/08/2017
   */
 
+import com.higgsup.bizwebcrawler.entites.customer.Customer;
+
 import javax.persistence.*;
 
 @Entity
@@ -29,9 +31,9 @@ public class Order {
     @Column(name = "fee_delivery")
 
     private Double feeDelivery;
-    @Column(name = "customer_id", nullable = true)
-
-    private String customerID;
+    @ManyToOne
+    @JoinColumn(name="customer_id")
+    private Customer customer;
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="payment_id")
     private Payment payment;
@@ -101,24 +103,20 @@ public class Order {
         this.feeDelivery = feeDelivery;
     }
 
-    public String getCustomerID() {
-        return customerID;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomerID(String customerID) {
-        this.customerID = customerID;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
-
-
-
-
 
     public Order() {
     }
 
     @Override
     public int hashCode() {
-        return orderID.hashCode() + date.hashCode() + statusPayment.hashCode() - statusDelivery.hashCode() - totalBill.hashCode() - totalWeight.hashCode() + feeDelivery.hashCode() + customerID.hashCode() + payment.getPaymentID();
+        return orderID.hashCode() + date.hashCode() + statusPayment.hashCode() - statusDelivery.hashCode() - totalBill.hashCode() - totalWeight.hashCode() + feeDelivery.hashCode() + customer.getId().hashCode() + payment.getPaymentID();
 
     }
 
@@ -142,7 +140,7 @@ public class Order {
                 ", totalBill=" + totalBill +
                 ", totalWeight=" + totalWeight +
                 ", feeDelivery=" + feeDelivery +
-                ", customerID='" + customerID + '\'' +
+
 
                 '}';
     }

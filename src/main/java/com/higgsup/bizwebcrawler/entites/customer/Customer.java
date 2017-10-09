@@ -1,5 +1,7 @@
 package com.higgsup.bizwebcrawler.entites.customer;
 
+import com.higgsup.bizwebcrawler.entites.order.Order;
+
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Set;
@@ -29,6 +31,8 @@ public class Customer extends Person{
     private Double totalBill;
     private Set<CustomerAddress> customerAddress;
 
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private Set<Order> orders;
     public Customer() { }
 
     public Customer(String id, String firstName, String email, Double totalBill) {
