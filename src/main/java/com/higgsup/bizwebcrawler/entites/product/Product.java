@@ -20,8 +20,18 @@ public class Product {
     @Column(name = "IMG")
     private String img;
     private String description;
-    @Column(name = "product_group_id")
-    private Integer productGroupId;
+    @ManyToOne
+    @JoinColumn(name="product_group_id")
+    private ProductGroup productGroup;
+
+    public ProductGroup getProductGroup() {
+        return productGroup;
+    }
+
+    public void setProductGroup(ProductGroup productGroup) {
+        this.productGroup = productGroup;
+    }
+
     @ManyToOne
     @JoinColumn(name="producer_id")
     private Producer producer;
@@ -34,30 +44,6 @@ public class Product {
         this.producer = producer;
     }
 
-    public Product(String productID, String name, Double price, Integer stork, Double weight, String content, String img, String description) {
-        this.productID = productID;
-        this.name = name;
-        this.price = price;
-        this.stork = stork;
-        this.weight = weight;
-        this.content = content;
-        this.img = img;
-        this.description = description;
-
-    }
-
-    public Product(String productID, String name, Double price, Integer stork, Double weight, String content, String img, String description, int productGroupId, Producer producer) {
-        this.productID = productID;
-        this.name = name;
-        this.price = price;
-        this.stork = stork;
-        this.weight = weight;
-        this.content = content;
-        this.img = img;
-        this.description = description;
-        this.productGroupId = productGroupId;
-        this.producer = producer;
-    }
 
     public Product() {
     }
@@ -126,13 +112,6 @@ public class Product {
         this.description = description;
     }
 
-    public Integer getProductGroupId() {
-        return productGroupId;
-    }
-
-    public void setProductGroupId(Integer productGroupId) {
-        this.productGroupId = productGroupId;
-    }
 
 
 
@@ -147,7 +126,7 @@ public class Product {
                 ", content='" + content + '\'' +
                 ", img='" + img + '\'' +
                 ", description='" + description + '\'' +
-                ", productGroupId=" + productGroupId +
+
 
                 '}';
     }
@@ -161,8 +140,10 @@ public class Product {
                     ((Product) obj).weight==this.weight&&
                     ((Product) obj).content.equals(this.content)&&
                     ((Product) obj).img.equals(this.img)&&
-                    ((Product) obj).description.equals(this.description)&&
-                    ((Product) obj).productGroupId==this.productGroupId){
+                    ((Product) obj).description.equals(this.description))
+            //&&
+                   // ((Product) obj).productGroupId==this.productGroupId)
+            {
                 return true;
 
             }
