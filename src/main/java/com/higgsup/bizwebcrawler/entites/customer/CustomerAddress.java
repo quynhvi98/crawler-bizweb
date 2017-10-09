@@ -45,15 +45,13 @@ public class CustomerAddress extends Person{
 
     }
 
-    @ManyToOne
-    @JoinColumn(name="customer_id",insertable=false, updatable=false ,referencedColumnName = "customer_id", nullable = true)
-    public Customer getCustomer() {
-        return customer;
-    }
-
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="customer_id")
+    public Customer getCustomer() { return customer; }
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
     public void setAddressUser(String addressUser) {
         this.addressUser = addressUser;
     }
@@ -77,11 +75,7 @@ public class CustomerAddress extends Person{
         this.nation = nation;
         this.city = city;
         this.district = district;
-
-
     }
-
-
 
     public String getNation() {
         return nation;

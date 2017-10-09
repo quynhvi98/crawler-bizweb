@@ -26,16 +26,11 @@ public class Customer extends Person{
     public String getEmail() {
         return super.getEmail();
     }
-
     private Double totalBill;
-
     private Set<CustomerAddress> customerAddress;
-    public Customer() {
-    }
-    public Customer(String id, String firstName, String phoneNumber, String email, String passWord, String address, Double totalBill) {
-        super(id,firstName, phoneNumber, email, passWord, address);
-        this.totalBill = totalBill;
-    }
+
+    public Customer() { }
+
     public Customer(String id, String firstName, String email, Double totalBill) {
         setId(id);
         setFullName(firstName);
@@ -47,10 +42,10 @@ public class Customer extends Person{
     public Set<CustomerAddress> getCustomerAddress() {
         return customerAddress;
     }
-
     public void setCustomerAddress(Set<CustomerAddress> customerAddress) {
         this.customerAddress = customerAddress;
     }
+
     @Column(name="total_bill", nullable = false)
     public Double getTotalBill() {
         return totalBill;
@@ -58,6 +53,7 @@ public class Customer extends Person{
     public void setTotalBill(Double totalBill) {
         this.totalBill = totalBill;
     }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Customer) {

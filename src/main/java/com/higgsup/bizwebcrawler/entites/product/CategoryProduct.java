@@ -55,4 +55,5 @@ public class CategoryProduct  implements Serializable {
 
     public CategoryProduct() {
     }
+
 }

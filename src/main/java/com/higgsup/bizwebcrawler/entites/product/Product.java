@@ -1,7 +1,9 @@
 package com.higgsup.bizwebcrawler.entites.product;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Created by viquynh
@@ -33,7 +35,21 @@ public class Product {
     public void setProducer(Producer producer) {
         this.producer = producer;
     }
+    private Set<ProductCategory> categories = new HashSet<ProductCategory>(0);
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "category_product", joinColumns = {
+            @JoinColumn(name = "product_id", nullable = false, updatable = false) },
+            inverseJoinColumns = { @JoinColumn(name = "product_cate_id",
+                    nullable = false, updatable = false) })
+
+    public Set<ProductCategory> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<ProductCategory> categories) {
+        this.categories = categories;
+    }
     public Product(String productID, String name, Double price, Integer stork, Double weight, String content, String img, String description) {
         this.productID = productID;
         this.name = name;
@@ -134,8 +150,6 @@ public class Product {
         this.productGroupId = productGroupId;
     }
 
-
-
     @Override
     public String toString() {
         return "Product{" +
@@ -164,7 +178,6 @@ public class Product {
                     ((Product) obj).description.equals(this.description)&&
                     ((Product) obj).productGroupId==this.productGroupId){
                 return true;
-
             }
         }
         return false;
