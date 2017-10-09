@@ -1,6 +1,10 @@
 package com.higgsup.bizwebcrawler.services.getandupdatedata;
 
+import com.higgsup.bizwebcrawler.entites.order.Payment;
+import com.higgsup.bizwebcrawler.repositories.OrderAddressRepo;
+import com.higgsup.bizwebcrawler.repositories.OrderProductRepo;
 import com.higgsup.bizwebcrawler.repositories.OrderRepo;
+import com.higgsup.bizwebcrawler.repositories.PaymentRepo;
 import com.higgsup.bizwebcrawler.services.authentication.HtmlData;
 import com.higgsup.bizwebcrawler.utils.RequestHeader;
 import com.higgsup.bizwebcrawler.services.OrderServices;
@@ -39,6 +43,12 @@ public class GettingOrderData {
     DividePage dividePage;
     @Autowired
     OrderRepo orderRepo;
+    @Autowired
+    PaymentRepo paymentRepo;
+    @Autowired
+    OrderProductRepo orderProductRepo;
+    @Autowired
+    OrderAddressRepo orderAddressRepo;
     private Set states;
     private List<OrderProduct> orderProductList;
     private Document getHTML;
@@ -114,9 +124,11 @@ public class GettingOrderData {
                 for (Element element : getAllTagTrInTagTbody0
                         ) {
                     Elements listElementsGetProductID = element.select("td");
-                    Elements listElementsHref = listElementsGetProductID.get(1).select("a[href]");
-                    if (listElementsHref.size() > 0) {
-                        ListProductOfOrder.put(CommonUtil.cutNumberToCharStop(listElementsHref.get(0).attr("href")), listElementsGetProductID.get(4).text());
+                    if(listElementsGetProductID.size()>0){
+                        Elements listElementsHref = listElementsGetProductID.get(1).select("a[href]");
+                        if (listElementsHref.size() > 0) {
+                            ListProductOfOrder.put(CommonUtil.cutNumberToCharStop(listElementsHref.get(0).attr("href")), listElementsGetProductID.get(4).text());
+                        }
                     }
                 }
                 Elements getAllTagTrInTagTbody1 = getListProductsOfOrder.get(1).select("tr");
@@ -168,11 +180,15 @@ public class GettingOrderData {
                 String namePayOrder = "";
                 getDataFromTRTags = getHTML.select("div[class*=next-card__section  hide-when-printing]#order-payment-callout");
                 getDataFromTRTags = getDataFromTRTags.select("h2[class]");
+                Payment payment=new Payment();
                 if (getDataFromTRTags.size() > 0) {
                     namePayOrder = getDataFromTRTags.get(0).text();
-                    orderServices.setDataPaymentFromOrder(namePayOrder);
+                    payment.setContent(namePayOrder);
                 } else {
-                    orderServices.setDataPaymentFromOrder(namePayOrder);
+                    payment.setContent(namePayOrder);
+                }
+                if(paymentRepo.getIDPaymentFromContent(namePayOrder)==null){
+                    paymentRepo.save(payment);
                 }
                 getDataFromTRTags = getHTML.select("div[class*=panel panel-default panel-full] div");
                 String emailDonHang = getDataFromTRTags.get(5).text();
@@ -214,7 +230,7 @@ public class GettingOrderData {
             for (int i = listSaveShippingAddress.size(); i <7 ; i++) {
                     listSaveShippingAddress.add("");
             }
-            order.setPaymentID(orderServices.getIDPaymentFromContent(namePayOrder));
+            order.setPaymentID(paymentRepo.getIDPaymentFromContent(namePayOrder));
             objectOrderAddress = new OrderAddress(emailDonHang, listSaveShippingAddress.get(0), listSaveShippingAddress.get(1), listSaveShippingAddress.get(2), listSaveShippingAddress.get(3), listSaveShippingAddress.get(4), listSaveShippingAddress.get(5), listSaveShippingAddress.get(6), billingAddress, order.getOrderID());
             states = ListProductOfOrder.keySet();
             Iterator itr = states.iterator();
@@ -231,24 +247,27 @@ public class GettingOrderData {
             orderRepo.save(order);
             for (OrderProduct orderProduct:orderProductList
                  ) {
-                orderServices.setDataFromOrderAndProduct(orderProduct);
+                orderProductRepo.save(orderProduct);
             }
-            orderServices.setDataFromOrderAddress(objectOrderAddress);
+            orderAddressRepo.save(objectOrderAddress);
         } else {
             List<Order> listDataOrders = orderServices.getListDataOrders();
-            List<OrderAddress> listOrderAddress = orderServices.getListDataOrderAddress();
+            List<OrderAddress> listOrderAddress = orderAddressRepo.getListDataOrderAddress();
             int indexorder = listDataOrders.indexOf(order);
             if (listDataOrders.get(indexorder).getDate().equals(order.getDate()) && listDataOrders.get(indexorder).getStatusPayment().equals(order.getStatusPayment()) && listDataOrders.get(indexorder).getStatusDelivery().equals(order.getStatusDelivery()) && listDataOrders.get(indexorder).getTotalBill().equals(order.getTotalBill()) && listDataOrders.get(indexorder).getTotalWeight().equals(order.getTotalWeight()) && listDataOrders.get(indexorder).getFeeDelivery().equals(order.getFeeDelivery()) && listDataOrders.get(indexorder).getCustomerID().equals(order.getCustomerID()) && listDataOrders.get(indexorder).getPaymentID() == order.getPaymentID()) {
             } else {
                 orderServices.updateDataFromOrder(order);
             }
 
-            List<OrderProduct> listOrderProduct = orderServices.getListDataOrderProduct(order.getOrderID());
+            List<OrderProduct> listOrderProduct = orderProductRepo.getListDataOrderProduct(order.getOrderID());
             for (OrderProduct orderProduct:orderProductList){
                 if (listOrderProduct.indexOf(orderProduct) < 0) {
-                    boolean checkquery = orderServices.updateDataFromOrderAndProduct(orderProduct);
-                    if (checkquery == false) {
-                        orderServices.setDataFromOrderAndProduct(orderProduct);
+                    Integer idOrderProduct=orderProductRepo.hasOrderProduct(orderProduct.getProductID(),orderProduct.getOrderID());
+                    if(idOrderProduct!=null){
+                        orderProduct.setOrderProductID(idOrderProduct);
+                        orderProductRepo.save(orderProduct);
+                    }else {
+                        orderProductRepo.save(orderProduct);
                     }
                 }
             }
@@ -257,12 +276,12 @@ public class GettingOrderData {
             if(index>0){
                 if (listOrderAddress.get(index).getEmail().equals(objectOrderAddress.getEmail()) && listOrderAddress.get(index).getNameCustomer().equals(objectOrderAddress.getNameCustomer()) && listOrderAddress.get(index).getPhone().equals(objectOrderAddress.getPhone()) && listOrderAddress.get(index).getOrderAddress().equals(objectOrderAddress.getOrderAddress()) && listOrderAddress.get(index).getZipCode().equals(objectOrderAddress.getZipCode()) && listOrderAddress.get(index).getNation().equals(objectOrderAddress.getNation()) && listOrderAddress.get(index).getCity().equals(objectOrderAddress.getCity()) && listOrderAddress.get(index).getDistrict().equals(objectOrderAddress.getDistrict()) && listOrderAddress.get(index).getPaymentAddress().equals(objectOrderAddress.getPaymentAddress()) && listOrderAddress.get(index).getOrderID().equals(objectOrderAddress.getOrderID())) {
                 } else {
-                    orderServices.updateDataFromOrderAddress(objectOrderAddress);
+                    orderAddressRepo.save(objectOrderAddress);
                 }
             }
 
             if (index < 0) {
-                orderServices.setDataFromOrderAddress(objectOrderAddress);
+                orderAddressRepo.save(objectOrderAddress);
             }
         }
     }
