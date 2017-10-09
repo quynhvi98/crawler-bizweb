@@ -154,7 +154,6 @@ public class GettingProductData {
             }
             producer.setProducerID(producerServices.getIdProducerByName(producer.getName()));
             product.setProducer(producer);
-            System.out.println(product.getProducer().getProducerID());
             if (productServices.findById(product.getProductID()) == null) {
                 setProductToDB(checkVersionProduct, getDataFromDivRowTag, getDataCategoryProduct);
             } else {

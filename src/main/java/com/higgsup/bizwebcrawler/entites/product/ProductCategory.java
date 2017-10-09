@@ -13,7 +13,14 @@ public class ProductCategory  {
     @Column(name = "product_cate_id")
     private String productCateID;
     private String name;
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "categories")
     private Set<Product> products = new HashSet<Product>(0);
+    public Set<Product> getProducts() {
+        return products;
+    }
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
     public ProductCategory() {
     }
     public String getProductCateID() {
@@ -32,11 +39,6 @@ public class ProductCategory  {
         this.productCateID = productCateID;
         this.name = name;
     }
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "product_category")
-    public Set<Product> getProducts() {
-        return products;
-    }
-    public void setProducts(Set<Product> products) {
-        this.products = products;
-    }
+
+
 }

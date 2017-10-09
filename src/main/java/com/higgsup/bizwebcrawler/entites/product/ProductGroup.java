@@ -14,7 +14,7 @@ public class ProductGroup {
     private int productGroupID;
     private String name;
     @OneToMany(mappedBy = "productGroup", cascade = CascadeType.ALL)
-    private Set<ProductGroup>  productGroup;
+    private Set<Product> product;
     public int getProductGroupID() {
         return productGroupID;
     }
