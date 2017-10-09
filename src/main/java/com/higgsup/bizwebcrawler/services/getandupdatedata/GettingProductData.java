@@ -152,7 +152,9 @@ public class GettingProductData {
             if (!producerServices.hasProducerByName(producer.getName())) {
                 producerServices.save(producer);
             }
-            product.setProducerId(producerServices.getIdProducerByName(producer.getName()));
+            producer.setProducerID(producerServices.getIdProducerByName(producer.getName()));
+            product.setProducer(producer);
+            System.out.println(product.getProducer().getProducerID());
             if (productServices.findById(product.getProductID()) == null) {
                 setProductToDB(checkVersionProduct, getDataFromDivRowTag, getDataCategoryProduct);
             } else {
@@ -180,7 +182,7 @@ public class GettingProductData {
             }
         }
         Product dataProducerFromProductID = productServices.getDataProductFromProductID(product.getProductID());
-        if (!(dataProducerFromProductID.getName().equals(product.getName()) && String.valueOf(dataProducerFromProductID.getPrice()).equals(String.valueOf(product.getPrice())) && dataProducerFromProductID.getStork() == product.getStork() && dataProducerFromProductID.getContent().equals(product.getContent()) && dataProducerFromProductID.getImg().equals(product.getImg()) && String.valueOf(dataProducerFromProductID.getProductGroupId()).equals(String.valueOf(productGroupServices.getIDProductGroup(productGroup.getName()))) && String.valueOf(dataProducerFromProductID.getProducerId()).equals(String.valueOf(producerServices.getIdProducerByName(producer.getName()))))) {
+       if (!(dataProducerFromProductID.getName().equals(product.getName()) && String.valueOf(dataProducerFromProductID.getPrice()).equals(String.valueOf(product.getPrice())) && dataProducerFromProductID.getStork() == product.getStork() && dataProducerFromProductID.getContent().equals(product.getContent()) && dataProducerFromProductID.getImg().equals(product.getImg()) && String.valueOf(dataProducerFromProductID.getProductGroupId()).equals(String.valueOf(productGroupServices.getIDProductGroup(productGroup.getName()))) && String.valueOf(producer.getProducerID()).equals(String.valueOf(producerServices.getIdProducerByName(producer.getName()))))) {
             productServices.save(product);
         }
         List<String> listProductCateID = categoryProductServices.getListProductCateIdFormProductIdInCategoryProduct(product.getProductID());

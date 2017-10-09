@@ -22,8 +22,17 @@ public class Product {
     private String description;
     @Column(name = "product_group_id")
     private Integer productGroupId;
-    @Column(name = "producer_id")
-    private Integer producerId;
+    @ManyToOne
+    @JoinColumn(name="producer_id")
+    private Producer producer;
+
+    public Producer getProducer() {
+        return producer;
+    }
+
+    public void setProducer(Producer producer) {
+        this.producer = producer;
+    }
 
     public Product(String productID, String name, Double price, Integer stork, Double weight, String content, String img, String description) {
         this.productID = productID;
@@ -37,7 +46,7 @@ public class Product {
 
     }
 
-    public Product(String productID, String name, Double price, Integer stork, Double weight, String content, String img, String description, int productGroupId, int producerId) {
+    public Product(String productID, String name, Double price, Integer stork, Double weight, String content, String img, String description, int productGroupId, Producer producer) {
         this.productID = productID;
         this.name = name;
         this.price = price;
@@ -47,7 +56,7 @@ public class Product {
         this.img = img;
         this.description = description;
         this.productGroupId = productGroupId;
-        this.producerId = producerId;
+        this.producer = producer;
     }
 
     public Product() {
@@ -125,13 +134,7 @@ public class Product {
         this.productGroupId = productGroupId;
     }
 
-    public Integer getProducerId() {
-        return producerId;
-    }
 
-    public void setProducerId(Integer producerId) {
-        this.producerId = producerId;
-    }
 
     @Override
     public String toString() {
@@ -145,7 +148,7 @@ public class Product {
                 ", img='" + img + '\'' +
                 ", description='" + description + '\'' +
                 ", productGroupId=" + productGroupId +
-                ", producerId=" + producerId +
+
                 '}';
     }
     @Override
@@ -159,8 +162,7 @@ public class Product {
                     ((Product) obj).content.equals(this.content)&&
                     ((Product) obj).img.equals(this.img)&&
                     ((Product) obj).description.equals(this.description)&&
-                    ((Product) obj).productGroupId==this.productGroupId&&
-                    ((Product) obj).producerId==this.producerId){
+                    ((Product) obj).productGroupId==this.productGroupId){
                 return true;
 
             }
