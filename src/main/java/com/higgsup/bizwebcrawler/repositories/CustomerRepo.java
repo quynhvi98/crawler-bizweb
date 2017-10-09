@@ -11,10 +11,5 @@ import java.util.List;
 
 @Repository
 public interface CustomerRepo  extends PagingAndSortingRepository<Customer,String>,CustomRepoCustom{
-    @Query(value = "SELECT * FROM  customer", nativeQuery = true)
-    List<Customer> findById();
-
-
-
 
 }

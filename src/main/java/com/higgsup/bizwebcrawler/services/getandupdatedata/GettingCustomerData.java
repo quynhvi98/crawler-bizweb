@@ -3,7 +3,7 @@ package com.higgsup.bizwebcrawler.services.getandupdatedata;
 import com.higgsup.bizwebcrawler.entites.customer.Customer;
 import com.higgsup.bizwebcrawler.entites.customer.CustomerAddress;
 import com.higgsup.bizwebcrawler.repositories.CustomerAddressRepo;
-import com.higgsup.bizwebcrawler.repositories.CustomerRepo;
+import com.higgsup.bizwebcrawler.services.CustomerAddressServices;
 import com.higgsup.bizwebcrawler.services.CustomerServices;
 import com.higgsup.bizwebcrawler.services.authentication.HtmlData;
 import com.higgsup.bizwebcrawler.utils.CommonUtil;
@@ -37,11 +37,9 @@ public class GettingCustomerData {
     private String html;
     private int page;
     @Autowired
-    private  CustomerServices customerServices;
+    private CustomerServices customerServices;
     @Autowired
-    private CustomerRepo customerRepo;
-    @Autowired
-    CustomerAddressRepo customerAddressRepo;
+    CustomerAddressServices customerAddressServices;
     private List<String> listCustomerDddIdFormCustomerId;
     public boolean getDataCustomerFromWebSetToDataBase(String html, String cookie) {
         this.html = html;
@@ -104,7 +102,7 @@ public class GettingCustomerData {
                 throw new Error("Error cookie");
             }
             Elements getTagsHasAddress = getHTML.select("div script.modal_source#modal-add-layouts[define*={editAddressModal]");
-            listCustomerDddIdFormCustomerId = customerServices.getListCustomerDddIdFormCustomerId(customer.getId());
+            listCustomerDddIdFormCustomerId = customerAddressServices.getListCustomerDddIdFormCustomerId(customer.getId());//
 
             for (Element getTagsAddress : getTagsHasAddress
                     ) {
@@ -112,7 +110,7 @@ public class GettingCustomerData {
             }
             TimeUnit.SECONDS.sleep(11);
             for (int i = 0; i < listCustomerDddIdFormCustomerId.size(); i++) {
-                customerAddressRepo.delete(listCustomerDddIdFormCustomerId.get(i));
+                customerAddressServices.delete(listCustomerDddIdFormCustomerId.get(i));
             }
         }
     }
@@ -153,14 +151,14 @@ public class GettingCustomerData {
     }
 
     private void saveAndUpdateCustomerData(Customer customer, CustomerAddress customerAddress) {
-        List<CustomerAddress> listAddressFormCustomerId = customerServices.getListAddressFormCustomerId(customer.getId());
+        List<CustomerAddress> listAddressFormCustomerId = customerAddressServices.getListAddressFormCustomerId(customer.getId());//
         if (customerServices.hasCustomerID(customer.getId())) {
-            customerRepo.save(customer);
-            customerAddressRepo.save(customerAddress);
+            customerServices.save(customer);
+            customerAddressServices.save(customerAddress);
         } else {
             Customer dataCustomersFromCustomerID = customerServices.getDataCustomersFromCustomerID(customer.getId());
             if (!customer.equals(dataCustomersFromCustomerID)) {
-                customerRepo.save(customer);
+                customerServices.save(customer);
             }
             int checkIndex = listCustomerDddIdFormCustomerId.indexOf(customerAddress.getId());
             if (checkIndex >= 0) {
@@ -168,12 +166,12 @@ public class GettingCustomerData {
                     listCustomerDddIdFormCustomerId.remove(checkIndex);
                     listAddressFormCustomerId.remove(checkIndex);
                 } else {
-                    customerAddressRepo.save(customerAddress);
+                    customerAddressServices.save(customerAddress);
                     listCustomerDddIdFormCustomerId.remove(checkIndex);
                     listAddressFormCustomerId.remove(checkIndex);
                 }
             } else {
-                customerAddressRepo.save(customerAddress);
+                customerAddressServices.save(customerAddress);
             }
 
         }
