@@ -2,9 +2,9 @@ package com.higgsup.bizwebcrawler.services.getandupdatedata;
 
 import com.higgsup.bizwebcrawler.entites.order.Payment;
 import com.higgsup.bizwebcrawler.repositories.OrderAddressRepo;
-import com.higgsup.bizwebcrawler.repositories.OrderProductRepo;
-import com.higgsup.bizwebcrawler.repositories.OrderRepo;
-import com.higgsup.bizwebcrawler.repositories.PaymentRepo;
+import com.higgsup.bizwebcrawler.services.OrderAddressServices;
+import com.higgsup.bizwebcrawler.services.OrderProductServices;
+import com.higgsup.bizwebcrawler.services.PaymentServices;
 import com.higgsup.bizwebcrawler.services.authentication.HtmlData;
 import com.higgsup.bizwebcrawler.utils.RequestHeader;
 import com.higgsup.bizwebcrawler.services.OrderServices;
@@ -35,20 +35,19 @@ public class GettingOrderData {
     private static final Logger logger = Logger.getLogger(GettingOrderData.class.getName());
     @Autowired
     private HtmlData authenticationGetRequest;
+    @Autowired
+    DividePage dividePage;
     private Order order;
     private OrderAddress objectOrderAddress;
+
     @Autowired
     private OrderServices orderServices;
     @Autowired
-    DividePage dividePage;
+    PaymentServices paymentServices;
     @Autowired
-    OrderRepo orderRepo;
+    OrderProductServices orderProductServices;
     @Autowired
-    PaymentRepo paymentRepo;
-    @Autowired
-    OrderProductRepo orderProductRepo;
-    @Autowired
-    OrderAddressRepo orderAddressRepo;
+    OrderAddressServices orderAddressServices;
     private Set states;
     private List<OrderProduct> orderProductList;
     private Document getHTML;
@@ -187,8 +186,8 @@ public class GettingOrderData {
                 } else {
                     payment.setContent(namePayOrder);
                 }
-                if(paymentRepo.getIDPaymentFromContent(namePayOrder)==null){
-                    paymentRepo.save(payment);
+                if(paymentServices.getIDPaymentFromContent(namePayOrder)==null){
+                    paymentServices.save(payment);
                 }
                 getDataFromTRTags = getHTML.select("div[class*=panel panel-default panel-full] div");
                 String emailDonHang = getDataFromTRTags.get(5).text();
@@ -230,7 +229,7 @@ public class GettingOrderData {
             for (int i = listSaveShippingAddress.size(); i <7 ; i++) {
                     listSaveShippingAddress.add("");
             }
-            order.setPaymentID(paymentRepo.getIDPaymentFromContent(namePayOrder));
+            order.setPaymentID(paymentServices.getIDPaymentFromContent(namePayOrder));
             objectOrderAddress = new OrderAddress(emailDonHang, listSaveShippingAddress.get(0), listSaveShippingAddress.get(1), listSaveShippingAddress.get(2), listSaveShippingAddress.get(3), listSaveShippingAddress.get(4), listSaveShippingAddress.get(5), listSaveShippingAddress.get(6), billingAddress, order.getOrderID());
             states = ListProductOfOrder.keySet();
             Iterator itr = states.iterator();
@@ -244,30 +243,30 @@ public class GettingOrderData {
 
     private void saveAndUpdateOrderData() {
         if (orderServices.hasOrderId(order.getOrderID())) {
-            orderRepo.save(order);
+            orderServices.save(order);
             for (OrderProduct orderProduct:orderProductList
                  ) {
-                orderProductRepo.save(orderProduct);
+                orderProductServices.save(orderProduct);
             }
-            orderAddressRepo.save(objectOrderAddress);
+            orderAddressServices.save(objectOrderAddress);
         } else {
             List<Order> listDataOrders = orderServices.getListDataOrders();
-            List<OrderAddress> listOrderAddress = orderAddressRepo.getListDataOrderAddress();
+            List<OrderAddress> listOrderAddress = orderAddressServices.getListDataOrderAddress();
             int indexorder = listDataOrders.indexOf(order);
             if (listDataOrders.get(indexorder).getDate().equals(order.getDate()) && listDataOrders.get(indexorder).getStatusPayment().equals(order.getStatusPayment()) && listDataOrders.get(indexorder).getStatusDelivery().equals(order.getStatusDelivery()) && listDataOrders.get(indexorder).getTotalBill().equals(order.getTotalBill()) && listDataOrders.get(indexorder).getTotalWeight().equals(order.getTotalWeight()) && listDataOrders.get(indexorder).getFeeDelivery().equals(order.getFeeDelivery()) && listDataOrders.get(indexorder).getCustomerID().equals(order.getCustomerID()) && listDataOrders.get(indexorder).getPaymentID() == order.getPaymentID()) {
             } else {
-                orderServices.updateDataFromOrder(order);
+                orderServices.save(order);
             }
 
-            List<OrderProduct> listOrderProduct = orderProductRepo.getListDataOrderProduct(order.getOrderID());
+            List<OrderProduct> listOrderProduct = orderProductServices.getListDataOrderProduct(order.getOrderID());
             for (OrderProduct orderProduct:orderProductList){
                 if (listOrderProduct.indexOf(orderProduct) < 0) {
-                    Integer idOrderProduct=orderProductRepo.hasOrderProduct(orderProduct.getProductID(),orderProduct.getOrderID());
+                    Integer idOrderProduct= orderProductServices.hasOrderProduct(orderProduct.getProductID(),orderProduct.getOrderID());
                     if(idOrderProduct!=null){
                         orderProduct.setOrderProductID(idOrderProduct);
-                        orderProductRepo.save(orderProduct);
+                        orderProductServices.save(orderProduct);
                     }else {
-                        orderProductRepo.save(orderProduct);
+                        orderProductServices.save(orderProduct);
                     }
                 }
             }
@@ -276,12 +275,12 @@ public class GettingOrderData {
             if(index>0){
                 if (listOrderAddress.get(index).getEmail().equals(objectOrderAddress.getEmail()) && listOrderAddress.get(index).getNameCustomer().equals(objectOrderAddress.getNameCustomer()) && listOrderAddress.get(index).getPhone().equals(objectOrderAddress.getPhone()) && listOrderAddress.get(index).getOrderAddress().equals(objectOrderAddress.getOrderAddress()) && listOrderAddress.get(index).getZipCode().equals(objectOrderAddress.getZipCode()) && listOrderAddress.get(index).getNation().equals(objectOrderAddress.getNation()) && listOrderAddress.get(index).getCity().equals(objectOrderAddress.getCity()) && listOrderAddress.get(index).getDistrict().equals(objectOrderAddress.getDistrict()) && listOrderAddress.get(index).getPaymentAddress().equals(objectOrderAddress.getPaymentAddress()) && listOrderAddress.get(index).getOrderID().equals(objectOrderAddress.getOrderID())) {
                 } else {
-                    orderAddressRepo.save(objectOrderAddress);
+                    orderAddressServices.updateDataOrderAddress(objectOrderAddress);
                 }
             }
 
             if (index < 0) {
-                orderAddressRepo.save(objectOrderAddress);
+                orderAddressServices.save(objectOrderAddress);
             }
         }
     }

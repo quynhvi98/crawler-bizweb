@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface OrderAddressRepo extends PagingAndSortingRepository<OrderAddress,Integer> {
+public interface OrderAddressRepo extends PagingAndSortingRepository<OrderAddress,Integer>,OrderAddressRepoCustom {
     @Query(value = "SELECT oa FROM OrderAddress  as oa")
     List<OrderAddress> getListDataOrderAddress();
 }
