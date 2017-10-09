@@ -18,14 +18,4 @@ public class ProductRepoImpl implements ProductRepoCustom {
         Query query = em.createQuery("SELECT a FROM Product as a");
         return query.getResultList();
     }
-
-    @Override
-    public List<String> getCurrentCompleteAndPaid(String id) {
-        return null;
-    }
-
-    @Override
-    public List<String> getPreviousCompleteAndPaid(String id) {
-        return null;
-    }
 }

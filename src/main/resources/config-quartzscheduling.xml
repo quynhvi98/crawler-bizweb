@@ -5,32 +5,12 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
     <context:component-scan base-package="com.higgsup.bizwebcrawler.services.scheduling" />
 
-    <bean id="simpleJobCustomer" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref="queryingCustomerInformation" />
-        <property name="targetMethod" value="startScheduling" />
-    </bean>
-    <bean id="simpleTriggerCustomer"  class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
-        <property name="jobDetail" ref="simpleJobCustomer" />
-        <property name="startDelay" value="1000" />
-        <property name="repeatInterval" value="2000" />
-    </bean>
-
-    <bean id="simpleJobOrder" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref="queryingOrderInformation" />
-        <property name="targetMethod" value="startScheduling" />
-    </bean>
-    <bean id="simpleTriggerOrder"  class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
-        <property name="jobDetail" ref="simpleJobOrder" />
-        <property name="startDelay" value="1000" />
-        <property name="repeatInterval" value="30000" />
-    </bean>
-
-    <bean id="simpleJobProduct" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <bean id="simpleJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="startScheduling" />
         <property name="targetMethod" value="startScheduling" />
     </bean>
-    <bean id="simpleTriggerProduct"  class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
-        <property name="jobDetail" ref="simpleJobProduct" />
+    <bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+        <property name="jobDetail" ref="simpleJob" />
         <property name="startDelay" value="10000" />
         <property name="repeatInterval" value="200000" />
     </bean>
@@ -39,14 +19,14 @@
         <property name="jobDetails">
             <list>
 
-                <ref bean="simpleJobProduct" />
+                <ref bean="simpleJob" />
             </list>
         </property>
 
         <property name="triggers">
             <list>
 
-                <ref bean="simpleTriggerProduct" />
+                <ref bean="simpleTrigger" />
 
             </list>
         </property>

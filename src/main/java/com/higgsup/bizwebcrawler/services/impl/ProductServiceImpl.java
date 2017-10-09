@@ -7,15 +7,30 @@ import com.higgsup.bizwebcrawler.repositories.ProductRepo;
 import com.higgsup.bizwebcrawler.services.ProductServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 
 @Service
-@Transactional
 public class ProductServiceImpl implements ProductServices {
     @Autowired
     private ProductRepo productRepo;
+
     @Override
-    public Product findById(String poId) {
-        return new Product();
+    public Integer findById(String poId) {
+        return productRepo.findById(poId);
+    }
+
+    @Override
+    public Product getDataProductFromProductID(String product_ID) {
+        return productRepo.getDataProductFromProductID(product_ID);
+    }
+
+    @Override
+    public List<Product> getProduct() {
+        return productRepo.getProduct();
+    }
+
+    @Override
+    public void save(Product product) {
+        productRepo.save(product);
     }
 }

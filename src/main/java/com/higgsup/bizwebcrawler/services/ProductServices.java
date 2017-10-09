@@ -4,8 +4,15 @@ package com.higgsup.bizwebcrawler.services;/*
 
 import com.higgsup.bizwebcrawler.entites.product.Product;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public interface ProductServices {
-    Product findById(String poId);
+    Integer findById(String poId);
+
+    Product getDataProductFromProductID(String product_ID);
+
+    List<Product> getProduct();
+
+    void save(Product product);
 }

@@ -8,13 +8,11 @@ import com.higgsup.bizwebcrawler.repositories.CustomerRepo;
 import com.higgsup.bizwebcrawler.services.CustomerServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@Transactional
-public class CustomerServicelmpl implements CustomerServices {
+public class CustomerServiceImpl implements CustomerServices {
     @Autowired
     private CustomerRepo customerRepo;
     @Override
