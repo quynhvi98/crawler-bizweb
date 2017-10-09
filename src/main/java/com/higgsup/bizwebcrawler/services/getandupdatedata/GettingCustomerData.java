@@ -108,7 +108,7 @@ public class GettingCustomerData {
                     ) {
                 getDataCustomerAddress(getTagsAddress, customer);
             }
-            TimeUnit.SECONDS.sleep(11);
+            TimeUnit.SECONDS.sleep(2);
             for (int i = 0; i < listCustomerDddIdFormCustomerId.size(); i++) {
                 customerAddressServices.delete(listCustomerDddIdFormCustomerId.get(i));
             }

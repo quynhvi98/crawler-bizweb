@@ -8,30 +8,43 @@ import javax.persistence.*;
 @Entity
 @Table(name = "order_product")//order
 public class Order {
-    private String orderID;
-    private String date;
-    private String statusPayment;
-    private String statusDelivery;
-    private Double totalBill;
-    private Double totalWeight;
-    private Double feeDelivery;
-    private String customerID;
-    private int paymentID;
-
-    public Order(String orderID, String date, String statusPayment, String statusDelivery, Double totalBill, Double totalWeight, Double feeDelivery, String customerID, int paymentID) {
-        this.orderID = orderID;
-        this.date = date;
-        this.statusPayment = statusPayment;
-        this.statusDelivery = statusDelivery;
-        this.totalBill = totalBill;
-        this.totalWeight = totalWeight;
-        this.feeDelivery = feeDelivery;
-        this.customerID = customerID;
-        this.paymentID = paymentID;
-    }
-
     @Id
     @Column(name = "order_id")
+    private String orderID;
+    @Column(name = "date", nullable = false)
+
+    private String date;
+    @Column(name = "status_payment", nullable = false)
+
+    private String statusPayment;
+    @Column(name = "status_delivery", nullable = false)
+
+    private String statusDelivery;
+    @Column(name = "total_bill")
+
+    private Double totalBill;
+    @Column(name = "total_weight")
+
+    private Double totalWeight;
+    @Column(name = "fee_delivery")
+
+    private Double feeDelivery;
+    @Column(name = "customer_id", nullable = true)
+
+    private String customerID;
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="payment_id")
+    private Payment payment;
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
+
+
     public String getOrderID() {
         return orderID;
     }
@@ -40,7 +53,6 @@ public class Order {
         this.orderID = orderID;
     }
 
-    @Column(name = "date", nullable = false)
     public String getDate() {
         return date;
     }
@@ -49,7 +61,6 @@ public class Order {
         this.date = date;
     }
 
-    @Column(name = "status_payment", nullable = false)
     public String getStatusPayment() {
         return statusPayment;
     }
@@ -58,7 +69,6 @@ public class Order {
         this.statusPayment = statusPayment;
     }
 
-    @Column(name = "status_delivery", nullable = false)
     public String getStatusDelivery() {
         return statusDelivery;
     }
@@ -67,7 +77,6 @@ public class Order {
         this.statusDelivery = statusDelivery;
     }
 
-    @Column(name = "total_bill", nullable = false)
     public Double getTotalBill() {
         return totalBill;
     }
@@ -76,7 +85,6 @@ public class Order {
         this.totalBill = totalBill;
     }
 
-    @Column(name = "total_weight")
     public Double getTotalWeight() {
         return totalWeight;
     }
@@ -85,7 +93,6 @@ public class Order {
         this.totalWeight = totalWeight;
     }
 
-    @Column(name = "fee_delivery")
     public Double getFeeDelivery() {
         return feeDelivery;
     }
@@ -94,7 +101,6 @@ public class Order {
         this.feeDelivery = feeDelivery;
     }
 
-    @Column(name = "customer_id", nullable = true)
     public String getCustomerID() {
         return customerID;
     }
@@ -103,14 +109,7 @@ public class Order {
         this.customerID = customerID;
     }
 
-    @Column(name = "payment_id", nullable = false)
-    public int getPaymentID() {
-        return paymentID;
-    }
 
-    public void setPaymentID(int paymentID) {
-        this.paymentID = paymentID;
-    }
 
 
 
@@ -119,7 +118,7 @@ public class Order {
 
     @Override
     public int hashCode() {
-        return orderID.hashCode() + date.hashCode() + statusPayment.hashCode() - statusDelivery.hashCode() - totalBill.hashCode() - totalWeight.hashCode() + feeDelivery.hashCode() + customerID.hashCode() + paymentID;
+        return orderID.hashCode() + date.hashCode() + statusPayment.hashCode() - statusDelivery.hashCode() - totalBill.hashCode() - totalWeight.hashCode() + feeDelivery.hashCode() + customerID.hashCode() + payment.getPaymentID();
 
     }
 
@@ -144,7 +143,7 @@ public class Order {
                 ", totalWeight=" + totalWeight +
                 ", feeDelivery=" + feeDelivery +
                 ", customerID='" + customerID + '\'' +
-                ", paymentID=" + paymentID +
+
                 '}';
     }
 }
