@@ -17,8 +17,8 @@ public class OrderAddressRepoImpl implements OrderAddressRepoCustom {
     @Transactional
     @Override
     public void updateDataOrderAddress(OrderAddress orderAddress) {
-            Query query=em.createQuery("SELECT oad.orderAddressID FROM OrderAddress as oad WHERE oad.orderID=:orderID");
-            query.setParameter("orderID",orderAddress.getOrderID());
+            Query query=em.createQuery("SELECT oad.orderAddressID FROM OrderAddress as oad WHERE oad.order.orderID=:orderID");
+            query.setParameter("orderID",orderAddress.getOrder().getOrderID());
         List<Integer> integerList=query.getResultList();
             if(integerList.size()>0){
                 orderAddress.setOrderAddressID(integerList.get(0));

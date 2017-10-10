@@ -2,7 +2,6 @@ package com.higgsup.bizwebcrawler.services.getandupdatedata;
 
 import com.higgsup.bizwebcrawler.entites.customer.Customer;
 import com.higgsup.bizwebcrawler.entites.customer.CustomerAddress;
-import com.higgsup.bizwebcrawler.repositories.CustomerAddressRepo;
 import com.higgsup.bizwebcrawler.services.CustomerAddressServices;
 import com.higgsup.bizwebcrawler.services.CustomerServices;
 import com.higgsup.bizwebcrawler.services.authentication.HtmlData;
@@ -40,7 +39,7 @@ public class GettingCustomerData {
     private CustomerServices customerServices;
     @Autowired
     CustomerAddressServices customerAddressServices;
-    private List<String> listCustomerDddIdFormCustomerId;
+    private List<String> listCustomerAddIdFromCustomerId;
     public boolean getDataCustomerFromWebSetToDataBase(String html, String cookie) {
         this.html = html;
         this.cookie = cookie;
@@ -102,15 +101,15 @@ public class GettingCustomerData {
                 throw new Error("Error cookie");
             }
             Elements getTagsHasAddress = getHTML.select("div script.modal_source#modal-add-layouts[define*={editAddressModal]");
-            listCustomerDddIdFormCustomerId = customerAddressServices.getListCustomerDddIdFormCustomerId(customer.getId());//
+            listCustomerAddIdFromCustomerId = customerAddressServices.getListCustomerDddIdFormCustomerId(customer.getId());//
 
             for (Element getTagsAddress : getTagsHasAddress
                     ) {
                 getDataCustomerAddress(getTagsAddress, customer);
             }
             TimeUnit.SECONDS.sleep(2);
-            for (int i = 0; i < listCustomerDddIdFormCustomerId.size(); i++) {
-                customerAddressServices.delete(listCustomerDddIdFormCustomerId.get(i));
+            for (int i = 0; i < listCustomerAddIdFromCustomerId.size(); i++) {
+                customerAddressServices.delete(listCustomerAddIdFromCustomerId.get(i));
             }
         }
     }
@@ -160,14 +159,14 @@ public class GettingCustomerData {
             if (!customer.equals(dataCustomersFromCustomerID)) {
                 customerServices.save(customer);
             }
-            int checkIndex = listCustomerDddIdFormCustomerId.indexOf(customerAddress.getId());
+            int checkIndex = listCustomerAddIdFromCustomerId.indexOf(customerAddress.getId());
             if (checkIndex >= 0) {
                 if (listAddressFormCustomerId.get(checkIndex).equals(customerAddress)) {
-                    listCustomerDddIdFormCustomerId.remove(checkIndex);
+                    listCustomerAddIdFromCustomerId.remove(checkIndex);
                     listAddressFormCustomerId.remove(checkIndex);
                 } else {
                     customerAddressServices.save(customerAddress);
-                    listCustomerDddIdFormCustomerId.remove(checkIndex);
+                    listCustomerAddIdFromCustomerId.remove(checkIndex);
                     listAddressFormCustomerId.remove(checkIndex);
                 }
             } else {

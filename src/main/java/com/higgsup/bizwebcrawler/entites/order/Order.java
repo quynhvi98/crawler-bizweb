@@ -50,7 +50,16 @@ public class Order {
     public Set<Product> getProducts() {
         return products;
     }
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.ALL)
+    private OrderAddress orderAddress;
 
+    public OrderAddress getOrderAddress() {
+        return orderAddress;
+    }
+
+    public void setOrderAddress(OrderAddress orderAddress) {
+        this.orderAddress = orderAddress;
+    }
     public void setProducts(Set<Product> products) {
         this.products = products;
     }

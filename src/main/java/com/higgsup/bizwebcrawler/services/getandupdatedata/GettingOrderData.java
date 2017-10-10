@@ -233,7 +233,8 @@ public class GettingOrderData {
             payment.setContent(namePayOrder);
             payment.setPaymentID(paymentServices.getIDPaymentFromContent(namePayOrder));
             order.setPayment(payment);
-            objectOrderAddress = new OrderAddress(emailDonHang, listSaveShippingAddress.get(0), listSaveShippingAddress.get(1), listSaveShippingAddress.get(2), listSaveShippingAddress.get(3), listSaveShippingAddress.get(4), listSaveShippingAddress.get(5), listSaveShippingAddress.get(6), billingAddress, order.getOrderID());
+            objectOrderAddress = new OrderAddress(emailDonHang, listSaveShippingAddress.get(0), listSaveShippingAddress.get(1), listSaveShippingAddress.get(2), listSaveShippingAddress.get(3), listSaveShippingAddress.get(4), listSaveShippingAddress.get(5), listSaveShippingAddress.get(6), billingAddress, order);
+            System.out.println(objectOrderAddress.getOrder().getOrderID());
             states = ListProductOfOrder.keySet();
             Iterator itr = states.iterator();
             orderProductList = new ArrayList<>();
@@ -276,12 +277,11 @@ public class GettingOrderData {
 
             int index = listOrderAddress.indexOf(objectOrderAddress);
             if (index > 0) {
-                if (listOrderAddress.get(index).getEmail().equals(objectOrderAddress.getEmail()) && listOrderAddress.get(index).getNameCustomer().equals(objectOrderAddress.getNameCustomer()) && listOrderAddress.get(index).getPhone().equals(objectOrderAddress.getPhone()) && listOrderAddress.get(index).getOrderAddress().equals(objectOrderAddress.getOrderAddress()) && listOrderAddress.get(index).getZipCode().equals(objectOrderAddress.getZipCode()) && listOrderAddress.get(index).getNation().equals(objectOrderAddress.getNation()) && listOrderAddress.get(index).getCity().equals(objectOrderAddress.getCity()) && listOrderAddress.get(index).getDistrict().equals(objectOrderAddress.getDistrict()) && listOrderAddress.get(index).getPaymentAddress().equals(objectOrderAddress.getPaymentAddress()) && listOrderAddress.get(index).getOrderID().equals(objectOrderAddress.getOrderID())) {
+                if (listOrderAddress.get(index).getEmail().equals(objectOrderAddress.getEmail()) && listOrderAddress.get(index).getNameCustomer().equals(objectOrderAddress.getNameCustomer()) && listOrderAddress.get(index).getPhone().equals(objectOrderAddress.getPhone()) && listOrderAddress.get(index).getOrderAddress().equals(objectOrderAddress.getOrderAddress()) && listOrderAddress.get(index).getZipCode().equals(objectOrderAddress.getZipCode()) && listOrderAddress.get(index).getNation().equals(objectOrderAddress.getNation()) && listOrderAddress.get(index).getCity().equals(objectOrderAddress.getCity()) && listOrderAddress.get(index).getDistrict().equals(objectOrderAddress.getDistrict()) && listOrderAddress.get(index).getPaymentAddress().equals(objectOrderAddress.getPaymentAddress()) && listOrderAddress.get(index).getOrder().getOrderID().equals(objectOrderAddress.getOrder().getOrderID())) {
                 } else {
                     orderAddressServices.updateDataOrderAddress(objectOrderAddress);
                 }
             }
-
             if (index < 0) {
                 orderAddressServices.save(objectOrderAddress);
             }
