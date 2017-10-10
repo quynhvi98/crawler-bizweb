@@ -1,6 +1,10 @@
 package com.higgsup.bizwebcrawler.entites.order;
 
+import com.higgsup.bizwebcrawler.entites.product.Product;
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /*
     By chicanem 11/08/2017
@@ -8,12 +12,17 @@ import javax.persistence.*;
 @Entity
 @Table(name = "product_order")//table product reference table order
 public class OrderProduct {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "order_product_id")
     private int orderProductID;
+
     private Double quantity;
 
+    @Column(name = "product_id")
     private String productID;
 
+    @Column(name = "order_id")
     private String orderID;
 
 
@@ -21,16 +30,6 @@ public class OrderProduct {
         this.quantity = quantity;
         this.productID = productID;
         this.orderID = orderID;
-    }
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "order_product_id")
-    public int getOrderProductID() {
-        return orderProductID;
-    }
-
-    public void setOrderProductID(int orderProductID) {
-        this.orderProductID = orderProductID;
     }
 
     public Double getQuantity() {
@@ -40,7 +39,15 @@ public class OrderProduct {
     public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
-    @Column(name = "product_id")
+
+    public int getOrderProductID() {
+        return orderProductID;
+    }
+
+    public void setOrderProductID(int orderProductID) {
+        this.orderProductID = orderProductID;
+    }
+
     public String getProductID() {
         return productID;
     }
@@ -48,7 +55,7 @@ public class OrderProduct {
     public void setProductID(String productID) {
         this.productID = productID;
     }
-    @Column(name = "order_id")
+
     public String getOrderID() {
         return orderID;
     }

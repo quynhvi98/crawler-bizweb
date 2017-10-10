@@ -4,8 +4,12 @@ package com.higgsup.bizwebcrawler.entites.order;
   */
 
 import com.higgsup.bizwebcrawler.entites.customer.Customer;
+import com.higgsup.bizwebcrawler.entites.product.Product;
+import com.higgsup.bizwebcrawler.entites.product.ProductCategory;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "order_product")//order
@@ -37,6 +41,19 @@ public class Order {
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="payment_id")
     private Payment payment;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "product_order", joinColumns = {
+            @JoinColumn(name = "order_id", nullable = false, updatable = false) },
+            inverseJoinColumns = { @JoinColumn(name = "product_id",
+                    nullable = false, updatable = false) })
+    private Set<Product> products = new HashSet<Product>(0);
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
 
     public Payment getPayment() {
         return payment;

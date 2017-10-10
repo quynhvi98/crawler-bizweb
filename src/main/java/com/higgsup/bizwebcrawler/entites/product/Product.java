@@ -1,5 +1,7 @@
 package com.higgsup.bizwebcrawler.entites.product;
 
+import com.higgsup.bizwebcrawler.entites.order.Order;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
@@ -61,6 +63,16 @@ public class Product {
         this.categories = categories;
     }
 
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "products")
+    private Set<Order> orders = new HashSet<Order>(0);
+
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
+    }
 
     public Product() {
     }
