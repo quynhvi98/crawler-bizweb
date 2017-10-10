@@ -8,6 +8,4 @@ import java.util.List;
 
 public interface ProductRepoCustom {
     List<Product> getProduct();
-    List<String> getCurrentCompleteAndPaid(String id);
-    List<String> getPreviousCompleteAndPaid(String id);
 }

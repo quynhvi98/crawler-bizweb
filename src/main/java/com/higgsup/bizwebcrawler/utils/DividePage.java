@@ -3,12 +3,14 @@ package com.higgsup.bizwebcrawler.utils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
 /**
  * Created by viquy 9:20 AM 9/19/2017
  */
+@Component
 public class DividePage {
     private int page;
     private Elements dataCheckingFromWeb;

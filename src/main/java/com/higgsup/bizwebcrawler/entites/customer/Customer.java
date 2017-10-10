@@ -1,6 +1,10 @@
 package com.higgsup.bizwebcrawler.entites.customer;
 
+import com.higgsup.bizwebcrawler.entites.order.Order;
+
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * Created by viquy 9:44 AM 9/7/2017
@@ -24,38 +28,45 @@ public class Customer extends Person{
     public String getEmail() {
         return super.getEmail();
     }
-    @Column(name="total_bill", nullable = false)
     private Double totalBill;
-    public Customer(String id, String firstName, String phoneNumber, String email, String passWord, String address, Double totalBill) {
-        super(id,firstName, phoneNumber, email, passWord, address);
-        this.totalBill = totalBill;
-    }
+    private Set<CustomerAddress> customerAddress;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private Set<Order> orders;
+    public Customer() { }
+
     public Customer(String id, String firstName, String email, Double totalBill) {
         setId(id);
         setFullName(firstName);
         setEmail(email);
         this.totalBill = totalBill;
     }
-    public Customer() {
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    public Set<CustomerAddress> getCustomerAddress() {
+        return customerAddress;
     }
+    public void setCustomerAddress(Set<CustomerAddress> customerAddress) {
+        this.customerAddress = customerAddress;
+    }
+
+    @Column(name="total_bill", nullable = false)
     public Double getTotalBill() {
         return totalBill;
     }
     public void setTotalBill(Double totalBill) {
         this.totalBill = totalBill;
     }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Customer) {
-            if (((Customer) obj).getId().equals(this.getId()) &&((Customer) obj).getFullName().equals(this.getFullName())&& ((Customer) obj).getFullName().equals(this.getFullName()) && ((Customer) obj).getEmail().equals(this.getEmail()) && ((Customer) obj).totalBill.equals(this.totalBill))
+            if (((Customer) obj).getId().equals(this.getId()) &&((Customer) obj).getFullName().equals(this.getFullName())&& ((Customer) obj).getEmail().equals(this.getEmail())
+                    && ((Customer) obj).getEmail().equals(this.getEmail()) && ((Customer) obj).totalBill.equals(this.totalBill))
                 return true;
         } else {
             return false;
         }
         return false;
     }
-
-
-
-
 }

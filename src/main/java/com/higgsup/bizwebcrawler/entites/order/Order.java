@@ -3,35 +3,75 @@ package com.higgsup.bizwebcrawler.entites.order;
     By chicanem 11/08/2017
   */
 
+import com.higgsup.bizwebcrawler.entites.customer.Customer;
+import com.higgsup.bizwebcrawler.entites.product.Product;
+import com.higgsup.bizwebcrawler.entites.product.ProductCategory;
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "order_product")//order
 public class Order {
-    private String orderID;
-    private String date;
-    private String statusPaymen;
-    private String statusDelivery;
-    private Double totalBill;
-    private Double totalWeight;
-    private Double feeDelivery;
-    private String customerID;
-    private int paymentID;
-
-    public Order(String orderID, String date, String statusPaymen, String statusDelivery, Double totalBill, Double totalWeight, Double feeDelivery, String customerID, int paymentID) {
-        this.orderID = orderID;
-        this.date = date;
-        this.statusPaymen = statusPaymen;
-        this.statusDelivery = statusDelivery;
-        this.totalBill = totalBill;
-        this.totalWeight = totalWeight;
-        this.feeDelivery = feeDelivery;
-        this.customerID = customerID;
-        this.paymentID = paymentID;
-    }
-
     @Id
     @Column(name = "order_id")
+    private String orderID;
+    @Column(name = "date", nullable = false)
+
+    private String date;
+    @Column(name = "status_payment", nullable = false)
+
+    private String statusPayment;
+    @Column(name = "status_delivery", nullable = false)
+
+    private String statusDelivery;
+    @Column(name = "total_bill")
+
+    private Double totalBill;
+    @Column(name = "total_weight")
+
+    private Double totalWeight;
+    @Column(name = "fee_delivery")
+
+    private Double feeDelivery;
+    @ManyToOne
+    @JoinColumn(name="customer_id")
+    private Customer customer;
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="payment_id")
+    private Payment payment;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "product_order", joinColumns = {
+            @JoinColumn(name = "order_id", nullable = false, updatable = false) },
+            inverseJoinColumns = { @JoinColumn(name = "product_id",
+                    nullable = false, updatable = false) })
+    private Set<Product> products = new HashSet<Product>(0);
+    public Set<Product> getProducts() {
+        return products;
+    }
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.ALL)
+    private OrderAddress orderAddress;
+
+    public OrderAddress getOrderAddress() {
+        return orderAddress;
+    }
+
+    public void setOrderAddress(OrderAddress orderAddress) {
+        this.orderAddress = orderAddress;
+    }
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
+
     public String getOrderID() {
         return orderID;
     }
@@ -40,7 +80,6 @@ public class Order {
         this.orderID = orderID;
     }
 
-    @Column(name = "date", nullable = false)
     public String getDate() {
         return date;
     }
@@ -49,16 +88,14 @@ public class Order {
         this.date = date;
     }
 
-    @Column(name = "status_paymen", nullable = false)
-    public String getStatusPaymen() {
-        return statusPaymen;
+    public String getStatusPayment() {
+        return statusPayment;
     }
 
-    public void setStatusPaymen(String statusPaymen) {
-        this.statusPaymen = statusPaymen;
+    public void setStatusPayment(String statusPayment) {
+        this.statusPayment = statusPayment;
     }
 
-    @Column(name = "status_delivery", nullable = false)
     public String getStatusDelivery() {
         return statusDelivery;
     }
@@ -67,7 +104,6 @@ public class Order {
         this.statusDelivery = statusDelivery;
     }
 
-    @Column(name = "total_bill", nullable = false)
     public Double getTotalBill() {
         return totalBill;
     }
@@ -76,7 +112,6 @@ public class Order {
         this.totalBill = totalBill;
     }
 
-    @Column(name = "total_weight")
     public Double getTotalWeight() {
         return totalWeight;
     }
@@ -85,7 +120,6 @@ public class Order {
         this.totalWeight = totalWeight;
     }
 
-    @Column(name = "fee_delivery")
     public Double getFeeDelivery() {
         return feeDelivery;
     }
@@ -94,32 +128,20 @@ public class Order {
         this.feeDelivery = feeDelivery;
     }
 
-    @Column(name = "customer_id", nullable = false)
-    public String getCustomerID() {
-        return customerID;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomerID(String customerID) {
-        this.customerID = customerID;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
-
-    @Column(name = "payment_id", nullable = false)
-    public int getPaymentID() {
-        return paymentID;
-    }
-
-    public void setPaymentID(int paymentID) {
-        this.paymentID = paymentID;
-    }
-
-
 
     public Order() {
     }
 
     @Override
     public int hashCode() {
-        return orderID.hashCode() + date.hashCode() + statusPaymen.hashCode() - statusDelivery.hashCode() - totalBill.hashCode() - totalWeight.hashCode() + feeDelivery.hashCode() + customerID.hashCode() + paymentID;
+        return orderID.hashCode() + date.hashCode() + statusPayment.hashCode() - statusDelivery.hashCode() - totalBill.hashCode() - totalWeight.hashCode() + feeDelivery.hashCode() + customer.getId().hashCode() + payment.getPaymentID();
 
     }
 
@@ -138,13 +160,13 @@ public class Order {
         return "Order{" +
                 "orderID='" + orderID + '\'' +
                 ", date='" + date + '\'' +
-                ", statusPaymen='" + statusPaymen + '\'' +
+                ", statusPaymen='" + statusPayment + '\'' +
                 ", statusDelivery='" + statusDelivery + '\'' +
                 ", totalBill=" + totalBill +
                 ", totalWeight=" + totalWeight +
                 ", feeDelivery=" + feeDelivery +
-                ", customerID='" + customerID + '\'' +
-                ", paymentID=" + paymentID +
+
+
                 '}';
     }
 }

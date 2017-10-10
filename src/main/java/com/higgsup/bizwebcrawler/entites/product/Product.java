@@ -1,8 +1,11 @@
 package com.higgsup.bizwebcrawler.entites.product;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.higgsup.bizwebcrawler.entites.order.Order;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Created by viquynh
@@ -21,34 +24,54 @@ public class Product {
     @Column(name = "IMG")
     private String img;
     private String description;
-    @Column(name = "product_group_id")
-    private Integer productGroupId;
-    @Column(name = "producer_id")
-    private Integer producerId;
+    @ManyToOne
+    @JoinColumn(name="product_group_id")
+    private ProductGroup productGroup;
 
-    public Product(String productID, String name, Double price, Integer stork, Double weight, String content, String img, String description) {
-        this.productID = productID;
-        this.name = name;
-        this.price = price;
-        this.stork = stork;
-        this.weight = weight;
-        this.content = content;
-        this.img = img;
-        this.description = description;
-
+    public ProductGroup getProductGroup() {
+        return productGroup;
     }
 
-    public Product(String productID, String name, Double price, Integer stork, Double weight, String content, String img, String description, int productGroupId, int producerId) {
-        this.productID = productID;
-        this.name = name;
-        this.price = price;
-        this.stork = stork;
-        this.weight = weight;
-        this.content = content;
-        this.img = img;
-        this.description = description;
-        this.productGroupId = productGroupId;
-        this.producerId = producerId;
+    public void setProductGroup(ProductGroup productGroup) {
+        this.productGroup = productGroup;
+    }
+
+    @ManyToOne
+    @JoinColumn(name="producer_id")
+    private Producer producer;
+
+    public Producer getProducer() {
+        return producer;
+    }
+
+    public void setProducer(Producer producer) {
+        this.producer = producer;
+    }
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "category_product", joinColumns = {
+            @JoinColumn(name = "product_id", nullable = false, updatable = false) },
+            inverseJoinColumns = { @JoinColumn(name = "product_cate_id",
+                    nullable = false, updatable = false) })
+    private Set<ProductCategory> categories = new HashSet<ProductCategory>(0);
+
+    public Set<ProductCategory> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<ProductCategory> categories) {
+        this.categories = categories;
+    }
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "products")
+    private Set<Order> orders = new HashSet<Order>(0);
+
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
     }
 
     public Product() {
@@ -118,21 +141,6 @@ public class Product {
         this.description = description;
     }
 
-    public Integer getProductGroupId() {
-        return productGroupId;
-    }
-
-    public void setProductGroupId(Integer productGroupId) {
-        this.productGroupId = productGroupId;
-    }
-
-    public Integer getProducerId() {
-        return producerId;
-    }
-
-    public void setProducerId(Integer producerId) {
-        this.producerId = producerId;
-    }
 
     @Override
     public String toString() {
@@ -145,8 +153,24 @@ public class Product {
                 ", content='" + content + '\'' +
                 ", img='" + img + '\'' +
                 ", description='" + description + '\'' +
-                ", productGroupId=" + productGroupId +
-                ", producerId=" + producerId +
+
+
                 '}';
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Product){
+            if(((Product) obj).productID.equals(this.productID)&&
+                    ((Product) obj).name.equals(this.name)&&
+                    Objects.equals(((Product) obj).price, this.price) &&
+                    Objects.equals(((Product) obj).stork, this.stork) &&
+                    ((Product) obj).weight==this.weight&&
+                    ((Product) obj).content.equals(this.content)&&
+                    ((Product) obj).img.equals(this.img)&&
+                    ((Product) obj).description.equals(this.description)){
+                return true;
+            }
+        }
+        return false;
     }
 }

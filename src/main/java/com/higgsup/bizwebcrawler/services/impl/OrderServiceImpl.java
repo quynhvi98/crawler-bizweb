@@ -14,58 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class OrderServiceImpl implements OrderServices {
     @Autowired
     OrderRepo orderRepo;
-    @Override
-    public void setDataPaymenFromOrder(String content) {
-        orderRepo.setDataPaymenFromOrder(content);
-    }
 
     @Override
     public boolean hasOrderId(String orderID) {
         return orderRepo.hasOrderId(orderID);
-    }
-
-    @Override
-    public void setDataFromOrder(Order dataFromOrder) {
-orderRepo.setDataFromOrder(dataFromOrder);
-    }
-
-    @Override
-    public void setDataFromOrderAndProduct(OrderProduct dataFromOrderAndProduct) {
-    orderRepo.setDataFromOrderAndProduct(dataFromOrderAndProduct);
-    }
-
-    @Override
-    public void setDataFromOrderAddress(OrderAddress dataFromOrderAddress) {
-    orderRepo.setDataFromOrderAddress(dataFromOrderAddress);
-    }
-
-    @Override
-    public void updateDataFromOrder(Order dataFromOrder) {
-    orderRepo.updateDataFromOrder(dataFromOrder);
-    }
-
-    @Override
-    public boolean updateDataFromOrderAndProduct(OrderProduct dataFromOrderAndProduct) {
-        return orderRepo.updateDataFromOrderAndProduct(dataFromOrderAndProduct);
-    }
-
-    @Override
-    public void updateDataFromOrderAddress(OrderAddress dataFromOrderAddress) {
-    orderRepo.updateDataFromOrderAddress(dataFromOrderAddress);
-    }
-
-    @Override
-    public List<OrderProduct> getListDataOrderProduct(String id) {
-        return orderRepo.getListDataOrderProduct(id);
-    }
-
-    @Override
-    public List<OrderAddress> getListDataOrderAddress() {
-        return orderRepo.getListDataOrderAddress();
     }
 
     @Override
@@ -74,7 +29,9 @@ orderRepo.setDataFromOrder(dataFromOrder);
     }
 
     @Override
-    public int getIDPaymentFromContent(String content) {
-        return orderRepo.getIDPaymentFromContent(content);
+    public void save(Order order) {
+        orderRepo.save(order);
     }
+
+
 }

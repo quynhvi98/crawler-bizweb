@@ -7,6 +7,7 @@ import com.higgsup.bizwebcrawler.repositories.ProductRepoCustom;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 
 public class ProductRepoImpl implements ProductRepoCustom {
@@ -14,16 +15,7 @@ public class ProductRepoImpl implements ProductRepoCustom {
     private EntityManager em;
     @Override
     public List<Product> getProduct() {
-        return null;
-    }
-
-    @Override
-    public List<String> getCurrentCompleteAndPaid(String id) {
-        return null;
-    }
-
-    @Override
-    public List<String> getPreviousCompleteAndPaid(String id) {
-        return null;
+        Query query = em.createQuery("SELECT a FROM Product as a");
+        return query.getResultList();
     }
 }
