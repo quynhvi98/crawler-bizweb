@@ -76,7 +76,6 @@ public class GettingOrderData {
     }
 
     private void getPageOrder() {
-
         getHTML = Jsoup.parse(html);
         dividePage.setDataCheckingFromWeb(getHTML);
         Elements getDataAllOrders = dividePage.getDataCheckingFromWeb();

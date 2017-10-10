@@ -24,6 +24,5 @@ public class OrderAddressRepoImpl implements OrderAddressRepoCustom {
                 orderAddress.setOrderAddressID(integerList.get(0));
                 em.merge(orderAddress);
             }
-
     }
 }

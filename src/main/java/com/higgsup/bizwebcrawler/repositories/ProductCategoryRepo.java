@@ -8,7 +8,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 public interface ProductCategoryRepo extends PagingAndSortingRepository<ProductCategory,String> {
-
    @Query(value = "SELECT pc FROM ProductCategory as pc WHERE pc.productCateID=:productCateID ")
    ProductCategory findCategoryById(@Param("productCateID")String product_cate_id);
 

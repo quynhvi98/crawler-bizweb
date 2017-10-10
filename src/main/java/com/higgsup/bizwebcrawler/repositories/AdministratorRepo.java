@@ -12,5 +12,4 @@ import org.springframework.stereotype.Repository;
 public interface AdministratorRepo extends PagingAndSortingRepository<Administrator,String> {
     @Query(value = "SELECT * FROM administrator WHERE id=:id", nativeQuery = true)
     Administrator getAdministrator(@Param("id") String id);
-
 }

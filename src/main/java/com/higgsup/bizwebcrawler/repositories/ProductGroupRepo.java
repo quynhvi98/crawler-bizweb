@@ -12,8 +12,4 @@ import org.springframework.stereotype.Repository;
 public interface ProductGroupRepo extends PagingAndSortingRepository<ProductGroup, Integer>, ProductGroupRepoCustom {
     @Query(value = "SELECT product_group_id FROM product_group WHERE name=:name", nativeQuery = true)
     Integer getIDProductGroup(@Param("name")String name);
-
-
-
-
 }

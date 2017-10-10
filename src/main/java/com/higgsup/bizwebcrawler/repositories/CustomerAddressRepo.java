@@ -7,6 +7,4 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CustomerAddressRepo  extends PagingAndSortingRepository<CustomerAddress,String>,CustomerAddressRepoCustom {
-
-}
+public interface CustomerAddressRepo  extends PagingAndSortingRepository<CustomerAddress,String>,CustomerAddressRepoCustom { }

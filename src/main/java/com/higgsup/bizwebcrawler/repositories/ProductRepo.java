@@ -15,7 +15,6 @@ import java.util.List;
 public interface ProductRepo extends PagingAndSortingRepository<Product,String>, ProductRepoCustom {
     @Query(value = "SELECT product_id FROM product WHERE product_id = :product_id ORDER BY product_id limit 1", nativeQuery = true)
     Integer findById(@Param("product_id") String poId);
-
     @Query(value = "SELECT p FROM Product as p WHERE p.productID=:product_ID")
     Product getDataProductFromProductID(@Param("product_ID")String product_ID);
 }

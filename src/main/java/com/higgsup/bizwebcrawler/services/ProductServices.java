@@ -9,7 +9,6 @@ import java.util.List;
 @Service
 public interface ProductServices {
     Integer findById(String poId);
-
     Product getDataProductFromProductID(String product_ID);
 
     List<Product> getProduct();

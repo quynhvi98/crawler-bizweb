@@ -28,5 +28,4 @@ public class CustomerRepoImpl implements CustomRepoCustom {
         query.setParameter("customerID", customer_ID);
         return (Customer) query.getResultList().get(0);
     }
-
 }

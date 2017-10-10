@@ -19,7 +19,6 @@ public class ProducerRepoImpl implements ProducerRepoCustom {
         query.setParameter("name", name);
         return query.getResultList().size()>0;
     }
-
     @Override
     public Integer getIdProducerByName(String name) {
         Query query=em.createQuery("select p from  Producer as p where p.name=:name");

@@ -8,6 +8,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ProductGroupServices {
     Integer getIDProductGroup(String name);
-
     void save(ProductGroup productGroup);
 }

@@ -16,5 +16,4 @@ import java.util.List;
 public interface OrderRepo extends PagingAndSortingRepository<Order,String>,OrderRepoCustom {
     @Query(value = "SELECT o FROM Order as o")
     List<Order> getListDataOrders();
-
 }

@@ -10,6 +10,4 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CustomerRepo  extends PagingAndSortingRepository<Customer,String>,CustomRepoCustom{
-
-}
+public interface CustomerRepo  extends PagingAndSortingRepository<Customer,String>,CustomRepoCustom{ }

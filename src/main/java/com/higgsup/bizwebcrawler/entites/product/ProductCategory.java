@@ -39,6 +39,4 @@ public class ProductCategory  {
         this.productCateID = productCateID;
         this.name = name;
     }
-
-
 }

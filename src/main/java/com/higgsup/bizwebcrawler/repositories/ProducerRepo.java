@@ -7,6 +7,4 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProducerRepo extends PagingAndSortingRepository<Producer,Integer>,ProducerRepoCustom {
-
-}
+public interface ProducerRepo extends PagingAndSortingRepository<Producer,Integer>,ProducerRepoCustom { }

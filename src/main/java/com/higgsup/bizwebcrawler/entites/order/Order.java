@@ -63,7 +63,6 @@ public class Order {
         this.payment = payment;
     }
 
-
     public String getOrderID() {
         return orderID;
     }

